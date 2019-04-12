@@ -27,6 +27,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+<!-- 			<exclusions> -->
+<!-- 				<exclusion> -->
+<!-- 					<groupId>org.springframework.boot</groupId> -->
+<!-- 					<artifactId>spring-boot-starter-tomcat</artifactId> -->
+<!-- 				</exclusion> -->
+<!-- 			</exclusions> -->
 		</dependency>
 		<!-- <dependency> -->
 		<!-- <groupId>org.springframework.boot</groupId> -->
@@ -36,12 +42,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.jayway.jsonpath</groupId>
-			<artifactId>json-path</artifactId>
-			<scope>test</scope>
-		</dependency>
+		</dependency>		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -74,6 +75,12 @@
 				<groupId>com.google.appengine</groupId>
 				<artifactId>appengine-maven-plugin</artifactId>
 				<version>1.9.73</version>
+				<configuration>
+					<appId>files-on-cloud</appId> <!-- Override appengine-web.xml <project> -->
+					<version>1</version>
+					<fullScanSeconds>1</fullScanSeconds>
+					<retainUploadDir>true</retainUploadDir>
+				</configuration>
 			</plugin>
 
 		</plugins>
@@ -108,7 +115,7 @@
 								</goals>
 							</execution>
 							<execution>
-								<id>npm run build</id>
+								<id>npm run build-prod</id>
 								<goals>
 									<goal>npm</goal>
 								</goals>
