@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Component
-@RequestMapping("${api.v1.base-url}")
+@RequestMapping(value="${api.v1.base-url}", produces = "application/json; charset=utf-8")
 @CrossOrigin(origins = "http://localhost:4200")
 public @interface V1APIController {
 	@AliasFor(annotation = Component.class)

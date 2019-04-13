@@ -1,0 +1,5 @@
+I consumer hanno dati incongruenti: codice fiscale o username 4 cifre.
+
+Bisogna inoltre capire come gestire il caso in cui un consumer non esiste... cosa fa lo crea senza password?
+
+usare bcrypt per la password su db.
