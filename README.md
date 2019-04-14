@@ -8,3 +8,10 @@ Interfaccia con Google Cloud
 [https://medium.com/google-cloud/getting-started-with-google-app-engine-and-spring-boot-in-5-steps-2d0f8165c89](https://medium.com/google-cloud/getting-started-with-google-app-engine-and-spring-boot-in-5-steps-2d0f8165c89)
 
 https://stackoverflow.com/questions/40610155/how-to-deploy-spring-boot-application-on-google-app-enginegae-using-eclipse-id
+https://stackoverflow.com/questions/31821617/how-to-deploy-a-springboot-rest-application-to-google-app-engine
+https://www.baeldung.com/spring-xml-vs-java-config
+https://github.com/GoogleCloudPlatform/getting-started-java/
+
+
+#Rest upload
+https://www.callicoder.com/spring-boot-file-upload-download-rest-api-example/

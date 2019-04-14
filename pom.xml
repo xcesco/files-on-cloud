@@ -27,6 +27,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!-- <dependency> -->
 		<!-- <groupId>org.springframework.boot</groupId> -->
@@ -38,17 +44,23 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- <dependency> -->
+		<!-- <groupId>org.springframework.boot</groupId> -->
+		<!-- <artifactId>spring-boot-devtools</artifactId> -->
+		<!-- </dependency> -->
+
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
-		<!-- <dependency> -->
-		<!-- <groupId>javax.servlet</groupId> -->
-		<!-- <artifactId>javax.servlet-api</artifactId> -->
-		<!-- <version>3.1.0</version> -->
-		<!-- <scope>provided</scope> -->
-		<!-- </dependency> -->
+		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>javax.mail-api</artifactId>
+			<version>1.6.2</version>
+		</dependency>
 
 		<dependency>
 			<groupId>io.springfox</groupId>
@@ -84,7 +96,6 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
-
 			<!-- https://mvnrepository.com/artifact/com.google.appengine/appengine-maven-plugin -->
 			<plugin>
 				<groupId>com.google.appengine</groupId>
@@ -103,7 +114,21 @@
 
 	<profiles>
 		<profile>
-			<id>app-engine-local</id>
+			<id>bootstrap-local</id>
+
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-web</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-devtools</artifactId>
+				</dependency>
+
+			</dependencies>
+
 		</profile>
 
 		<profile>
