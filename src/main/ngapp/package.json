@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build-prod" : "ng build --configuration=production",
+    "start": "ng serve --proxy-config proxy.conf.json",
+    "build-prod": "ng build --configuration=production",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

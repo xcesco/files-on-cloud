@@ -1,6 +1,12 @@
 # files-on-cloud
 File On Cloud
 
+# Preparazione
+Node.JS 10.x
+https://nodejs.org/it/
+
+Angular 7 
+
 # References
 Interfaccia con Google Cloud
 
@@ -12,6 +18,8 @@ https://stackoverflow.com/questions/31821617/how-to-deploy-a-springboot-rest-app
 https://www.baeldung.com/spring-xml-vs-java-config
 https://github.com/GoogleCloudPlatform/getting-started-java/
 
+# Template
+https://startbootstrap.com/templates/sb-admin/
 
 #Rest upload
 https://www.callicoder.com/spring-boot-file-upload-download-rest-api-example/

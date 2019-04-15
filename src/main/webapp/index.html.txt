@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta http-equiv="refresh" content="0; url=public/" />
 <title>Files on cloud</title>
+
+<link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
 </head>
 <body>
 
