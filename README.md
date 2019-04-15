@@ -23,3 +23,7 @@ https://startbootstrap.com/templates/sb-admin/
 
 #Rest upload
 https://www.callicoder.com/spring-boot-file-upload-download-rest-api-example/
+
+
+# Eclipse Plugin
+http://download.eclipse.org/egit/github/updates
