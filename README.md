@@ -30,3 +30,12 @@ http://download.eclipse.org/egit/github/updates
 
 # Configurazione Cloud SQL
 https://cloud.google.com/appengine/docs/standard/php/cloud-sql/using-cloud-sql-mysql
+
+#BCrypt
+https://docs.spring.io/spring-security/site/docs/5.0.0.BUILD-SNAPSHOT/api/org/springframework/security/crypto/bcrypt/BCrypt.html
+
+https://www.devglan.com/spring-security/spring-boot-security-password-encoding-bcrypt-encoder
+
+
+#Spring
+https://www.baeldung.com/spring-boot-security-autoconfiguration
