@@ -27,3 +27,6 @@ https://www.callicoder.com/spring-boot-file-upload-download-rest-api-example/
 
 # Eclipse Plugin
 http://download.eclipse.org/egit/github/updates
+
+# Configurazione Cloud SQL
+https://cloud.google.com/appengine/docs/standard/php/cloud-sql/using-cloud-sql-mysql

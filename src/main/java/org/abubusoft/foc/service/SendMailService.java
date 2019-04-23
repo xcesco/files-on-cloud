@@ -23,7 +23,7 @@ public class SendMailService {
 
 		try {
 			Message msg = new MimeMessage(session);
-			msg.setFrom(new InternetAddress("xcesco@gmail.com", "files-on-cloud Admin"));
+			msg.setFrom(new InternetAddress("uxcesco@gmail.com", "files-on-cloud Admin"));
 			msg.addRecipient(Message.RecipientType.TO, new InternetAddress("xcesco@gmail.com", "Mr. User"));
 			msg.setSubject("Your Example.com account has been activated");
 			msg.setText("This is a test");

@@ -1,11 +1,11 @@
 export const environment = {
   production: true,
   firebase: {
-    apiKey: 'AIzaSyBfBM4DRis-WNEQpEpz2ceY8WqFdvIFv6Q',
-    authDomain: 'files-on-cloud.firebaseapp.com',
-    databaseURL: 'https://files-on-cloud.firebaseio.com',
-    projectId: 'files-on-cloud',
-    storageBucket: 'files-on-cloud.appspot.com',
-    messagingSenderId: '323055948319'
+    apiKey: 'AIzaSyDHRei9lTBnZDkK2HA9XDybwO0UKAEsLqY',
+    authDomain: 'programmazione-web-238419.firebaseapp.com',
+    databaseURL: 'https://programmazione-web-238419.firebaseio.com',
+    projectId: 'programmazione-web-238419',
+    storageBucket: 'programmazione-web-238419.appspot.com',
+    messagingSenderId: '249732682505'
   }
 };
