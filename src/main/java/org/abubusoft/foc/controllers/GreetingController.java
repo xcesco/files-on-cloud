@@ -3,7 +3,7 @@ package org.abubusoft.foc.controllers;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.abubusoft.foc.controllers.model.Greeting;
-import org.abubusoft.foc.service.SendMailService;
+import org.abubusoft.foc.services.SendMailService;
 import org.abubusoft.foc.web.V1APIController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

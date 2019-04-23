@@ -1,4 +1,4 @@
-package org.abubusoft.foc.service;
+package org.abubusoft.foc.services;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
