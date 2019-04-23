@@ -1,8 +1,8 @@
-package org.abubusoft.foc.controllers;
+package org.abubusoft.foc.web.controllers;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.abubusoft.foc.controllers.model.Greeting;
+
 import org.abubusoft.foc.services.SendMailService;
 import org.abubusoft.foc.web.V1APIController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class GreetingController {
 	private static final String template = "Hello, %s!";
 	private final AtomicLong counter = new AtomicLong();
 
-	@GetMapping("/greeting")
+	/*@GetMapping("/greeting")
 	public ResponseEntity<Greeting> greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
 		sendMailService.send();
 		return ResponseEntity.ok(new Greeting(counter.incrementAndGet(), String.format(template, name)));
@@ -30,5 +30,5 @@ public class GreetingController {
 	@GetMapping("/greeting2")
 	public ResponseEntity<Greeting> greeting2(@RequestParam(value = "name", defaultValue = "World") String name) {
 		return  ResponseEntity.ok(new Greeting(counter.incrementAndGet(), String.format(template, name)));
-	}
+	}*/
 }

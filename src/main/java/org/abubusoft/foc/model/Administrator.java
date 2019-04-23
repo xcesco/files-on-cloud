@@ -3,11 +3,13 @@ package org.abubusoft.foc.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "foc_administrators")
 public class Administrator extends AbstractActor {
 
+	@NotNull
 	@Column(nullable = false)
 	protected String descripton;
 	

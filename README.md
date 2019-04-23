@@ -39,3 +39,6 @@ https://www.devglan.com/spring-security/spring-boot-security-password-encoding-b
 
 #Spring
 https://www.baeldung.com/spring-boot-security-autoconfiguration
+
+#Spring Rest Validation
+https://g00glen00b.be/validating-the-input-of-your-rest-api-with-spring/
