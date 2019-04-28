@@ -12,7 +12,7 @@ import { LoginComponent } from './login/login.component';
 // https://stackoverflow.com/questions/37369929/disable-accountchooser-for-firebase-auth
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
-  signInSuccessUrl: '<url-to-redirect-to-on-success>',
+  signInSuccessUrl: 'http://localhost:8080/LoginCallback',
   signInOptions: [
     // firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     // {
