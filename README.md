@@ -42,3 +42,8 @@ https://www.baeldung.com/spring-boot-security-autoconfiguration
 
 #Spring Rest Validation
 https://g00glen00b.be/validating-the-input-of-your-rest-api-with-spring/
+
+# Angular & Firebase Authentication
+https://auth0.com/blog/how-to-authenticate-firebase-and-angular-with-auth0-part-1/
+https://itnext.io/part-2-complete-step-by-step-firebase-authentication-in-angular-2-25d284102632
+https://medium.com/@jwngr/demystifying-firebase-auth-tokens-e0c533ed330c

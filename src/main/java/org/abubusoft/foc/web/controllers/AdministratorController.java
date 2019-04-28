@@ -5,6 +5,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -28,7 +32,8 @@ public class AdministratorController {
 	}
 	
 	@GetMapping("/administrators")
-	public List<Administrator> findAll() {
+	public List<Administrator> findAll() {		
+		
 		return service.findAll();
 	}
 

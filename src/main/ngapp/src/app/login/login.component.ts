@@ -11,12 +11,15 @@ export class LoginComponent implements OnInit {
   title = 'ngapp';
 
   constructor(private firebaseuiAngularLibraryService: FirebaseuiAngularLibraryService,
-              private afAuth: AngularFireAuth) {
+              private afAuth: AngularFireAuth
+              ) {
     firebaseuiAngularLibraryService.firebaseUiInstance.disableAutoSignIn();
   }
 
   successCallback(signInSuccessData: FirebaseUISignInSuccessWithAuthResult) {
     console.log('login!!');
+    console.log(signInSuccessData.authResult);
+    // signInSuccessData.authResult.user.
 
   }
 

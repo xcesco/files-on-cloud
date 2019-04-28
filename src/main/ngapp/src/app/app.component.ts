@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
+import {AuthService} from './security/auth.service';
+import {ActorsService} from './services/actors.service';
 
 // https://www.npmjs.com/package/firebaseui-angular
 @Component({
@@ -11,8 +13,17 @@ export class AppComponent {
   title = 'ngapp';
 
 
-  constructor(private angularFireAuth: AngularFireAuth) {
+  constructor(
+    public authService: AuthService,
+    private angularFireAuth: AngularFireAuth,
+    private actorsService: ActorsService) {
     this.angularFireAuth.authState.subscribe(this.firebaseAuthChangeListener);
+  }
+
+  listAdmins(): void {
+    this.actorsService.findAllAdmins().subscribe(result => {
+      console.log('done');
+    });
   }
 
   private firebaseAuthChangeListener(response) {

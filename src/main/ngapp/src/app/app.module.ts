@@ -8,6 +8,7 @@ import {firebase, firebaseui, FirebaseUIModule} from 'firebaseui-angular';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireModule} from '@angular/fire';
 import { LoginComponent } from './login/login.component';
+import {HttpClientModule} from '@angular/common/http';
 
 // https://stackoverflow.com/questions/37369929/disable-accountchooser-for-firebase-auth
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
@@ -50,6 +51,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
 
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
