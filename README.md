@@ -47,3 +47,7 @@ https://g00glen00b.be/validating-the-input-of-your-rest-api-with-spring/
 https://auth0.com/blog/how-to-authenticate-firebase-and-angular-with-auth0-part-1/
 https://itnext.io/part-2-complete-step-by-step-firebase-authentication-in-angular-2-25d284102632
 https://medium.com/@jwngr/demystifying-firebase-auth-tokens-e0c533ed330c
+
+# JPA Repository
+https://thoughts-on-java.org/complete-guide-inheritance-strategies-jpa-hibernate/
+https://dzone.com/articles/add-custom-functionality-to-a-spring-data-reposito

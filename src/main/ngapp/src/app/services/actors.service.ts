@@ -11,7 +11,7 @@ export class ActorsService {
 
   private readonly URL_ADMIN_FIND_ALL: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private httpClient: HttpClient) {
     this.URL_ADMIN_FIND_ALL = environment.API_URL + 'administrators';
   }
 
@@ -19,7 +19,7 @@ export class ActorsService {
    * Elenco di tutti gli admin dell'app
    */
   findAllAdmins(): Observable<AdminActor[]> {
-    return this.http.get<AdminActor[]>(this.URL_ADMIN_FIND_ALL);
+    return this.httpClient.get<AdminActor[]>(this.URL_ADMIN_FIND_ALL);
   }
 
 }

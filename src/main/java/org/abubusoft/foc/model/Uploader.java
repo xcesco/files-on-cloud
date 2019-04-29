@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "foc_uploaders")
-public class Uploader extends AbstractActor {
+public class Uploader extends User {
 
 	@OneToMany
 	@JoinColumn(name="UPLOADER_ID", nullable = false)

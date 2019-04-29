@@ -49,7 +49,7 @@ public class Startup implements ServletContextListener {
 
 			FirebaseApp.initializeApp(options);
 			
-			FirebaseApp.
+			//FirebaseApp.
 			
 				} catch (IOException e) {
 			// TODO Auto-generated catch block
