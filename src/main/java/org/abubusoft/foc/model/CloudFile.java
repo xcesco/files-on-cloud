@@ -8,14 +8,13 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
  * @author xcesco
  *
  */
 @Entity
-@Table(name = "foc_files", uniqueConstraints = { @UniqueConstraint(columnNames = { "consumer_id", "uploader_id" }) })
+@Table(name = "foc_files")
 public class CloudFile extends AbstractEntity {
 
 	@Column(nullable = false)
