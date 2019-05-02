@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
   constructor(private firebaseuiAngularLibraryService: FirebaseuiAngularLibraryService,
               private afAuth: AngularFireAuth
               ) {
-    firebaseuiAngularLibraryService.firebaseUiInstance.disableAutoSignIn();
+    firebaseuiAngularLibraryService.firebaseUiInstance.disableAutoSignIn();     
   }
 
   successCallback(signInSuccessData: FirebaseUISignInSuccessWithAuthResult) {

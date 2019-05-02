@@ -7,7 +7,7 @@ import {environment} from '../environments/environment';
 import {firebase, firebaseui, FirebaseUIModule} from 'firebaseui-angular';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireModule} from '@angular/fire';
-import { LoginComponent } from './login/login.component';
+import {LoginComponent} from './login/login.component';
 import {HttpClientModule} from '@angular/common/http';
 
 // https://stackoverflow.com/questions/37369929/disable-accountchooser-for-firebase-auth
@@ -31,6 +31,9 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
     // firebase.auth.GithubAuthProvider.PROVIDER_ID,
     {
+      scopes: {
+        '.write': false
+      },
       requireDisplayName: false,
       provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
     }
