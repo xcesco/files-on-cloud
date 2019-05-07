@@ -54,21 +54,13 @@ public class UserController {
 			fireToken = FirebaseAuth.getInstance().verifyIdToken(token);
 			
 			User user = userService.findByEmail(fireToken.getEmail());
-			//FirebaseAuth.getInstance().
-//			CreateRequest request=new CreateRequest();
-//			request.
-//			
-//			FirebaseAuth.getInstance().cre
-			
-//			return fireToken.
 			Map<String, Object> claims=new HashMap<>();
 			claims.put("username", fireToken.getEmail());
 			StatusType status = LoginStatus.StatusType.TO_COMPLETE;
 			if (user!=null) {
 				claims.put("name", user.getDescription());
 				status = LoginStatus.StatusType.READY;
-			}
-			
+			}			
 			
 			String accessToken=FirebaseAuth.getInstance().createCustomToken(fireToken.getUid(), claims);
 			LoginStatus loginStatus=new LoginStatus(accessToken, status);

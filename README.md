@@ -51,3 +51,26 @@ https://medium.com/@jwngr/demystifying-firebase-auth-tokens-e0c533ed330c
 # JPA Repository
 https://thoughts-on-java.org/complete-guide-inheritance-strategies-jpa-hibernate/
 https://dzone.com/articles/add-custom-functionality-to-a-spring-data-reposito
+
+# Spring Cloud SQL
+https://medium.com/@DazWilkin/google-cloud-sql-6-ways-golang-a4aa497f3c67
+https://medium.com/@DazWilkin/google-cloud-sql-4-ways-spring-a4f13ad32714
+https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-gcp-starter-sql-mysql
+
+https://cloud.google.com/bigtable/docs/samples-overview
+https://cloud.google.com/bigtable/docs/tutorials
+https://cloud.google.com/appengine/docs/flexible/java/using-cloud-sql
+https://github.com/GoogleCloudPlatform/appengine-cloudsql-native-mysql-hibernate-jpa-demo-java/blob/master/pom.xml
+
+# Spring Cloud Storage
+https://www.baeldung.com/java-google-cloud-storage
+
+
+https://cloud.google.com/appengine/docs/standard/java/mail/sendgrid
+
+https://cloud.google.com/community/tutorials/run-spring-petclinic-on-app-engine-cloudsql
+
+# Send Mail
+https://cloud.google.com/appengine/docs/standard/java/mail/
+https://cloud.google.com/appengine/docs/standard/java/mail/sending-mail-with-mail-api
+https://github.com/GoogleCloudPlatform/java-docs-samples/blob/2e5996c68440134a79f1511c57529fa5cf987628/appengine-java8/mail/src/main/java/com/example/appengine/mail/MailServlet.java
