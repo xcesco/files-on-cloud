@@ -48,7 +48,7 @@ public class UserController {
 	}
 	
 	@GetMapping(value="/token")
-	public ResponseEntity<LoginStatus> generateToken(@RequestParam("token") String token) {
+	public ResponseEntity<LoginStatus> generateToken(@RequestParam(value = "token", required = true) String token) {
 		FirebaseToken fireToken;
 		try {
 			fireToken = FirebaseAuth.getInstance().verifyIdToken(token);
