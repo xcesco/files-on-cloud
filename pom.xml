@@ -151,13 +151,13 @@
 		<profile>
 			<id>local-dev</id>
 
-			<dependencies>
-				<!-- H2 Database -->
-				<dependency>
-					<groupId>com.h2database</groupId>
-					<artifactId>h2</artifactId>
-				</dependency>
-			</dependencies>
+<!-- 			<dependencies> -->
+<!-- 				H2 Database -->
+<!-- 				<dependency> -->
+<!-- 					<groupId>com.h2database</groupId> -->
+<!-- 					<artifactId>h2</artifactId> -->
+<!-- 				</dependency> -->
+<!-- 			</dependencies> -->
 		</profile>
 		<!-- <profile> -->
 		<!-- <id>bootstrap-local</id> -->
