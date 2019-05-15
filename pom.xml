@@ -93,7 +93,7 @@
 
 		<dependency>
 			<groupId>javax.mail</groupId>
-			<artifactId>javax.mail-api</artifactId>			
+			<artifactId>javax.mail-api</artifactId>
 		</dependency>
 
 		<dependency>
@@ -131,16 +131,13 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
-			<!-- https://mvnrepository.com/artifact/com.google.appengine/appengine-maven-plugin -->
 			<plugin>
-				<groupId>com.google.appengine</groupId>
+				<groupId>com.google.cloud.tools</groupId>
 				<artifactId>appengine-maven-plugin</artifactId>
-				<version>1.9.74</version>
+				<version>2.0.0</version>
 				<configuration>
-					<appId>files-on-cloud</appId> <!-- Override appengine-web.xml <project> -->
-					<version>2</version>
-					<fullScanSeconds>1</fullScanSeconds>
-					<retainUploadDir>true</retainUploadDir>
+					<projectId>files-on-cloud</projectId>
+					<version>1</version>
 				</configuration>
 			</plugin>
 
@@ -151,13 +148,13 @@
 		<profile>
 			<id>local-dev</id>
 
-<!-- 			<dependencies> -->
-<!-- 				H2 Database -->
-<!-- 				<dependency> -->
-<!-- 					<groupId>com.h2database</groupId> -->
-<!-- 					<artifactId>h2</artifactId> -->
-<!-- 				</dependency> -->
-<!-- 			</dependencies> -->
+			<!-- <dependencies> -->
+			<!-- H2 Database -->
+			<!-- <dependency> -->
+			<!-- <groupId>com.h2database</groupId> -->
+			<!-- <artifactId>h2</artifactId> -->
+			<!-- </dependency> -->
+			<!-- </dependencies> -->
 		</profile>
 		<!-- <profile> -->
 		<!-- <id>bootstrap-local</id> -->
