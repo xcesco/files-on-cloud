@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "foc_users")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "tipo")
-public abstract class User extends AbstractEntity {
+public class User extends AbstractEntity {
 	@NotNull
 	@Column(nullable = false)
 	protected String description;
