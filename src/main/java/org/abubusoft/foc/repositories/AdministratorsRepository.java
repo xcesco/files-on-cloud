@@ -1,11 +1,14 @@
 package org.abubusoft.foc.repositories;
 
 import org.abubusoft.foc.model.Administrator;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-@Repository
-public interface AdministratorsRepository extends JpaRepository<Administrator, Long>, UserRepositoryCustom {
+import io.swagger.annotations.Api;
+
+@Api(tags = "Administrators Entity")
+@RepositoryRestResource(path = "administrators")
+public interface AdministratorsRepository extends PagingAndSortingRepository<Administrator, Long>, UserRepositoryCustom {
 
 	
 }

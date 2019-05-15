@@ -1,20 +1,11 @@
 package org.abubusoft.foc.repositories.impl;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Order;
-import javax.persistence.criteria.Root;
 
 import org.abubusoft.foc.model.User;
 import org.abubusoft.foc.repositories.UserRepositoryCustom;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,8 +20,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 	}
 
 	@Override
-	public User findByEmail(String email) {
-		
+	public User findByEmail(String email) {		
 			TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User as u where u.email=:email",
 					User.class);
 			query.setParameter("email", email);

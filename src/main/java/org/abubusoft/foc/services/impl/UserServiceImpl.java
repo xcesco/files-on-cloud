@@ -2,8 +2,6 @@ package org.abubusoft.foc.services.impl;
 
 import java.util.List;
 
-import javax.persistence.NoResultException;
-
 import org.abubusoft.foc.model.Administrator;
 import org.abubusoft.foc.model.User;
 import org.abubusoft.foc.repositories.AdministratorsRepository;
@@ -22,7 +20,7 @@ public class UserServiceImpl implements UserService {
 		this.repository = repository;
 	}
 
-	public List<Administrator> findAll() {
+	public Iterable<Administrator> findAll() {
 		return repository.findAll();
 	}
 

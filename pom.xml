@@ -19,6 +19,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<springfox.version>2.8.0</springfox.version>
 		<spring-cloud.version>Greenwich.SR1</spring-cloud.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -33,6 +34,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-rest</artifactId>
@@ -113,13 +115,13 @@
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
-			<version>2.9.2</version>
+			<version>${springfox.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-data-rest</artifactId>
-			<version>2.9.2</version>
+			<version>${springfox.version}</version>
 		</dependency>
 
 		<dependency>
@@ -128,6 +130,19 @@
 			<version>6.8.1</version>
 		</dependency>
 		<!-- My config END -->
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>27.1-jre</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
@@ -142,7 +157,7 @@
 				<artifactId>appengine-maven-plugin</artifactId>
 				<version>2.0.0</version>
 				<configuration>
-					<projectId>files-on-cloud</projectId>
+					<projectId>programmazione-web-238419</projectId>
 					<version>1</version>
 				</configuration>
 			</plugin>

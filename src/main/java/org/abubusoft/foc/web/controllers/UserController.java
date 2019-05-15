@@ -1,7 +1,6 @@
 package org.abubusoft.foc.web.controllers;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.transaction.Transactional;
@@ -17,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.util.MimeType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
-import com.google.firebase.auth.UserRecord.CreateRequest;
 
 @V1APIController
 @RestController
@@ -75,8 +72,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/administrators")
-	public List<Administrator> findAll() {		
-		
+	public Iterable<Administrator> findAll() {				
 		return service.findAll();
 	}
 
