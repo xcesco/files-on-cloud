@@ -1,7 +1,5 @@
 package org.abubusoft.foc.services.impl;
 
-import java.util.List;
-
 import org.abubusoft.foc.model.Administrator;
 import org.abubusoft.foc.model.User;
 import org.abubusoft.foc.repositories.AdministratorsRepository;
