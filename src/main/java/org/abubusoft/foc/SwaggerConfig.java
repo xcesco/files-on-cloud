@@ -1,4 +1,4 @@
-package org.abubusoft.foc.config;
+package org.abubusoft.foc;
 
 import java.util.Collections;
 

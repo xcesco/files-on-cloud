@@ -1,4 +1,4 @@
-package org.abubusoft.foc.web.controllers;
+package org.abubusoft.foc.web;
 
 import java.io.IOException;
 

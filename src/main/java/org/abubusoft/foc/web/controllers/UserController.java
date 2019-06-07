@@ -9,25 +9,21 @@ import javax.validation.Valid;
 import org.abubusoft.foc.model.Administrator;
 import org.abubusoft.foc.model.User;
 import org.abubusoft.foc.services.UserService;
-import org.abubusoft.foc.web.V1APIController;
+import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.LoginStatus;
 import org.abubusoft.foc.web.model.LoginStatus.StatusType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 
-@V1APIController
 @RestController
+//@RestAPIV1Controller
 public class UserController {
 	
 	private UserService userService;
@@ -66,21 +62,21 @@ public class UserController {
 			e.printStackTrace();
 		}
 		
-		return new ResponseEntity<LoginStatus>(HttpStatus.UNAUTHORIZED);
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		
 		
 	}
 	
 	@GetMapping("/administrators")
-	public Iterable<Administrator> findAll() {				
-		return service.findAll();
+	public ResponseEntity<Iterable<Administrator>> findAll() {
+		return ResponseEntity.ok(service.findAll());
 	}
 
 	@Transactional
 	@PostMapping("/administrators")
-	public Administrator addNew(@RequestBody @Valid Administrator value) {
+	public ResponseEntity<Administrator> addNew(@RequestBody @Valid Administrator value) {
 		service.add(value);
-		return value;
+		return ResponseEntity.ok(value);
 	}
 	
 	@Autowired

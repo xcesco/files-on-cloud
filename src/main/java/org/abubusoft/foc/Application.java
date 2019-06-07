@@ -7,8 +7,7 @@ import org.springframework.context.annotation.Import;
 
 import springfox.documentation.spring.data.rest.configuration.SpringDataRestConfiguration;
  
-@ComponentScan("org.abubusoft.foc")
-@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
+
 public class Application {
 
     public static void main(String[] args) {
