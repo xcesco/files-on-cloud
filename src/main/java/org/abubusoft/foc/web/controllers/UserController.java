@@ -22,8 +22,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 
-@RestController
-//@RestAPIV1Controller
+//@RestController
+@RestAPIV1Controller
 public class UserController {
 	
 	private UserService userService;
