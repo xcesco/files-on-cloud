@@ -7,7 +7,8 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication(exclude = { SecurityAutoConfiguration.class }, scanBasePackages = {"org.abubusoft.foc"})
+@SpringBootApplication(exclude = { SecurityAutoConfiguration.class }, 
+	scanBasePackages = {"org.abubusoft.foc"})
 @EnableJpaRepositories("org.abubusoft.foc.repositories")
 public class ServletInitializer extends SpringBootServletInitializer {
 
