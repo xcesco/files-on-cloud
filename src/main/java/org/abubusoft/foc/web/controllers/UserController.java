@@ -51,7 +51,7 @@ public class UserController {
 			claims.put("username", fireToken.getEmail());
 			StatusType status = LoginStatus.StatusType.TO_COMPLETE;
 			if (user!=null) {
-				claims.put("name", user.getDescription());
+				claims.put("displayName", user.getDisplayName());
 				status = LoginStatus.StatusType.READY;
 			}			
 			

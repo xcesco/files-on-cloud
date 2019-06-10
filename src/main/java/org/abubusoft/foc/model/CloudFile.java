@@ -16,53 +16,63 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "foc_files")
 public class CloudFile extends AbstractEntity {
-
+	
 	@Column(nullable = false)
 	protected String fileName;
 
-	public LocalDate getUploadTime() {
-		return uploadTime;
-	}
+	protected String hashTags;
 
-	public void setUploadTime(LocalDate uploadTime) {
-		this.uploadTime = uploadTime;
-	}
+	protected boolean notified;
 
-	public LocalDate getViewTime() {
-		return viewTime;
-	}
+	protected LocalDate uploadTime;
 
-	public void setViewTime(LocalDate viewTime) {
-		this.viewTime = viewTime;
-	}
+	protected String viewIp;
 
-	public String getViewIp() {
-		return viewIp;
-	}
+	protected LocalDate viewTime;
 
-	public void setViewIp(String viewIp) {
-		this.viewIp = viewIp;
+	public String getFileName() {
+		return fileName;
 	}
 
 	public String getHashTags() {
 		return hashTags;
 	}
 
-	public void setHashTags(String hashTags) {
-		this.hashTags = hashTags;
+	public LocalDate getUploadTime() {
+		return uploadTime;
 	}
 
-	protected LocalDate uploadTime;
-	protected LocalDate viewTime;
-	protected String viewIp;
-	protected String hashTags;
+	public String getViewIp() {
+		return viewIp;
+	}
 
-	public String getFileName() {
-		return fileName;
+	public LocalDate getViewTime() {
+		return viewTime;
+	}
+
+	public boolean isNotified() {
+		return notified;
 	}
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+	public void setHashTags(String hashTags) {
+		this.hashTags = hashTags;
+	}
+	public void setNotified(boolean notified) {
+		this.notified = notified;
+	}
+	public void setUploadTime(LocalDate uploadTime) {
+		this.uploadTime = uploadTime;
+	}
+
+	public void setViewIp(String viewIp) {
+		this.viewIp = viewIp;
+	}
+
+	public void setViewTime(LocalDate viewTime) {
+		this.viewTime = viewTime;
 	}
 
 }

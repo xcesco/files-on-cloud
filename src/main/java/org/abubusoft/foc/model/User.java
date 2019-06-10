@@ -11,18 +11,18 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "foc_users")
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "tipo")
+@DiscriminatorColumn(name = "type")
 public class User extends AbstractEntity {
 	@NotNull
 	@Column(nullable = false)
-	protected String description;
+	protected String displayName;
 	
-	public String getDescription() {
-		return description;
+	public String getDisplayName() {
+		return displayName;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 
 	@Column(nullable = false, unique = true)
