@@ -6,44 +6,42 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "foc_users")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "type")
 public class User extends AbstractEntity {
-	@NotNull
 	@Column(nullable = false)
 	protected String displayName;
-	
-	public String getDisplayName() {
-		return displayName;
-	}
-
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
 
 	@Column(nullable = false, unique = true)
+	protected String email;
+
+	@Column(nullable = false, unique = true, updatable=false)
 	protected String username;
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
+	public String getDisplayName() {
+		return displayName;
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
+	public String getUsername() {
+		return username;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	@Column(nullable = false,unique = true)
-	protected String email;
+	public void setUsername(String username) {
+		this.username = username;
+	}
 }

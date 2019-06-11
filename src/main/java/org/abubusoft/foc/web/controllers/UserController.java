@@ -48,7 +48,7 @@ public class UserController {
 			
 			User user = userService.findByEmail(fireToken.getEmail());
 			Map<String, Object> claims=new HashMap<>();
-			claims.put("username", fireToken.getEmail());
+			claims.put("username", fireToken.getEmail()); 
 			StatusType status = LoginStatus.StatusType.TO_COMPLETE;
 			if (user!=null) {
 				claims.put("displayName", user.getDisplayName());

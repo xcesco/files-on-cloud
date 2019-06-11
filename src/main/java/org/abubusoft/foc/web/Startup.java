@@ -36,22 +36,18 @@ public class Startup implements ServletContextListener {
 	 */
 	public void contextInitialized(ServletContextEvent sce) {
 		try {
-			//FileInputStream serviceAccount = new FileInputStream("path/to/serviceAccountKey.json");
-
+			
 			FirebaseOptions options;
 
 			options = new FirebaseOptions.Builder()
 					// prende le credenziali da GOOGLE_APPLICATION_CREDENTIALS
 					.setCredentials(GoogleCredentials.getApplicationDefault())
-					//.setCredentials(GoogleCredentials.fromStream(serviceAccount))					
+					// .setCredentials(GoogleCredentials.fromStream(serviceAccount))
 					.setDatabaseUrl("https://programmazione-web-238419.firebaseio.com").build();
 
 			FirebaseApp.initializeApp(options);
-			
-			//FirebaseApp.
-			
-				} catch (IOException e) {
-			// TODO Auto-generated catch block
+
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 

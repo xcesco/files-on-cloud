@@ -1,8 +1,12 @@
 package org.abubusoft.foc.services;
 
+import org.abubusoft.foc.model.Administrator;
+
+import com.google.firebase.auth.FirebaseAuthException;
+
 public interface AdminService {
 	
-	public void create(String email, String username, String password);
+	public Administrator create(String email, String username, String password) throws FirebaseAuthException;
 	
 	public void update(String email, String displayName);
 	

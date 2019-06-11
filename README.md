@@ -77,3 +77,8 @@ https://dzone.com/articles/add-custom-functionality-to-a-spring-data-reposito
  # Collegare source su github
  
  [Link](https://cloud.google.com/debugger/docs/source-context?hl=en_US&_ga=2.30533503.-1121481467.1557264458)
+ 
+ # Plugin usati per Eclipse
+ Per impostare una variabile d'ambiente per tutto l'IDE
+ https://stackoverflow.com/questions/7048216/environment-variables-in-eclipse
+ 
