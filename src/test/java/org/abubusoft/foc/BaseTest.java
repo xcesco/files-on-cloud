@@ -3,6 +3,7 @@ package org.abubusoft.foc;
 import java.io.IOException;
 
 import org.abubusoft.foc.services.AdminService;
+import org.abubusoft.foc.services.CloudFileService;
 import org.abubusoft.foc.services.ConsumerService;
 import org.abubusoft.foc.services.UploaderService;
 import org.junit.Before;
@@ -24,6 +25,13 @@ public abstract class BaseTest {
 	protected UploaderService uploaderService;
 	
 	protected ConsumerService consumerService;
+	
+	protected CloudFileService cloudStorageService;
+
+	@Autowired
+	public void setCloudStorageService(CloudFileService cloudStorageService) {
+		this.cloudStorageService = cloudStorageService;
+	}
 
 	@Autowired
 	public void setConsumerService(ConsumerService consumerService) {

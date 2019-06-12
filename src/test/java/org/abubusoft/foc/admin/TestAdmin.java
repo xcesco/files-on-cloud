@@ -3,12 +3,18 @@ package org.abubusoft.foc.admin;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.UUID;
 
 import org.abubusoft.foc.BaseTest;
 import org.abubusoft.foc.model.Consumer;
 import org.abubusoft.foc.model.Uploader;
 import org.junit.Test;
 
+import com.google.api.gax.paging.Page;
+import com.google.cloud.storage.Bucket;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import com.google.firebase.auth.ExportedUserRecord;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -96,9 +102,20 @@ public class TestAdmin extends BaseTest {
 	}
 	
 	@Test
-	public void testCreateFile() throws FirebaseAuthException, FileNotFoundException {
+	public void testCreateFile() throws FirebaseAuthException, IOException {
 		 Consumer consumer = consumerCreate();
 		 Uploader uploader=uploaderCreate();
+		 
+		 UUID.randomUUID().toString();
+		 
+		 // If you don't specify credentials when constructing the client, the client library will
+		  // look for credentials via the environment variable GOOGLE_APPLICATION_CREDENTIALS.
+		  Storage storage = StorageOptions.getDefaultInstance().getService();
+
+		 
+		 
+		 File image=new File("src/test/resources/images/user.png");
+		 cloudStorageService.uploadFile("user.png", new FileInputStream(image));
 	}
 
 }

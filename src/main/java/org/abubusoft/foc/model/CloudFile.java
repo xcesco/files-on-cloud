@@ -19,10 +19,16 @@ public class CloudFile extends AbstractEntity {
 	
 	@Column(nullable = false)
 	protected String fileName;
-
+	
 	protected String hashTags;
+	
+	@Column(nullable = false)
+	protected String mimeType;
 
 	protected boolean notified;
+
+	@Column(nullable = false)
+	protected String storageName;
 
 	protected LocalDate uploadTime;
 
@@ -36,6 +42,14 @@ public class CloudFile extends AbstractEntity {
 
 	public String getHashTags() {
 		return hashTags;
+	}
+
+	public String getMimeType() {
+		return mimeType;
+	}
+
+	public String getStorageName() {
+		return storageName;
 	}
 
 	public LocalDate getUploadTime() {
@@ -57,11 +71,19 @@ public class CloudFile extends AbstractEntity {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
+
 	public void setHashTags(String hashTags) {
 		this.hashTags = hashTags;
 	}
+
+	public void setMimeType(String mimeType) {
+		this.mimeType = mimeType;
+	}
 	public void setNotified(boolean notified) {
 		this.notified = notified;
+	}
+	public void setStorageName(String storageName) {
+		this.storageName = storageName;
 	}
 	public void setUploadTime(LocalDate uploadTime) {
 		this.uploadTime = uploadTime;
