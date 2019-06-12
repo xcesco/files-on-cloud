@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.abubusoft.foc.model.Consumer;
+import org.abubusoft.foc.model.Uploader;
 import org.abubusoft.foc.repositories.CloudFileRepository;
 import org.abubusoft.foc.services.CloudFileService;
 import org.joda.time.DateTime;
@@ -109,6 +111,13 @@ public class CloudFileServiceImpl implements CloudFileService {
 			throw new ServletException("file must be an image");
 		}
 		return imageUrl;
+	}
+
+	@Override
+	public String uploadFile(Uploader uploader, Consumer consumer, String filename, InputStream inputStream)
+			throws IOException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

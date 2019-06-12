@@ -18,7 +18,12 @@ public class User extends AbstractEntity {
 	@Column(nullable = false, unique = true)
 	protected String email;
 
-	@Column(nullable = false, unique = true, updatable=false)
+	/**
+	 * L'email con il quale viene effettuato il login. Per disaccoppiare l'email di
+	 * ricezione dalle credenziali di accesso si è scelto di lasciare username ed
+	 * email separati.
+	 */
+	@Column(nullable = false, unique = true, updatable = false)
 	protected String username;
 
 	public String getDisplayName() {
