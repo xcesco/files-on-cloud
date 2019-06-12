@@ -108,14 +108,14 @@ public class TestAdmin extends BaseTest {
 		 
 		 UUID.randomUUID().toString();
 		 
-		 // If you don't specify credentials when constructing the client, the client library will
-		  // look for credentials via the environment variable GOOGLE_APPLICATION_CREDENTIALS.
-		  Storage storage = StorageOptions.getDefaultInstance().getService();
-
+		
 		 
 		 
 		 File image=new File("src/test/resources/images/user.png");
-		 cloudStorageService.uploadFile("user.png", new FileInputStream(image));
+		 
+		 image.getName();
+		 
+		 cloudStorageService.uploadFile(uploader, consumer, "user.png", new FileInputStream(image));
 	}
 
 }
