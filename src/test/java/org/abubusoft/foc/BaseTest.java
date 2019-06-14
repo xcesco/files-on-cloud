@@ -6,6 +6,7 @@ import org.abubusoft.foc.services.AdminService;
 import org.abubusoft.foc.services.CloudFileService;
 import org.abubusoft.foc.services.ConsumerService;
 import org.abubusoft.foc.services.UploaderService;
+import org.jboss.logging.Logger;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ import com.google.firebase.FirebaseOptions;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ServletInitializer.class)
 public abstract class BaseTest {
+	
+	protected Logger log=Logger.getLogger(getClass());
 	
 	protected AdminService adminService;
 	

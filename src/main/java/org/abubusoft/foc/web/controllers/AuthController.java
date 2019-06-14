@@ -8,7 +8,7 @@ import javax.validation.Valid;
 
 import org.abubusoft.foc.model.Administrator;
 import org.abubusoft.foc.model.User;
-import org.abubusoft.foc.services.UserService;
+import org.abubusoft.foc.services.LoginService;
 import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.LoginStatus;
 import org.abubusoft.foc.web.model.LoginStatus.StatusType;
@@ -24,12 +24,12 @@ import com.google.firebase.auth.FirebaseToken;
 
 //@RestController
 @RestAPIV1Controller
-public class UserController {
+public class AuthController {
 	
-	private UserService userService;
+	private LoginService userService;
 	
 	@Autowired
-	public void setUserService(UserService userService) {
+	public void setUserService(LoginService userService) {
 		this.userService = userService;
 	}
 	
@@ -46,7 +46,7 @@ public class UserController {
 		try {
 			fireToken = FirebaseAuth.getInstance().verifyIdToken(token);
 			
-			User user = userService.findByEmail(fireToken.getEmail());
+			User user = userService.findByUsername(fireToken.getEmail());
 			Map<String, Object> claims=new HashMap<>();
 			claims.put("username", fireToken.getEmail()); 
 			StatusType status = LoginStatus.StatusType.TO_COMPLETE;
@@ -66,24 +66,5 @@ public class UserController {
 		
 		
 	}
-	
-	@GetMapping("/administrators")
-	public ResponseEntity<Iterable<Administrator>> findAll() {
-		return ResponseEntity.ok(service.findAll());
-	}
-
-	@Transactional
-	@PostMapping("/administrators")
-	public ResponseEntity<Administrator> addNew(@RequestBody @Valid Administrator value) {
-		service.add(value);
-		return ResponseEntity.ok(value);
-	}
-	
-	@Autowired
-	private UserService service;
-
-	public void setService(UserService service) {
-		this.service = service;
-	} 
 	
 }

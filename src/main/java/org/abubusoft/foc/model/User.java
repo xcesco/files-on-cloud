@@ -15,7 +15,7 @@ public class User extends AbstractEntity {
 	@Column(nullable = false)
 	protected String displayName;
 
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	protected String email;
 
 	/**

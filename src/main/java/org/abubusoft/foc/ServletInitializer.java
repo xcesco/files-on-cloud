@@ -1,19 +1,16 @@
 package org.abubusoft.foc;
 
-import java.io.IOException;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-
-import com.google.firebase.auth.FirebaseAuth;
 
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class }, 
 	scanBasePackages = {"org.abubusoft.foc"})
+@EnableJpaAuditing
 @EnableJpaRepositories("org.abubusoft.foc.repositories")
 public class ServletInitializer extends SpringBootServletInitializer {
 
