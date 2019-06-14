@@ -3,103 +3,78 @@ package org.abubusoft.foc.admin;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.abubusoft.foc.BaseTest;
 import org.abubusoft.foc.model.Consumer;
 import org.abubusoft.foc.model.Uploader;
+import org.abubusoft.foc.services.CloudFileService;
+import org.abubusoft.foc.services.ConsumersService;
+import org.abubusoft.foc.services.UploaderService;
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.google.firebase.auth.ExportedUserRecord;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.ListUsersPage;
-import com.google.firebase.auth.UserRecord;
-import com.google.firebase.auth.UserRecord.CreateRequest;
 
 public class TestCloudFile extends BaseTest {
+	
+	@Autowired
+	protected CloudFileService cloudFileService;
 
+	@Autowired
+	protected ConsumersService consumerService;
+	
+	@Autowired
+	protected UploaderService uploaderService;
+	
+	private Consumer createConsumer() {
+		String displayName="Tonino Carino Da Ascoli";
+		String username="consumer-" + System.currentTimeMillis() + "@gmail.com";
+		String email="uxcesco@gmail.com";
+		String password="password";
+		
+		Consumer user=new Consumer();
+		user.setDisplayName(displayName);
+		user.setEmail(email);
+		user.setUsername(username);
+		user.setCodiceFiscale(""+System.currentTimeMillis());
+		
+		return consumerService.createUser(user, password);
+	}
+	
+	private Uploader createUploader() throws FileNotFoundException, IOException {
+		String displayName="Tonino Carino Da Ascoli";
+		String username="uploader-" + System.currentTimeMillis() + "@gmail.com";
+		String email="uxcesco@gmail.com";
+		String password="password";
+		
+		File image=new File("src/test/resources/images/user.png");
+		
+		Uploader user=new Uploader();
+		user.setDisplayName(displayName);
+		user.setEmail(email);
+		user.setUsername(username);
+		user.setImage(IOUtils.toByteArray(new FileInputStream(image)));
+		
+		return uploaderService.createUser(user, password);
+	}
+	
 	@Test
-	public void test() throws FirebaseAuthException {
-		ListUsersPage list = FirebaseAuth.getInstance().listUsers(null);
-
-		String email = "test-" + System.currentTimeMillis() + "@gmail.com";
-
-		try {
-			UserRecord userFound = FirebaseAuth.getInstance().getUserByEmail(email);
-		} catch (FirebaseAuthException ax) {
-			CreateRequest request = new CreateRequest();
-			request.setDisplayName("Toninj");
-			request.setEmail(email);
-			request.setPassword("password");
-
-			FirebaseAuth.getInstance().createUser(request);
-			// See the UserRecord reference doc for the contents of userRecord.
-
-			for (ExportedUserRecord item : list.getValues()) {
-				System.out.println("Successfully fetched user data: " + item.getEmail());
-			}
-		}
-	}
-
-	@Test
-	public void testAdminCreate() throws FirebaseAuthException {
-		String displayName = "Toninj";
-		String email = "test-" + System.currentTimeMillis() + "@gmail.com";
-		String password = "password";
-
-		adminService.createAdministrator(email, email, displayName, password);
-	}
-
-	@Test
-	public void testConsumerCreate() throws FirebaseAuthException {
-		consumerCreate();
-	}
-
-	public Consumer consumerCreate() throws FirebaseAuthException {
-		String displayName = "Toninj";
-		String email = "test-consumer-" + System.currentTimeMillis() + "@gmail.com";
-		String password = "password";
-		String codiceFiscale = "" + System.currentTimeMillis();
-
-		return consumerService.create(email, email, password, codiceFiscale);
-	}
-
-	@Test
-	public void testUploaderCreate() throws FirebaseAuthException, FileNotFoundException {
-		uploaderCreate();
-	}
-
-	public Uploader uploaderCreate() throws FirebaseAuthException, FileNotFoundException {
-		long time = System.currentTimeMillis();
-		String displayName = "Uploader " + time;
-		String email = "test-uploader-" + time + "@gmail.com";
-		String password = "password";
-
-		File image = new File("src/test/resources/images/user.png");
-		System.out.print(image.getAbsolutePath());
-
-		return uploaderService.create(email, email, password, new FileInputStream(image));
-	}
-
-	@Test
-	public void testCreate() throws FirebaseAuthException {
-		CreateRequest request = new CreateRequest();
-		request.setDisplayName("Toninj");
-		request.setEmail("test-" + System.currentTimeMillis() + "@gmail.com");
-		request.setPassword("password");
-
-		// FirebaseAuth.getInstance().createUser(request);
-
-		// String url =
-		// FirebaseAuth.getInstance().generatePasswordResetLink("xcesco@gmail.com");
-		// System.out.println(url);
-		// See the UserRecord reference doc for the contents of userRecord.
-	}
-
-	@Test
-	public void testCreateFile() throws FirebaseAuthException, FileNotFoundException {
-		Consumer consumer = consumerCreate();
-		Uploader uploader = uploaderCreate();
+	public void testCreateFile() throws FirebaseAuthException, IOException {
+		Consumer consumer = createConsumer();
+		Uploader uploader = createUploader();
+		
+		File file=new File("src/test/resources/images/user.png");
+		byte[] content = IOUtils.toByteArray(new FileInputStream(file));
+		Set<String> tags=new HashSet<String>();
+		tags.add("test");
+		tags.add("image");
+		
+		
+		cloudFileService.uploadFile(uploader.getUsername(), consumer, file.getName(), content, tags);
 	}
 
 }

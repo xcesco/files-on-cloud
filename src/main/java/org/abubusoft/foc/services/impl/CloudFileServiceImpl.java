@@ -1,7 +1,8 @@
 package org.abubusoft.foc.services.impl;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.Set;
+import java.util.UUID;
 
 import javax.activation.MimetypesFileTypeMap;
 import javax.annotation.PostConstruct;
@@ -10,10 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.abubusoft.foc.model.CloudFile;
 import org.abubusoft.foc.model.Consumer;
 import org.abubusoft.foc.model.Uploader;
 import org.abubusoft.foc.repositories.CloudFileRepository;
+import org.abubusoft.foc.repositories.ConsumersRepository;
+import org.abubusoft.foc.repositories.UploadersRepository;
 import org.abubusoft.foc.services.CloudFileService;
+import org.jboss.logging.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
@@ -36,6 +41,8 @@ import com.google.cloud.storage.StorageOptions;
  */
 @Component
 public class CloudFileServiceImpl implements CloudFileService {
+	
+	protected Logger log=Logger.getLogger(getClass());
 
 	@Value("${app.file-storage.bucket-name}")
 	String bucketName;
@@ -46,48 +53,55 @@ public class CloudFileServiceImpl implements CloudFileService {
 	}
 
 	private CloudFileRepository repository;
-	
+
 	@Autowired
 	public void setRepository(CloudFileRepository repository) {
 		this.repository = repository;
 	}
 
+	private UploadersRepository uploaderRepository;
+
+	@Autowired
+	public void setUploaderRepository(UploadersRepository uploaderRepository) {
+		this.uploaderRepository = uploaderRepository;
+	}
+
+	@Autowired
+	public void setConsumerRepository(ConsumersRepository consumerRepository) {
+		this.consumerRepository = consumerRepository;
+	}
+
+	private ConsumersRepository consumerRepository;
+
 	private Storage storage;
 
 	@Override
 	public String uploadFile(Part filePart) throws IOException {
-		return uploadFile(filePart.getSubmittedFileName(), filePart.getInputStream());
-	}
-	
-	@Override
-	public String uploadFile(String filename, InputStream inputStream) throws IOException {
-		MimetypesFileTypeMap fileTypeMap = new MimetypesFileTypeMap();
-	    String mimeTypeString = fileTypeMap.getContentType(filename);
-	    MimeType mimeType=MimeType.valueOf(mimeTypeString);
-		
-		BlobInfo blobInfo = saveFile(filename, mimeType, inputStream);
-		return blobInfo.getMediaLink();
+		// return uploadFile(filePart.getSubmittedFileName(),
+		// filePart.getInputStream());
+		return null;
 	}
 
-	@SuppressWarnings("deprecation")
-	private BlobInfo saveFile(String fileName, MimeType mimeType, InputStream inputStream) {
-		DateTimeFormatter dtf = DateTimeFormat.forPattern("-YYYY-MM-dd-HHmmssSSS");
+	public String uploadFile(String filename, byte[] content) throws IOException {
+		MimetypesFileTypeMap fileTypeMap = new MimetypesFileTypeMap();
+		String mimeTypeString = fileTypeMap.getContentType(filename);
+		MimeType mimeType = MimeType.valueOf(mimeTypeString);
+
+		BlobInfo blobInfo = saveFile(filename, mimeType, content);
+		return blobInfo.getBlobId().getName();
+	}
+
+	private BlobInfo saveFile(String fileName, MimeType mimeType, byte[] content) {
+		DateTimeFormatter dtf = DateTimeFormat.forPattern("YYYY-MM-dd-HHmmssSSS-");
 		DateTime dt = DateTime.now(DateTimeZone.UTC);
 		String dtString = dt.toString(dtf);
-		fileName = fileName + dtString;
+		fileName = dtString + fileName;
 
-		 BlobId blobId = BlobId.of(bucketName, fileName);
-		 BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(mimeType.toString()).build();
-		 BlobInfo blob = storage.create(blobInfo, inputStream);
-		 
-		 return blob;
-//		
-//		// the inputstream is closed by default, so we don't need to close it here
-//		BlobInfo blobInfo = storage.create(BlobInfo.newBuilder(bucketName, fileName)
-//				// Modify access list to allow all users with link to read file
-//				.setAcl(new ArrayList<>(Arrays.asList(Acl.of(User.ofAllUsers(), Role.READER)))).build(), inputStream);
-//		// return the public download link
-//		return blobInfo;
+		BlobId blobId = BlobId.of(bucketName, fileName);
+		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(mimeType.toString()).build();
+		BlobInfo blob = storage.create(blobInfo, content);
+
+		return blob;
 	}
 
 	/**
@@ -114,10 +128,44 @@ public class CloudFileServiceImpl implements CloudFileService {
 	}
 
 	@Override
-	public String uploadFile(Uploader uploader, Consumer consumer, String filename, InputStream inputStream)
-			throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+	public void uploadFile(String uploaderUsername, Consumer consumer, String fileName, byte[] content, Set<String> tags) {
+		Uploader uploader = uploaderRepository.findByUsername(uploaderUsername);
+
+		// recuperiamo interamente il consumer o lo creiamo nel caso in cui non ci sia il codice fiscale
+		if (consumerRepository.existsByCodiceFiscale(consumer.getCodiceFiscale())) {
+			consumer = consumerRepository.findByCodiceFiscale(consumer.getCodiceFiscale());
+		} else {
+			consumer = consumerRepository.save(consumer);
+		}
+		
+		MimetypesFileTypeMap fileTypeMap = new MimetypesFileTypeMap();
+		String mimeTypeString = fileTypeMap.getContentType(fileName);
+		MimeType mimeType = MimeType.valueOf(mimeTypeString);
+		
+		DateTimeFormatter dtf = DateTimeFormat.forPattern("YYYY-MM-dd-HHmmssSSS-");
+		DateTime dt = DateTime.now(DateTimeZone.UTC);
+		String dtString = dt.toString(dtf);
+		fileName = dtString + fileName;
+
+		BlobId blobId = BlobId.of(bucketName, fileName);
+		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(mimeType.toString()).build();
+		BlobInfo blob = storage.create(blobInfo, content);
+		log.debug(String.format("File salvato su storage %s,%s", blobId.getBucket(), blobId.getName()));
+		
+		String blobName=blob.getBlobId().getName();
+		
+		CloudFile cloudFile=new CloudFile();
+		cloudFile.setFileName(fileName);
+		cloudFile.setMimeType(mimeTypeString);
+		cloudFile.setTags(tags);
+		cloudFile.setUuid(UUID.randomUUID().toString());
+		cloudFile.setStorageName(blobName);
+		
+		cloudFile.setConsumer(consumer);
+		cloudFile.setUploader(uploader);
+		
+		repository.save(cloudFile);
+		
 	}
 
 }

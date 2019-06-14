@@ -3,11 +3,19 @@
  */
 package org.abubusoft.foc.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.abubusoft.foc.repositories.support.LinkedHashSetConverter;
 
 /**
  * @author xcesco
@@ -16,12 +24,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "foc_files")
 public class CloudFile extends AbstractEntity {
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CONSUMER_ID", nullable = false, insertable=true, updatable=false)
+	protected Consumer consumer;
 	
 	@Column(nullable = false)
 	protected String fileName;
-	
-	protected String hashTags;
-	
+
 	@Column(nullable = false)
 	protected String mimeType;
 
@@ -30,18 +40,26 @@ public class CloudFile extends AbstractEntity {
 	@Column(nullable = false)
 	protected String storageName;
 
-	protected LocalDate uploadTime;
+	@Convert(converter = LinkedHashSetConverter.class)
+	protected Set<String> tags = new LinkedHashSet<>();
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "UPLOADER_ID", nullable = false, insertable=true, updatable=false)
+	protected Uploader uploader;
+
+	@Column(insertable=true, updatable=false)
+	protected String uuid;
 
 	protected String viewIp;
 
-	protected LocalDate viewTime;
+	protected LocalDateTime viewTime;
+
+	public Consumer getConsumer() {
+		return consumer;
+	}
 
 	public String getFileName() {
 		return fileName;
-	}
-
-	public String getHashTags() {
-		return hashTags;
 	}
 
 	public String getMimeType() {
@@ -52,15 +70,23 @@ public class CloudFile extends AbstractEntity {
 		return storageName;
 	}
 
-	public LocalDate getUploadTime() {
-		return uploadTime;
+	public Set<String> getTags() {
+		return tags;
+	}
+
+	public Uploader getUploader() {
+		return uploader;
+	}
+
+	public String getUuid() {
+		return uuid;
 	}
 
 	public String getViewIp() {
 		return viewIp;
 	}
 
-	public LocalDate getViewTime() {
+	public LocalDateTime getViewTime() {
 		return viewTime;
 	}
 
@@ -68,32 +94,43 @@ public class CloudFile extends AbstractEntity {
 		return notified;
 	}
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
+	public void setConsumer(Consumer consumer) {
+		this.consumer = consumer;
 	}
 
-	public void setHashTags(String hashTags) {
-		this.hashTags = hashTags;
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 	public void setMimeType(String mimeType) {
 		this.mimeType = mimeType;
 	}
+
 	public void setNotified(boolean notified) {
 		this.notified = notified;
 	}
+
 	public void setStorageName(String storageName) {
 		this.storageName = storageName;
 	}
-	public void setUploadTime(LocalDate uploadTime) {
-		this.uploadTime = uploadTime;
+
+	public void setTags(Set<String> tags) {
+		this.tags = tags;
+	}
+
+	public void setUploader(Uploader uploader) {
+		this.uploader = uploader;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 
 	public void setViewIp(String viewIp) {
 		this.viewIp = viewIp;
 	}
 
-	public void setViewTime(LocalDate viewTime) {
+	public void setViewTime(LocalDateTime viewTime) {
 		this.viewTime = viewTime;
 	}
 

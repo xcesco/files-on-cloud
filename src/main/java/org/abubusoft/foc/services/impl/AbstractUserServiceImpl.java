@@ -4,6 +4,7 @@ import org.abubusoft.foc.exception.AppRuntimeException;
 import org.abubusoft.foc.model.User;
 import org.abubusoft.foc.repositories.UserRepository;
 import org.abubusoft.foc.services.AbstractUserService;
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -14,7 +15,9 @@ import com.google.firebase.auth.UserRecord.UpdateRequest;
 
 public class AbstractUserServiceImpl<R extends UserRepository<U>, U extends User> implements AbstractUserService<U> {
 
-	private R repository;
+	protected Logger log=Logger.getLogger(getClass());
+	
+	protected R repository;
 
 	@Autowired
 	public void setRepository(R repository) {
@@ -26,16 +29,18 @@ public class AbstractUserServiceImpl<R extends UserRepository<U>, U extends User
 		FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
 		CreateRequest request = new CreateRequest();
-		request.setEmail(user.getEmail()).setPassword(password).setDisplayName(user.getDisplayName());
+		request.setEmail(user.getUsername()).setPassword(password).setDisplayName(user.getDisplayName());
 
 		try {
 			firebaseAuth.createUser(request);
+			
+			return repository.save(user);
 		} catch (FirebaseAuthException e) {
 			e.printStackTrace();
 			throw (AppRuntimeException.create(e));
 		}
 
-		return repository.save(user);
+		
 	}
 
 	@Override

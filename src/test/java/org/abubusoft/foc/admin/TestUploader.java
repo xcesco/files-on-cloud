@@ -1,165 +1,86 @@
 package org.abubusoft.foc.admin;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
 
 import javax.transaction.Transactional;
 
 import org.abubusoft.foc.BaseTest;
-import org.abubusoft.foc.model.Administrator;
-import org.abubusoft.foc.model.Consumer;
 import org.abubusoft.foc.model.Uploader;
-import org.abubusoft.foc.repositories.GenericUserRepository;
-import org.abubusoft.foc.services.AdminService;
 import org.abubusoft.foc.services.UploaderService;
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 
-import com.google.firebase.auth.ExportedUserRecord;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.ListUsersPage;
-import com.google.firebase.auth.UserRecord;
-import com.google.firebase.auth.UserRecord.CreateRequest;
 
+@Rollback(value=false)
+@Transactional
 public class TestUploader extends BaseTest {
 	
 	@Autowired
-	protected UploaderService uploaderService;
+	protected UploaderService service;
 	
-	
+
 	@Test
-	public void testUploader1ChangePassword() throws FileNotFoundException {
+	public void test0ChangePassword() throws FirebaseAuthException, FileNotFoundException, IOException {
+		Uploader user = createUser();
+		
+		String urlToApply=service.generateChangePasswordUrl(user.getUsername());
+		log.info(urlToApply);
+	}
+
+	private Uploader createUser() throws FileNotFoundException, IOException {
 		String displayName="Tonino Carino Da Ascoli";
 		String username="uploader-" + System.currentTimeMillis() + "@gmail.com";
 		String email="uxcesco@gmail.com";
 		String password="password";
 		
 		File image=new File("src/test/resources/images/user.png");
-		System.out.print(image.getAbsolutePath());
 		
-		uploaderService.createUploader(username, email, displayName, password, new FileInputStream(image));	
-		String urlToApply=uploaderService.generateChangePasswordUrl(email);
-		log.info(urlToApply);
+		Uploader user=new Uploader();
+		user.setDisplayName(displayName);
+		user.setEmail(email);
+		user.setUsername(username);
+		user.setImage(IOUtils.toByteArray(new FileInputStream(image)));
+		
+		return service.createUser(user, password);
 	}
 	
 	@Test
-	public void testUploader2Update() throws FileNotFoundException {
-		String displayName="Tonino Carino Da Ascoli";
-		String username="admin-" + System.currentTimeMillis() + "@gmail.com";
-		String email="uxcesco@gmail.com";
-		String password="password";
+	public void test1Update() throws FirebaseAuthException, FileNotFoundException, IOException {
+		String display="XXXX";
 		
-		File image=new File("src/test/resources/images/user.png");
-		System.out.print(image.getAbsolutePath());
+		Uploader user = createUser();		
+		user.setDisplayName(display);
 		
-		Uploader user = uploaderService.createUploader(username, email, displayName, password, null);
+		service.updateByUsername(user);
 		
-		user.setDisplayName("Provolone");
-		uploaderService.updateUploaderByUsername(user.getUsername(), user.getEmail(), user.getDisplayName());		
-		uploaderService.updateUploaderLogo(user.getUsername(), new FileInputStream(image));
+		Uploader user1 = service.findByUsername(user.getUsername());
 		
-		String urlToApply=adminService.generateChangePasswordUrl(email);
-		log.info(urlToApply);
+		assertEquals(user1.getDisplayName(), display);
 	}
+	
+	@Test	
+	public void test2Delete() throws FirebaseAuthException, FileNotFoundException, IOException {
+		Uploader user = createUser();		
 		
-	@Test
-	@Transactional
-	public void testUploader2Delete() throws FirebaseAuthException {
-		String displayName="Tonino Carino Da Ascoli";
-		String username="admin-" + System.currentTimeMillis() + "@gmail.com";
-		String email="uxcesco@gmail.com";
-		String password="password";
-		
-		Uploader user = uploaderService.createUploader(username, email, displayName, password, null);
-		
-		int result=uploaderService.deleteByUsername(user.getUsername());
+		int result=service.deleteByUsername(user.getUsername());
 		
 		log.info("deleted "+result);
 	}
-		
+
+
 	@Test
-	public void test() throws FirebaseAuthException  {
-		ListUsersPage list = FirebaseAuth.getInstance().listUsers(null);		
-		
-		String email="test-" + System.currentTimeMillis() + "@gmail.com";
-
-		try {
-			UserRecord userFound = FirebaseAuth.getInstance().getUserByEmail(email);
-		} catch (FirebaseAuthException ax) {
-			CreateRequest request = new CreateRequest();
-			request.setDisplayName("Toninj");
-			request.setEmail(email);
-			request.setPassword("password");
-
-			FirebaseAuth.getInstance().createUser(request);
-			// See the UserRecord reference doc for the contents of userRecord.
-
-			for (ExportedUserRecord item : list.getValues()) {
-				System.out.println("Successfully fetched user data: " + item.getEmail());
-			}
-		}
+	public void test3Create() throws FileNotFoundException, IOException {
+		createUser();
 	}
 	
-	@Test
-	public void testUploader0Create() throws FirebaseAuthException {
-		String displayName="Tonino Carino Da Ascoli";
-		String username="uploader-" + System.currentTimeMillis() + "@gmail.com";
-		String email="uxcesco@gmail.com";
-		String password="password";
-		
-		uploaderService.createUploader(username, email, displayName, password, null);
-	}
-		
-	
-	@Test
-	public void testUploaderCreate() throws FirebaseAuthException, FileNotFoundException {
-		uploaderCreate();
-	}
-	
-	public Uploader uploaderCreate() throws FirebaseAuthException, FileNotFoundException {
-		long time=System.currentTimeMillis();
-		String displayName="Uploader "+time;
-		String email="test-uploader-" + time + "@gmail.com";
-		String password="password";
-		
-		File image=new File("src/test/resources/images/user.png");
-		System.out.print(image.getAbsolutePath());
-		
-		return uploaderService.create(email, email, displayName, password, new FileInputStream(image));
-	}
 
-	@Test
-	public void testCreate() throws FirebaseAuthException {
-		CreateRequest request = new CreateRequest();
-		request.setDisplayName("Toninj");
-		request.setEmail("test-" + System.currentTimeMillis() + "@gmail.com");
-		request.setPassword("password");
-		
-		// FirebaseAuth.getInstance().createUser(request);
-
-		//String url = FirebaseAuth.getInstance().generatePasswordResetLink("xcesco@gmail.com");
-		//System.out.println(url);
-		// See the UserRecord reference doc for the contents of userRecord.
-	}
-	
-	@Test
-	public void testCreateFile() throws FirebaseAuthException, IOException {
-		 Consumer consumer = consumerCreate();
-		 Uploader uploader=uploaderCreate();
-		 
-		 UUID.randomUUID().toString();
-		 
-		 File image=new File("src/test/resources/images/user.png");
-		 
-		 image.getName();
-		 
-		 cloudStorageService.uploadFile(uploader, consumer, "user.png", new FileInputStream(image));
-	}
 
 }

@@ -1,5 +1,8 @@
 package org.abubusoft.foc.services.impl;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.abubusoft.foc.exception.AppRuntimeException;
 import org.abubusoft.foc.model.User;
 import org.abubusoft.foc.repositories.GenericUserRepository;
@@ -8,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.google.firebase.auth.ExportedUserRecord;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.ListUsersPage;
 import com.google.firebase.auth.UserRecord;
 
 @Service
@@ -45,6 +50,38 @@ public class LoginServiceImpl implements LoginService {
 			e.printStackTrace();
 			throw (AppRuntimeException.create(e));
 		}
+		
+	}
+
+	@Override
+	public void deleteAll() {
+		FirebaseAuth firebase = FirebaseAuth.getInstance();			
+
+		Set<String> uidToDelete=new HashSet<>();
+		ListUsersPage list;
+		try {
+			list = firebase.listUsers(null);
+			
+			 while(list!=null) {					
+					for (ExportedUserRecord item: list.getValues()) {
+						//log.info(String.format("Select %s (%s) to delete ", item.getEmail(), item.getUid()));				
+						uidToDelete.add(item.getUid());
+					}			
+					
+					list=list.getNextPage();
+				}
+				
+				for (String uid: uidToDelete) {
+					firebase.deleteUser(uid);
+				}
+				
+				repository.findAll();
+		} catch (FirebaseAuthException e) {
+			e.printStackTrace();
+			throw AppRuntimeException.create(e);
+		}
+								
+		
 		
 	}
 }

@@ -68,6 +68,9 @@ https://dzone.com/articles/add-custom-functionality-to-a-spring-data-reposito
  - [java-google-cloud-storage](https://www.baeldung.com/java-google-cloud-storage)
  - [run-spring-petclinic-on-app-engine-cloudsql](https://cloud.google.com/community/tutorials/run-spring-petclinic-on-app-engine-cloudsql)
 
+# Hibernate conversione Set in un field
+https://www.baeldung.com/hibernate-persist-json-object
+
 # Send Mail
  - [link 1](https://cloud.google.com/appengine/docs/standard/java/mail/)
  - [link 2](https://cloud.google.com/appengine/docs/standard/java/mail/sendgrid)
