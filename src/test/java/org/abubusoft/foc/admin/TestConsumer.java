@@ -23,7 +23,7 @@ public class TestConsumer extends BaseTest {
 		Consumer user = createUser();
 		
 		String urlToApply=service.generateChangePasswordUrl(user.getUsername());
-		log.info(urlToApply);
+		logger.info(urlToApply);
 	}
 
 	private Consumer createUser() {
@@ -33,9 +33,9 @@ public class TestConsumer extends BaseTest {
 		String password="password";
 		
 		Consumer user=new Consumer();
-		user.setDisplayName(displayName);
-		user.setEmail(email);
 		user.setUsername(username);
+		user.setDisplayName(displayName);
+		user.setEmail(email);		
 		user.setCodiceFiscale(""+System.currentTimeMillis());
 		
 		return service.createUser(user, password);
@@ -62,7 +62,7 @@ public class TestConsumer extends BaseTest {
 		
 		int result=adminService.deleteByUsername(user.getUsername());
 		
-		log.info("deleted "+result);
+		logger.info("deleted "+result);
 	}
 
 	

@@ -6,7 +6,7 @@ import java.util.Set;
 import org.abubusoft.foc.exception.AppRuntimeException;
 import org.abubusoft.foc.model.User;
 import org.abubusoft.foc.repositories.GenericUserRepository;
-import org.abubusoft.foc.services.LoginService;
+import org.abubusoft.foc.services.IdentityManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import com.google.firebase.auth.ListUsersPage;
 import com.google.firebase.auth.UserRecord;
 
 @Service
-public class LoginServiceImpl implements LoginService {
+public class IdentityManagementServiceImpl implements IdentityManagementService {
 
 	@Autowired
 	private GenericUserRepository repository;
@@ -54,7 +54,7 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public void deleteAll() {
+	public void deleteAllUsers() {
 		FirebaseAuth firebase = FirebaseAuth.getInstance();			
 
 		Set<String> uidToDelete=new HashSet<>();

@@ -6,9 +6,10 @@ import org.abubusoft.foc.services.AdminService;
 import org.abubusoft.foc.services.CloudFileService;
 import org.abubusoft.foc.services.ConsumersService;
 import org.abubusoft.foc.services.UploaderService;
-import org.jboss.logging.Logger;
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -21,7 +22,7 @@ import com.google.firebase.FirebaseOptions;
 @SpringBootTest(classes = ServletInitializer.class)
 public abstract class BaseTest {
 	
-	protected Logger log=Logger.getLogger(getClass());
+	protected Logger logger = LoggerFactory.getLogger(getClass());
 	
 	protected AdminService adminService;
 	

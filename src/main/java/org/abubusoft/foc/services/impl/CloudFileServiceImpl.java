@@ -1,10 +1,10 @@
 package org.abubusoft.foc.services.impl;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.activation.MimetypesFileTypeMap;
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,17 +17,21 @@ import org.abubusoft.foc.model.Uploader;
 import org.abubusoft.foc.repositories.CloudFileRepository;
 import org.abubusoft.foc.repositories.ConsumersRepository;
 import org.abubusoft.foc.repositories.UploadersRepository;
+import org.abubusoft.foc.repositories.support.MimeTypeUtils;
 import org.abubusoft.foc.services.CloudFileService;
-import org.jboss.logging.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
-import org.springframework.util.MimeType;
 
+import com.google.api.gax.paging.Page;
+import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
@@ -41,8 +45,8 @@ import com.google.cloud.storage.StorageOptions;
  */
 @Component
 public class CloudFileServiceImpl implements CloudFileService {
-	
-	protected Logger log=Logger.getLogger(getClass());
+
+	Logger logger = LoggerFactory.getLogger(CloudFileServiceImpl.class);
 
 	@Value("${app.file-storage.bucket-name}")
 	String bucketName;
@@ -82,28 +86,6 @@ public class CloudFileServiceImpl implements CloudFileService {
 		return null;
 	}
 
-	public String uploadFile(String filename, byte[] content) throws IOException {
-		MimetypesFileTypeMap fileTypeMap = new MimetypesFileTypeMap();
-		String mimeTypeString = fileTypeMap.getContentType(filename);
-		MimeType mimeType = MimeType.valueOf(mimeTypeString);
-
-		BlobInfo blobInfo = saveFile(filename, mimeType, content);
-		return blobInfo.getBlobId().getName();
-	}
-
-	private BlobInfo saveFile(String fileName, MimeType mimeType, byte[] content) {
-		DateTimeFormatter dtf = DateTimeFormat.forPattern("YYYY-MM-dd-HHmmssSSS-");
-		DateTime dt = DateTime.now(DateTimeZone.UTC);
-		String dtString = dt.toString(dtf);
-		fileName = dtString + fileName;
-
-		BlobId blobId = BlobId.of(bucketName, fileName);
-		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(mimeType.toString()).build();
-		BlobInfo blob = storage.create(blobInfo, content);
-
-		return blob;
-	}
-
 	/**
 	 * Extracts the file payload from an HttpServletRequest, checks that the file
 	 * extension is supported and uploads the file to Google Cloud Storage.
@@ -128,44 +110,82 @@ public class CloudFileServiceImpl implements CloudFileService {
 	}
 
 	@Override
-	public void uploadFile(String uploaderUsername, Consumer consumer, String fileName, byte[] content, Set<String> tags) {
+	public CloudFile uploadFile(String uploaderUsername, Consumer consumer, String fileName, byte[] content,
+			Set<String> tags) {
 		Uploader uploader = uploaderRepository.findByUsername(uploaderUsername);
 
-		// recuperiamo interamente il consumer o lo creiamo nel caso in cui non ci sia il codice fiscale
+		// recuperiamo interamente il consumer o lo creiamo nel caso in cui non ci sia
+		// il codice fiscale
 		if (consumerRepository.existsByCodiceFiscale(consumer.getCodiceFiscale())) {
 			consumer = consumerRepository.findByCodiceFiscale(consumer.getCodiceFiscale());
 		} else {
 			consumer = consumerRepository.save(consumer);
 		}
-		
-		MimetypesFileTypeMap fileTypeMap = new MimetypesFileTypeMap();
-		String mimeTypeString = fileTypeMap.getContentType(fileName);
-		MimeType mimeType = MimeType.valueOf(mimeTypeString);
-		
+
+		// only by file name
+		String mimeType = MimeTypeUtils.getFromFileName(fileName);
+
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("YYYY-MM-dd-HHmmssSSS-");
 		DateTime dt = DateTime.now(DateTimeZone.UTC);
 		String dtString = dt.toString(dtf);
-		fileName = dtString + fileName;
+		String storageFileName = dtString + fileName;
 
-		BlobId blobId = BlobId.of(bucketName, fileName);
-		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(mimeType.toString()).build();
+		BlobId blobId = BlobId.of(bucketName, storageFileName);
+		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(mimeType).build();
 		BlobInfo blob = storage.create(blobInfo, content);
-		log.debug(String.format("File salvato su storage %s,%s", blobId.getBucket(), blobId.getName()));
-		
-		String blobName=blob.getBlobId().getName();
-		
-		CloudFile cloudFile=new CloudFile();
+		logger.debug(String.format("File salvato su storage %s,%s", blobId.getBucket(), blobId.getName()));
+
+		String blobName = blob.getBlobId().getName();
+
+		CloudFile cloudFile = new CloudFile();
 		cloudFile.setFileName(fileName);
-		cloudFile.setMimeType(mimeTypeString);
+		cloudFile.setMimeType(mimeType);
+		cloudFile.setContentLength(content.length);
 		cloudFile.setTags(tags);
 		cloudFile.setUuid(UUID.randomUUID().toString());
 		cloudFile.setStorageName(blobName);
-		
+
 		cloudFile.setConsumer(consumer);
 		cloudFile.setUploader(uploader);
-		
-		repository.save(cloudFile);
-		
+
+		return repository.save(cloudFile);
+
+	}
+
+	@Override
+	public void deleteAllFiles() {
+		// cancelliamo da db
+		repository.deleteAll();
+
+		// cancelliamo da storage
+		Page<Blob> blobs = storage.get(bucketName).list();
+		for (Blob blob : blobs.iterateAll()) {
+			blob.delete();
+		}
+	}
+
+	@Override
+	public Pair<CloudFile, byte[]> getFile(String username, String fileUuid) {
+		Consumer consumer = consumerRepository.findByUsername(username);
+
+		CloudFile file = repository.findByConsumerAndUuid(consumer, fileUuid);
+
+		BlobId blobId = BlobId.of(bucketName, file.getStorageName());
+		Blob blob = storage.get(blobId);
+
+		Pair<CloudFile, byte[]> result = Pair.of(file, blob.getContent());
+		return result;
+	}
+
+	/*
+	@Override
+	public List<CloudFile> findByConsumerAndUploader(Consumer consumer, Uploader uploader) {
+		return repository.findByConsumerAndUploader(consumer, uploader);
+	}*/
+	
+	@Override
+	public List<CloudFile> findByConsumerAndUploader(long consumerId, long uploaderId) {
+		return repository.findByConsumerIdAndUploaderId(consumerId, uploaderId);
 	}
 
 }

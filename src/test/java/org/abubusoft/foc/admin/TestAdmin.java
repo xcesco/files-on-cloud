@@ -23,7 +23,7 @@ public class TestAdmin extends BaseTest {
 		Administrator user = createUser();
 		
 		String urlToApply=service.generateChangePasswordUrl(user.getUsername());
-		log.info(urlToApply);
+		logger.info(urlToApply);
 	}
 
 	private Administrator createUser() {
@@ -61,7 +61,7 @@ public class TestAdmin extends BaseTest {
 		
 		int result=adminService.deleteByUsername(user.getUsername());
 		
-		log.info("deleted "+result);
+		logger.info("deleted "+result);
 	}
 
 	

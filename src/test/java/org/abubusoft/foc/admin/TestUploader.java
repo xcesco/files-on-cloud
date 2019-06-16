@@ -32,7 +32,7 @@ public class TestUploader extends BaseTest {
 		Uploader user = createUser();
 		
 		String urlToApply=service.generateChangePasswordUrl(user.getUsername());
-		log.info(urlToApply);
+		logger.info(urlToApply);
 	}
 
 	private Uploader createUser() throws FileNotFoundException, IOException {
@@ -72,7 +72,7 @@ public class TestUploader extends BaseTest {
 		
 		int result=service.deleteByUsername(user.getUsername());
 		
-		log.info("deleted "+result);
+		logger.info("deleted "+result);
 	}
 
 

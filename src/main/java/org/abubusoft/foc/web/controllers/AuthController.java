@@ -8,7 +8,7 @@ import javax.validation.Valid;
 
 import org.abubusoft.foc.model.Administrator;
 import org.abubusoft.foc.model.User;
-import org.abubusoft.foc.services.LoginService;
+import org.abubusoft.foc.services.IdentityManagementService;
 import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.LoginStatus;
 import org.abubusoft.foc.web.model.LoginStatus.StatusType;
@@ -26,10 +26,10 @@ import com.google.firebase.auth.FirebaseToken;
 @RestAPIV1Controller
 public class AuthController {
 	
-	private LoginService userService;
+	private IdentityManagementService userService;
 	
 	@Autowired
-	public void setUserService(LoginService userService) {
+	public void setUserService(IdentityManagementService userService) {
 		this.userService = userService;
 	}
 	

@@ -8,7 +8,7 @@ public interface AbstractUserService<U extends User> {
 		
 	int deleteByUsername(String username);
 
-	String generateChangePasswordUrl(String email);
+	String generateChangePasswordUrl(String username);
 
 	Iterable<U> findAll();
 	

@@ -7,15 +7,14 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.Convert;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.abubusoft.foc.repositories.support.LinkedHashSetConverter;
 
 /**
  * @author xcesco
@@ -29,9 +28,11 @@ public class CloudFile extends AbstractEntity {
 	@JoinColumn(name = "CONSUMER_ID", nullable = false, insertable=true, updatable=false)
 	protected Consumer consumer;
 	
+	protected long contentLength;
+
 	@Column(nullable = false)
 	protected String fileName;
-
+	
 	@Column(nullable = false)
 	protected String mimeType;
 
@@ -40,7 +41,10 @@ public class CloudFile extends AbstractEntity {
 	@Column(nullable = false)
 	protected String storageName;
 
-	@Convert(converter = LinkedHashSetConverter.class)
+	@ElementCollection
+	@CollectionTable(name = "foc_file_tags", joinColumns = @JoinColumn(name = "file_id"))	
+	@Column(name = "tag") 
+	//@Convert(converter = LinkedHashSetConverter.class)
 	protected Set<String> tags = new LinkedHashSet<>();
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -56,6 +60,10 @@ public class CloudFile extends AbstractEntity {
 
 	public Consumer getConsumer() {
 		return consumer;
+	}
+
+	public long getContentLength() {
+		return contentLength;
 	}
 
 	public String getFileName() {
@@ -96,6 +104,10 @@ public class CloudFile extends AbstractEntity {
 
 	public void setConsumer(Consumer consumer) {
 		this.consumer = consumer;
+	}
+
+	public void setContentLength(long contentLength) {
+		this.contentLength = contentLength;
 	}
 
 	public void setFileName(String fileName) {
