@@ -5,12 +5,12 @@ import java.util.List;
 import org.abubusoft.foc.model.Consumer;
 import org.abubusoft.foc.model.UploaderDetailSummary;
 import org.abubusoft.foc.repositories.ConsumersRepository;
-import org.abubusoft.foc.services.ConsumersService;
+import org.abubusoft.foc.services.ConsumerService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ConsumersServiceImpl extends AbstractUserServiceImpl<ConsumersRepository, Consumer>
-		implements ConsumersService {
+		implements ConsumerService {
 
 	@Override
 	public Consumer findByCodiceFiscale(String codiceFiscale) {

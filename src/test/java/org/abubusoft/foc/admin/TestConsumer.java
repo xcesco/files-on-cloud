@@ -6,7 +6,7 @@ import javax.transaction.Transactional;
 
 import org.abubusoft.foc.BaseTest;
 import org.abubusoft.foc.model.Consumer;
-import org.abubusoft.foc.services.ConsumersService;
+import org.abubusoft.foc.services.ConsumerService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuthException;
 public class TestConsumer extends BaseTest {
 	
 	@Autowired
-	protected ConsumersService service;
+	protected ConsumerService service;
 	
 
 	@Test

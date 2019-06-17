@@ -4,6 +4,12 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import org.abubusoft.foc.web.support.LocalDateTimeDeserializer;
+import org.abubusoft.foc.web.support.LocalDateTimeSerializer;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import io.swagger.annotations.ApiModelProperty;
 
 public class CloudFileWto {
@@ -16,7 +22,9 @@ public class CloudFileWto {
 
 	protected long contentLength;
 
-	@ApiModelProperty(required = true, dataType = "org.joda.time.LocalDate")
+	//@ApiModelProperty(required = true, dataType = "org.joda.time.LocalDate")
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)  
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	protected LocalDateTime creationTime;
 
 	protected String fileName;
@@ -37,7 +45,9 @@ public class CloudFileWto {
 
 	protected String viewIp;
 
-	@ApiModelProperty(required = true, dataType = "org.joda.time.LocalDate")
+	//@ApiModelProperty(required = true, dataType = "org.joda.time.LocalDate")
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)  
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	protected LocalDateTime viewTime;
 
 	public String getConsumerDisplayName() {

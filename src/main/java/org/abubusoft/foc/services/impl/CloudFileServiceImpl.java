@@ -203,4 +203,22 @@ public class CloudFileServiceImpl implements CloudFileService {
 		}
 	}
 
+	@Override
+	public boolean deleteById(long id) {
+		repository.deleteById(id);
+		
+		return true;
+		
+	}
+
+	@Override
+	public CloudFile findByUploaderAndConsumerAndFileId(long uploaderId, long consumerId, long fileId) {
+		return repository.findByUploaderAndConsumerAndFileId(uploaderId, consumerId, fileId);
+	}
+
+	@Override
+	public CloudFile save(CloudFile file) {
+		return repository.save(file);
+	}
+
 }

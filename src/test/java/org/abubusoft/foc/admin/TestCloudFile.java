@@ -23,7 +23,7 @@ import org.abubusoft.foc.model.Uploader;
 import org.abubusoft.foc.model.UploaderDetailSummary;
 import org.abubusoft.foc.model.UploaderSummary;
 import org.abubusoft.foc.services.CloudFileService;
-import org.abubusoft.foc.services.ConsumersService;
+import org.abubusoft.foc.services.ConsumerService;
 import org.abubusoft.foc.services.UploaderService;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
@@ -43,7 +43,7 @@ public class TestCloudFile extends BaseTest {
 	protected CloudFileService cloudFileService;
 
 	@Autowired
-	protected ConsumersService consumerService;
+	protected ConsumerService consumerService;
 
 	@Autowired
 	protected UploaderService uploaderService;

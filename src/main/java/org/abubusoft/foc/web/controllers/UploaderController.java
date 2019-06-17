@@ -6,6 +6,8 @@ import javax.validation.Valid;
 
 import org.abubusoft.foc.services.UploaderServiceFacade;
 import org.abubusoft.foc.web.RestAPIV1Controller;
+import org.abubusoft.foc.web.model.CloudFileWto;
+import org.abubusoft.foc.web.model.ConsumerWto;
 import org.abubusoft.foc.web.model.UploaderWto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestAPIV1Controller
@@ -74,6 +75,47 @@ public class UploaderController {
 	@DeleteMapping("/uploaders/{id}")
 	public ResponseEntity<Boolean> delete(@PathVariable("id") long uploaderId) {
 		return ResponseEntity.ok(service.deleteById(uploaderId));
+	}
+	
+	@GetMapping("/consumers")
+	public ResponseEntity<List<ConsumerWto>> findAllConsumers() {
+		return ResponseEntity.ok(service.findAllConsumers());
+	}
+	
+	@PostMapping("/consumers")
+	public ResponseEntity<ConsumerWto> createConsumer(@RequestBody @Valid ConsumerWto value) {
+		return ResponseEntity.ok(service.createConsumer(value));
+	}
+
+	@PatchMapping("/consumers/{consumerId}")
+	public ResponseEntity<ConsumerWto> modifyConsumer(@PathVariable("consumerId") long consumerId, @RequestBody @Valid ConsumerWto value) {
+		value.setId(consumerId);
+		return ResponseEntity.ok(service.updateConsumerById(value));
+	}
+	
+	@DeleteMapping("/consumers/{consumerId}")
+	public ResponseEntity<Boolean> deleteConsumer(@PathVariable("consumerId") long consumerId) {		
+		return ResponseEntity.ok(service.deleteConsumerById(consumerId));
+	}
+	
+	@GetMapping("/uploaders/{uploaderId}/consumers/{consumerId}/files")
+	public ResponseEntity<List<CloudFileWto>> findFileListByUploaderAndConsumer(@PathVariable("uploaderId") long uploaderId, @PathVariable("consumerId") long consumerId) {
+		return ResponseEntity.ok(service.findCloudFilesByUploaderAndConsumer(uploaderId, consumerId));
+	}
+	
+	@PostMapping("/uploaders/{uploaderId}/consumers/{consumerId}/files")
+	public ResponseEntity<Long> createFileListByUploaderAndConsumer(@PathVariable("uploaderId") long uploaderId, @PathVariable("consumerId") long consumerId, @RequestBody CloudFileWto cloudFile) {
+		return ResponseEntity.ok(service.createCloudFile(uploaderId, consumerId, cloudFile));
+	}
+	
+	@GetMapping("/uploaders/{uploaderId}/consumers/{consumerId}/files/{fileId}")
+	public ResponseEntity<CloudFileWto> findFileById(@PathVariable("uploaderId") long uploaderId, @PathVariable("consumerId") long consumerId, @PathVariable("fileId") long fileId) {
+		return ResponseEntity.ok(service.findCloudFilesByUploaderAndConsumerAndFile(uploaderId, consumerId, fileId));
+	}
+	
+	@DeleteMapping("/uploaders/{id}/consumers/{consumerId}/files/{fileId}")
+	public ResponseEntity<Boolean> deleteFilesByUploader(@PathVariable("id") long uploaderId, @PathVariable("consumerId") long consumerId, @PathVariable("fileId") long fileId) {
+		return ResponseEntity.ok(service.deleteCloudFileByUploaderAndConsumerAndFile(uploaderId, consumerId, fileId));
 	}
 		
 }

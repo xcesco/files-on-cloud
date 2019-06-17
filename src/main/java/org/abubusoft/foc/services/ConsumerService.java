@@ -5,7 +5,7 @@ import java.util.List;
 import org.abubusoft.foc.model.Consumer;
 import org.abubusoft.foc.model.UploaderDetailSummary;
 
-public interface ConsumersService extends AbstractUserService<Consumer> {
+public interface ConsumerService extends AbstractUserService<Consumer> {
 	
 	boolean existsByCodiceFiscale(String codiceFiscale);
 

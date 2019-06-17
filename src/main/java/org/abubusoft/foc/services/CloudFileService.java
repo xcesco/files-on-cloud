@@ -34,4 +34,12 @@ public interface CloudFileService {
 
 	List<CloudFile> findByUploaderAndConsumerTags(long uploaderId, long consumerId, Set<String> tags);
 	
+	CloudFile findByUploaderAndConsumerAndFileId(long uploaderId, long consumerId, long fileId);
+
+	boolean deleteById(long id);
+
+	CloudFile save(CloudFile file);
+
+	
+	
 }

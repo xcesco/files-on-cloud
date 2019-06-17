@@ -3,9 +3,17 @@ package org.abubusoft.foc.services.impl;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
+import org.abubusoft.foc.model.CloudFile;
+import org.abubusoft.foc.model.Consumer;
 import org.abubusoft.foc.model.Uploader;
+import org.abubusoft.foc.services.CloudFileService;
+import org.abubusoft.foc.services.ConsumerService;
 import org.abubusoft.foc.services.UploaderService;
 import org.abubusoft.foc.services.UploaderServiceFacade;
+import org.abubusoft.foc.web.model.CloudFileWto;
+import org.abubusoft.foc.web.model.ConsumerWto;
 import org.abubusoft.foc.web.model.UploaderWto;
 import org.abubusoft.foc.web.support.WtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +25,20 @@ public class UploaderServiceFacadeImpl implements UploaderServiceFacade {
 	private WtoMapper mapper = WtoMapper.INSTANCE;
 
 	private UploaderService uploaderService;
+	
+	private ConsumerService consumerService;
+	
+	private CloudFileService cloudFileService;
+
+	@Autowired
+	public void setCloudFileService(CloudFileService cloudFileService) {
+		this.cloudFileService = cloudFileService;
+	}
+
+	@Autowired
+	public void setConsumerService(ConsumerService consumerService) {
+		this.consumerService = consumerService;
+	}
 
 	@Autowired
 	public void setUploaderService(UploaderService uploaderService) {
@@ -33,20 +55,17 @@ public class UploaderServiceFacadeImpl implements UploaderServiceFacade {
 
 	@Override
 	public boolean deleteById(long id) {
-		// TODO Auto-generated method stub
-		return false;
+		return uploaderService.deleteById(id);
 	}
 
 	@Override
 	public String generateChangePasswordUrl(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		return uploaderService.getChangePasswordUrlByUsername(username);
 	}
 
 	@Override
 	public List<UploaderWto> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return mapper.convertUploaderListToDto(uploaderService.findAll());
 	}
 
 	@Override
@@ -78,6 +97,70 @@ public class UploaderServiceFacadeImpl implements UploaderServiceFacade {
 
 		return null;
 
+	}
+
+	@Override
+	public List<ConsumerWto> findAllConsumers() {
+		return mapper.convertConsumerListToWto(consumerService.findAll());		
+	}
+
+	@Override
+	public ConsumerWto createConsumer(@Valid ConsumerWto value) {
+		Consumer user = mapper.convertConsumerToDto(value);
+		Consumer result = consumerService.createUser(user, value.getPassword());
+
+		return mapper.convertConsumerToWto(result);
+	}
+
+	@Override
+	public ConsumerWto updateConsumerById(@Valid ConsumerWto value) {
+		Consumer user = mapper.convertConsumerToDto(value);
+		Consumer result = consumerService.updateById(user);
+
+		return mapper.convertConsumerToWto(result);
+	}
+
+	@Override
+	public boolean deleteConsumerById(long id) {
+		return consumerService.deleteById(id);
+	}
+
+	@Override
+	public List<CloudFileWto> findCloudFilesByUploaderAndConsumer(long uploaderId, long consumerId) {
+		return mapper.convertCloudFileListToWto(cloudFileService.findByUploaderAndConsumer(uploaderId, consumerId));
+	}
+
+	@Override
+	public boolean deleteCloudFileByUploaderAndConsumerAndFile(long uploaderId, long consumerId, long fileId) {
+		CloudFile file = cloudFileService.findByUploaderAndConsumerAndFileId(uploaderId, consumerId, fileId);
+		
+		cloudFileService.deleteById(file.getId());
+		
+		return true;
+	}
+
+	@Override
+	public CloudFileWto findCloudFilesByUploaderAndConsumerAndFile(long uploaderId, long consumerId, long fileId) {
+		CloudFile file = cloudFileService.findByUploaderAndConsumerAndFileId(uploaderId, consumerId, fileId);
+		
+		return mapper.convertToFileWto(file);
+	}
+
+	@Override
+	public long createCloudFile(long uploaderId, long consumerId, CloudFileWto cloudFile) {
+		//TODO inserire invio notifica
+		
+		CloudFile file=mapper.convertToFileDto(cloudFile);
+		
+		Optional<Uploader> uploader=uploaderService.findById(uploaderId);
+		Optional<Consumer> consumer=consumerService.findById(consumerId);
+		
+		file.setConsumer(consumer.get());
+		file.setUploader(uploader.get());
+		
+		file=cloudFileService.save(file);
+		
+		return file.getId();
 	}
 
 }

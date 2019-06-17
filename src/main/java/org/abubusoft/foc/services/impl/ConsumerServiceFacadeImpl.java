@@ -3,8 +3,8 @@ package org.abubusoft.foc.services.impl;
 import javax.validation.Valid;
 
 import org.abubusoft.foc.model.Consumer;
+import org.abubusoft.foc.services.ConsumerService;
 import org.abubusoft.foc.services.ConsumerServiceFacade;
-import org.abubusoft.foc.services.ConsumersService;
 import org.abubusoft.foc.services.UploaderService;
 import org.abubusoft.foc.web.model.ConsumerWto;
 import org.abubusoft.foc.web.support.WtoMapper;
@@ -16,7 +16,7 @@ public class ConsumerServiceFacadeImpl implements ConsumerServiceFacade {
 
 	private WtoMapper mapper = WtoMapper.INSTANCE;
 
-	private ConsumersService consumerService;
+	private ConsumerService consumerService;
 	
 	private UploaderService uploaderService;
 
@@ -26,7 +26,7 @@ public class ConsumerServiceFacadeImpl implements ConsumerServiceFacade {
 	}
 
 	@Autowired
-	public void setConsumerService(ConsumersService consumerService) {
+	public void setConsumerService(ConsumerService consumerService) {
 		this.consumerService = consumerService;
 	}
 	
