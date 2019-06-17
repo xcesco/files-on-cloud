@@ -7,11 +7,17 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.transaction.Transactional;
+
 import org.abubusoft.foc.BaseTest;
 import org.abubusoft.foc.model.CloudFile;
+import org.abubusoft.foc.model.CloudFileTag;
 import org.abubusoft.foc.model.Consumer;
 import org.abubusoft.foc.model.Uploader;
 import org.abubusoft.foc.model.UploaderDetailSummary;
@@ -23,11 +29,14 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
+import org.springframework.test.annotation.Rollback;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Sets;
 import com.google.firebase.auth.FirebaseAuthException;
 
+@Rollback(false)
+@Transactional
 public class TestCloudFile extends BaseTest {
 
 	@Autowired
@@ -134,7 +143,7 @@ public class TestCloudFile extends BaseTest {
 		createCloudFile(consumer1, uploader2, new File("src/test/resources/files/fruits.json"),
 				Sets.newHashSet("frutta", "json"));
 
-		List<CloudFile> result = cloudFileService.findByConsumerAndUploader(consumer1.getId(), uploader1.getId());
+		List<CloudFile> result = cloudFileService.findByUploaderAndConsumer(uploader1.getId(), consumer1.getId());
 
 		assertEquals(result.size(), 3);
 
@@ -185,7 +194,7 @@ public class TestCloudFile extends BaseTest {
 		createCloudFile(consumer1, uploader2, new File("src/test/resources/files/fruits.json"),
 				Sets.newHashSet("frutta", "json"));
 
-		List<CloudFile> result = cloudFileService.findByConsumerAndUploader(consumer1.getId(), uploader1.getId());
+		List<CloudFile> result = cloudFileService.findByUploaderAndConsumer(uploader1.getId(), consumer1.getId());
 
 		assertEquals(result.size(), 3);
 			
@@ -236,6 +245,59 @@ public class TestCloudFile extends BaseTest {
 			}
 		}		
 	}
+	
+	@Test
+	public void testListTags() throws FirebaseAuthException, IOException {
+		ObjectMapper objMapper = new ObjectMapper();
+
+		Consumer consumer1 = createConsumer(1);
+		Consumer consumer2 = createConsumer(2);
+		Consumer consumer3 = createConsumer(3);
+		Consumer consumer4 = createConsumer(4);
+		
+		Uploader uploader1 = createUploader(1);
+		Uploader uploader2 = createUploader(2);
+		Uploader uploader3 = createUploader(3);
+
+		createCloudFile(consumer1, uploader1, new File("src/test/resources/files/fruits.json"),
+				Sets.newHashSet("frutta", "json"));
+		createCloudFile(consumer1, uploader1, new File("src/test/resources/files/fruits.json"),
+				Sets.newHashSet("frutta", "json"));
+		createCloudFile(consumer1, uploader1, new File("src/test/resources/files/fruits.json"),
+				Sets.newHashSet("frutta", "json"));
+		createCloudFile(consumer4, uploader1, new File("src/test/resources/files/fruits.json"),
+				Sets.newHashSet("frutta", "json"));
+		createCloudFile(consumer2, uploader1, new File("src/test/resources/files/fruits.json"),
+				Sets.newHashSet("frutta", "json"));
+		createCloudFile(consumer3, uploader1, new File("src/test/resources/files/fruits.json"),
+				Sets.newHashSet("frutta", "json"));
+		createCloudFile(consumer3, uploader1, new File("src/test/resources/files/fruits.json"),
+				Sets.newHashSet("frutta", "json"));
+
+		createCloudFile(consumer1, uploader2, new File("src/test/resources/files/fruits.json"),
+				Sets.newHashSet("frutta", "json"));
+					
+		{
+			List<CloudFileTag> summary = cloudFileService.findTagsByConsumer(consumer1.getId());
+			for (CloudFileTag item : summary) {
+				logger.info(objMapper.writeValueAsString(item));
+			}
+		}		
+		
+		{
+			Set<String> set=new HashSet<>();
+			//set.add("frutta");
+			List<CloudFile> files = cloudFileService.findByUploaderAndConsumerTags(uploader1.getId(), consumer1.getId(), set);
+			logger.info("Found "+files.size());
+			for (CloudFile item : files) {
+				String msg=objMapper.writeValueAsString(item);
+				logger.info(msg.substring(0, Math.min(100, msg.length()-1)));
+			}
+		}
+		
+	}
+	
+	
 
 	private CloudFile createCloudFile(Consumer consumer, Uploader uploader, File file, Set<String> tags)
 			throws IOException, FileNotFoundException {

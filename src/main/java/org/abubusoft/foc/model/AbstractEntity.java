@@ -8,10 +8,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import org.abubusoft.foc.web.support.LocalDateTimeDeserializer;
+import org.abubusoft.foc.web.support.LocalDateTimeSerializer;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @DynamicUpdate
 @MappedSuperclass
@@ -31,6 +36,8 @@ public abstract class AbstractEntity {
 	}
 
 	@CreatedDate
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)  
+	@JsonSerialize(using = LocalDateTimeSerializer.class)  
 	protected LocalDateTime createdDateTime;
 	
 	
@@ -50,7 +57,10 @@ public abstract class AbstractEntity {
 		this.modifiedDateTime = modifiedDate;
 	}
 
+
 	@LastModifiedDate
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)  
+	@JsonSerialize(using = LocalDateTimeSerializer.class)  
 	protected LocalDateTime modifiedDateTime;
 	
 	

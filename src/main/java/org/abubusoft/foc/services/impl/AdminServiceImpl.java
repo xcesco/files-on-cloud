@@ -6,6 +6,7 @@ import org.abubusoft.foc.services.AdminService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AdminServiceImpl extends AbstractUserServiceImpl<AdministratorsRepository, Administrator> implements AdminService {
-
+public class AdminServiceImpl extends AbstractUserServiceImpl<AdministratorsRepository, Administrator>
+		implements AdminService {
+	
 }

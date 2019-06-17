@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import org.abubusoft.foc.model.CloudFile;
+import org.abubusoft.foc.model.CloudFileTag;
 import org.abubusoft.foc.model.Consumer;
 import org.springframework.data.util.Pair;
 
@@ -26,6 +27,11 @@ public interface CloudFileService {
 	Pair<CloudFile, byte[]> getFile(String username, String fileUuid);
 
 	//List<CloudFile> findByConsumerAndUploader(Consumer consumer, Uploader uploader1);
+	
+	List<CloudFileTag> findTagsByConsumer(long consumerId);
 
-	List<CloudFile> findByConsumerAndUploader(long consumerId, long uploaderId);
+	List<CloudFile> findByUploaderAndConsumer(long uploaderId, long consumerId);
+
+	List<CloudFile> findByUploaderAndConsumerTags(long uploaderId, long consumerId, Set<String> tags);
+	
 }

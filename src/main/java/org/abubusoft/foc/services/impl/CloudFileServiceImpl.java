@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import org.abubusoft.foc.model.CloudFile;
+import org.abubusoft.foc.model.CloudFileTag;
 import org.abubusoft.foc.model.Consumer;
 import org.abubusoft.foc.model.Uploader;
 import org.abubusoft.foc.repositories.CloudFileRepository;
@@ -184,8 +185,22 @@ public class CloudFileServiceImpl implements CloudFileService {
 	}*/
 	
 	@Override
-	public List<CloudFile> findByConsumerAndUploader(long consumerId, long uploaderId) {
-		return repository.findByConsumerIdAndUploaderId(consumerId, uploaderId);
+	public List<CloudFile> findByUploaderAndConsumer(long uploaderId, long consumerId) {
+		return repository.findByUploaderAndConsumer(uploaderId, consumerId);
+	}	
+
+	@Override
+	public List<CloudFileTag> findTagsByConsumer(long consumerId) {
+		return repository.findTagsByConsumer(consumerId);
+	}
+
+	@Override
+	public List<CloudFile> findByUploaderAndConsumerTags(long uploaderId, long consumerId, Set<String> tags) {
+		if (tags==null || tags.size()==0) {
+			return repository.findByUploaderAndConsumer(uploaderId, consumerId);
+		} else {
+			return repository.findByUploaderAndConsumerAndTags(uploaderId, consumerId, tags);
+		}
 	}
 
 }

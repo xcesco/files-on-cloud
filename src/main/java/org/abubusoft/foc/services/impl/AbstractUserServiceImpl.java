@@ -1,5 +1,8 @@
 package org.abubusoft.foc.services.impl;
 
+import java.util.Optional;
+
+import org.abubusoft.foc.exception.AppNotFoundEntityException;
 import org.abubusoft.foc.exception.AppRuntimeException;
 import org.abubusoft.foc.model.User;
 import org.abubusoft.foc.repositories.UserRepository;
@@ -41,6 +44,31 @@ public class AbstractUserServiceImpl<R extends UserRepository<U>, U extends User
 		}
 
 		
+	}
+
+	@Override
+	public U updateById(U user) {
+		try {
+			Optional<U> foundUser=repository.findById(user.getId());
+			if (foundUser.isPresent()) {
+				
+			} else {
+				throw (AppRuntimeException.create(AppNotFoundEntityException.class));
+			}
+			
+			FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+			UserRecord userAuth = firebaseAuth.getUserByEmail(user.getUsername());
+			UpdateRequest request = new UpdateRequest(userAuth.getUid());
+			request.setDisplayName(user.getDisplayName());
+
+			firebaseAuth.updateUser(request);
+
+			return repository.save(user);
+		} catch (FirebaseAuthException e) {
+			e.printStackTrace();
+			throw (AppRuntimeException.create(e));
+		}
 	}
 
 	@Override
@@ -87,5 +115,17 @@ public class AbstractUserServiceImpl<R extends UserRepository<U>, U extends User
 	@Override
 	public U findByUsername(String username) {
 		return repository.findByUsername(username);
+	}
+
+	@Override
+	public boolean deleteById(long id) {
+		repository.deleteById(id);
+		
+		return true;
+	}
+
+	@Override
+	public Optional<U> findById(long id) {
+		return repository.findById(id);
 	}
 }

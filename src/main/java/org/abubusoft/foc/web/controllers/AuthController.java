@@ -3,10 +3,6 @@ package org.abubusoft.foc.web.controllers;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.transaction.Transactional;
-import javax.validation.Valid;
-
-import org.abubusoft.foc.model.Administrator;
 import org.abubusoft.foc.model.User;
 import org.abubusoft.foc.services.IdentityManagementService;
 import org.abubusoft.foc.web.RestAPIV1Controller;
@@ -16,7 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;

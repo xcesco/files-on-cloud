@@ -16,6 +16,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.abubusoft.foc.web.support.LocalDateTimeDeserializer;
+import org.abubusoft.foc.web.support.LocalDateTimeSerializer;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * @author xcesco
  *
@@ -56,6 +62,8 @@ public class CloudFile extends AbstractEntity {
 
 	protected String viewIp;
 
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)  
+	@JsonSerialize(using = LocalDateTimeSerializer.class)  
 	protected LocalDateTime viewTime;
 
 	public Consumer getConsumer() {
