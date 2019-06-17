@@ -95,7 +95,7 @@ public class AbstractUserServiceImpl<R extends UserRepository<U>, U extends User
 	}
 
 	@Override
-	public String generateChangePasswordUrl(String username) {
+	public String getChangePasswordUrlByUsername(String username) {
 		FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 		try {
 			// UserRecord userAuth = firebaseAuth.getUserByEmail(email);

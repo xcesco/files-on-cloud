@@ -39,8 +39,8 @@ public class ConsumerServiceFacadeImpl implements ConsumerServiceFacade {
 	}
 
 	@Override
-	public String generateChangePasswordUrl(String username) {
-		return consumerService.generateChangePasswordUrl(username);
+	public String getChangePasswordUrlByUsername(String username) {
+		return consumerService.getChangePasswordUrlByUsername(username);
 	}
 		
 }

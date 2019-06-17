@@ -4,7 +4,7 @@ import org.abubusoft.foc.web.model.ConsumerWto;
 
 public interface ConsumerServiceFacade  {
 	
-	String generateChangePasswordUrl(String username);
+	String getChangePasswordUrlByUsername(String username);
 
 	ConsumerWto updateConsumerById(ConsumerWto user);
 	

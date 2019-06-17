@@ -22,7 +22,7 @@ public class TestConsumer extends BaseTest {
 	public void test0ChangePassword() throws FirebaseAuthException {
 		Consumer user = createUser();
 		
-		String urlToApply=service.generateChangePasswordUrl(user.getUsername());
+		String urlToApply=service.getChangePasswordUrlByUsername(user.getUsername());
 		logger.info(urlToApply);
 	}
 

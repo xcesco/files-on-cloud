@@ -27,6 +27,12 @@ public class ConsumerController {
 		value.setId(id);		
 		return ResponseEntity.ok(service.updateConsumerById(value));
 	}
+	
+	@PatchMapping("/consumers/{id}/change-password")
+	public ResponseEntity<String> modify(@PathVariable("id") long id) {
+		
+		return ResponseEntity.ok(service.getChangePasswordUrlByUsername(null));
+	}
 		
 		
 }

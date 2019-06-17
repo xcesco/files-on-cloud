@@ -12,7 +12,7 @@ public interface AbstractUserService<U extends User> {
 	
 	boolean deleteById(long id);
 
-	String generateChangePasswordUrl(String username);
+	String getChangePasswordUrlByUsername(String username);
 
 	Iterable<U> findAll();
 	
