@@ -16,6 +16,7 @@ import org.abubusoft.foc.web.model.CloudFileWto;
 import org.abubusoft.foc.web.model.ConsumerWto;
 import org.abubusoft.foc.web.support.WtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -69,6 +70,11 @@ public class ConsumerServiceFacadeImpl implements ConsumerServiceFacade {
 		List<CloudFile> result = cloudFileService.findByConsumerAndUploaderAndTags(consumerId, uploaderId, tags);
 		
 		return mapper.convertCloudFileListToWto(result);
+	}
+
+	@Override
+	public Pair<CloudFile, byte[]> getFile(String fileUUID) {
+		return cloudFileService.getFile(fileUUID);
 	}
 		
 }

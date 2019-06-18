@@ -7,8 +7,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -107,7 +105,7 @@ public class TestCloudFile extends BaseTest {
 		CloudFile file = createCloudFile(consumer, uploader, new File("src/test/resources/files/fruits.json"),
 				Sets.newHashSet("frutta", "json"));
 
-		Pair<CloudFile, byte[]> fileResult = cloudFileService.getFile(consumer.getUsername(), file.getUuid());
+		Pair<CloudFile, byte[]> fileResult = cloudFileService.getFile(file.getUuid());
 
 		assertEquals(file.getContentLength(), fileResult.getFirst().getContentLength());
 	}
@@ -278,7 +276,7 @@ public class TestCloudFile extends BaseTest {
 				Sets.newHashSet("frutta", "json"));
 					
 		{
-			List<CloudFileTag> summary = cloudFileService.findTagsByConsumer(consumer1.getId());
+			List<CloudFileTag> summary = cloudFileService.findTagsByUploaderAndConsumer(consumer1.getId(), uploader1.getId());
 			for (CloudFileTag item : summary) {
 				logger.info(objMapper.writeValueAsString(item));
 			}

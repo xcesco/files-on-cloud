@@ -5,12 +5,17 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
+import org.abubusoft.foc.model.CloudFile;
 import org.abubusoft.foc.model.UploaderDetailSummary;
 import org.abubusoft.foc.services.ConsumerServiceFacade;
 import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.CloudFileWto;
 import org.abubusoft.foc.web.model.ConsumerWto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.data.util.Pair;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -41,10 +46,31 @@ public class ConsumerController {
 		return ResponseEntity.ok(service.findUploadersWithFileByConsumerId(consumerId));
 	}
 
-	@GetMapping("/consumers/{id}/uploaders/{uploaderId}/files")
-	public ResponseEntity<List<CloudFileWto>> consumerGetFiles(@PathVariable("id") long id,
-			@PathVariable("uploaderId") long uploaderId, @RequestParam Set<String> tags) {
-		return ResponseEntity.ok(service.findFilesByConsumerAndUploader(id, uploaderId, tags));
+	@GetMapping("/files")
+	public ResponseEntity<List<CloudFileWto>> consumerGetFiles(@RequestParam(value="consumerId", required = true) long consumerId,
+			@RequestParam(value="uploaderId", required = true) long uploaderId, @RequestParam(value="tags", required = true) Set<String> tags) {
+		return ResponseEntity.ok(service.findFilesByConsumerAndUploader(consumerId, uploaderId, tags));
+	}
+	
+	@GetMapping("/files/{fileUUID}")
+	public ResponseEntity<ByteArrayResource> consumerGetFiles(@PathVariable("id") long id,
+			@PathVariable("uploaderId") long uploaderId, @PathVariable("fileUUID") String fileUUID) {
+		ResponseEntity.ok();
+		
+		Pair<CloudFile, byte[]> file = service.getFile(fileUUID);
+		ByteArrayResource resource = new ByteArrayResource(file.getSecond());
+				
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+file.getFirst().getFileName());
+        headers.add(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate");
+        headers.add(HttpHeaders.PRAGMA, "no-cache");
+        headers.add(HttpHeaders.EXPIRES, "0");
+		
+		 return ResponseEntity.ok()
+		            .headers(headers)		            
+		            .contentLength(file.getFirst().getContentLength())
+		            .contentType(MediaType.valueOf(file.getFirst().getMimeType()))
+		            .body(resource);
 	}
 
 	@PatchMapping("/consumers/{id}/change-password")

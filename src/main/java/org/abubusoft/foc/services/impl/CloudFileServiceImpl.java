@@ -168,10 +168,8 @@ public class CloudFileServiceImpl implements CloudFileService {
 	}
 
 	@Override
-	public Pair<CloudFile, byte[]> getFile(String username, String fileUuid) {
-		Consumer consumer = consumerRepository.findByUsername(username);
-
-		CloudFile file = repository.findByConsumerAndUuid(consumer, fileUuid);
+	public Pair<CloudFile, byte[]> getFile(String fileUuid) {
+		CloudFile file = repository.findByUuid(fileUuid);
 
 		BlobId blobId = BlobId.of(bucketName, file.getStorageName());
 		Blob blob = storage.get(blobId);
@@ -192,8 +190,8 @@ public class CloudFileServiceImpl implements CloudFileService {
 	}	
 
 	@Override
-	public List<CloudFileTag> findTagsByConsumer(long consumerId) {
-		return repository.findTagsByConsumer(consumerId);
+	public List<CloudFileTag> findTagsByUploaderAndConsumer(long uploaderId, long consumerId) {
+		return repository.findTagsByUploaderAndConsumer(uploaderId, consumerId);
 	}
 
 	@Override

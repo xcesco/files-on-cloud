@@ -23,13 +23,7 @@ public interface CloudFileService {
 	CloudFile uploadFile(String uploaderUsername, Consumer consumer, String fileName, byte[] content, Set<String> tags);
 
 	void deleteAllFiles();
-
-	Pair<CloudFile, byte[]> getFile(String username, String fileUuid);
-
-	//List<CloudFile> findByConsumerAndUploader(Consumer consumer, Uploader uploader1);
 	
-	List<CloudFileTag> findTagsByConsumer(long consumerId);
-
 	List<CloudFile> findByUploaderAndConsumer(long uploaderId, long consumerId);
 
 	CloudFile findByUploaderAndConsumerAndFileId(long uploaderId, long consumerId, long fileId);
@@ -39,6 +33,10 @@ public interface CloudFileService {
 	CloudFile save(CloudFile file);
 
 	List<CloudFile> findByConsumerAndUploaderAndTags(long consumerId, long uploaderId, Set<String> tags);
+
+	List<CloudFileTag> findTagsByUploaderAndConsumer(long uploaderId, long consumerId);
+
+	Pair<CloudFile, byte[]> getFile(String fileUuid);
 
 	
 	

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.abubusoft.foc.model.CloudFileTag;
 import org.abubusoft.foc.services.UploaderServiceFacade;
 import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.CloudFileWto;
@@ -70,8 +71,13 @@ public class UploaderController {
 		return ResponseEntity.ok(service.createCloudFile(uploaderId, consumerCloudFile));
 	}
 	
+	@GetMapping("/uploaders/{uploaderId}/consumers/{consumerId}/tags")
+	public ResponseEntity<List<CloudFileTag>> fileFindTagsByUploaderAndConsumer(@PathVariable("uploaderId") long uploaderId, @PathVariable("consumerId") long consumerId) {
+		return ResponseEntity.ok(service.findTagsByUploaderAndConsumer(uploaderId, consumerId));
+	}
+	
 	@GetMapping("/uploaders/{uploaderId}/consumers/{consumerId}/files")
-	public ResponseEntity<List<CloudFileWto>> fileFindByUploaderAndConsumer(@PathVariable("uploaderId") long uploaderId, @PathVariable("consumerId") long consumerId) {
+	public ResponseEntity<List<CloudFileWto>> tagsFindByUploaderAndConsumer(@PathVariable("uploaderId") long uploaderId, @PathVariable("consumerId") long consumerId) {
 		return ResponseEntity.ok(service.findCloudFilesByUploaderAndConsumer(uploaderId, consumerId));
 	}
 	

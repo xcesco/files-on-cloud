@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.abubusoft.foc.model.CloudFileTag;
 import org.abubusoft.foc.web.model.CloudFileWto;
 import org.abubusoft.foc.web.model.ConsumerAndCloudFileWto;
 import org.abubusoft.foc.web.model.ConsumerWto;
@@ -44,6 +45,8 @@ public interface UploaderServiceFacade  {
 	String uploaderGetChangePasswordUrlByUsername(String username);
 
 	boolean createCloudFile(long uploaderId, ConsumerAndCloudFileWto consumerCloudFile);
+
+	List<CloudFileTag> findTagsByUploaderAndConsumer(long uploaderId, long consumerId);
 	
 
 }

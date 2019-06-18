@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.abubusoft.foc.model.CloudFile;
+import org.abubusoft.foc.model.CloudFileTag;
 import org.abubusoft.foc.model.Consumer;
 import org.abubusoft.foc.model.Uploader;
 import org.abubusoft.foc.services.CloudFileService;
@@ -188,6 +189,11 @@ public class UploaderServiceFacadeImpl implements UploaderServiceFacade {
 		cloudFileService.uploadFile(uploaderDto.get().getUsername(), consumer, consumerCloudFile.getFileName(), consumerCloudFile.getFile().getBytes(), consumerCloudFile.getTags());		
 		
 		return true;
+	}
+
+	@Override
+	public List<CloudFileTag> findTagsByUploaderAndConsumer(long uploaderId, long consumerId) {
+		return cloudFileService.findTagsByUploaderAndConsumer(uploaderId, consumerId);
 	}
 
 
