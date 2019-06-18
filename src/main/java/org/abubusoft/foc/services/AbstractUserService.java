@@ -6,7 +6,7 @@ import org.abubusoft.foc.model.User;
 
 public interface AbstractUserService<U extends User> {
 		
-	U createUser(U user, String password);
+	U insertUser(U user, String password);
 		
 	int deleteByUsername(String username);
 	

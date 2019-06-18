@@ -58,7 +58,7 @@ public class TestCloudFile extends BaseTest {
 		user.setUsername(username);
 		user.setCodiceFiscale("" + System.currentTimeMillis());
 
-		return consumerService.createUser(user, password);
+		return consumerService.insertUser(user, password);
 	}
 
 	private Uploader createUploader(long number) throws FileNotFoundException, IOException {
@@ -75,7 +75,7 @@ public class TestCloudFile extends BaseTest {
 		user.setUsername(username);
 		user.setImage(IOUtils.toByteArray(new FileInputStream(image)));
 
-		return uploaderService.createUser(user, password);
+		return uploaderService.insertUser(user, password);
 	}
 
 	@Test

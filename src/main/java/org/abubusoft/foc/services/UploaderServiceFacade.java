@@ -24,7 +24,7 @@ public interface UploaderServiceFacade  {
 
 	UploaderWto findById(long uploaderId);
 
-	UploaderWto createUploader(UploaderWto user);
+	UploaderWto insertUploader(UploaderWto user);
 
 	List<ConsumerWto> findAllConsumers();
 
@@ -48,7 +48,7 @@ public interface UploaderServiceFacade  {
 	
 	ConsumerWto createConsumer();
 
-	CloudFileWto newCloudFile(long uploaderId, long consumerId);
+	CloudFileWto createCloudFile(long uploaderId, long consumerId);
 	
 
 }

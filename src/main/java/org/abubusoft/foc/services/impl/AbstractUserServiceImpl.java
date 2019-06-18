@@ -28,7 +28,7 @@ public class AbstractUserServiceImpl<R extends UserRepository<U>, U extends User
 	}
 
 	@Override
-	public U createUser(U user, String password) {
+	public U insertUser(U user, String password) {
 		FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
 		CreateRequest request = new CreateRequest();

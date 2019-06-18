@@ -12,16 +12,12 @@ import org.abubusoft.foc.web.model.UploaderWto;
 
 public interface AdminServiceFacade {
 
-	AdminWto createAdmin(@Valid AdminWto value);
-
-	AdminWto updateAdmin(@Valid AdminWto value);
+	AdminWto saveAdmin(@Valid AdminWto value);
 
 	boolean deleteAdminById(long id);
 
 	List<AdminWto> findAllAdmin();
 	
-	UploaderWto createUploader(@Valid UploaderWto value);
-
 	UploaderWto updateUploader(@Valid UploaderWto value);
 
 	boolean deleteUploaderById(long id);
@@ -33,4 +29,10 @@ public interface AdminServiceFacade {
 	List<UploaderDetailSummary> reportConsumerForAllUploaders(LocalDate validoDal, LocalDate validoAl);
 
 	String getChangePasswordUrlByUsername(String username);
+
+	AdminWto createAdministrator();
+
+	AdminWto findAdminById(long id);
+
+	UploaderWto createUploader();
 }

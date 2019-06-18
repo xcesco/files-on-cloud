@@ -38,7 +38,7 @@ public class TestConsumer extends BaseTest {
 		user.setEmail(email);		
 		user.setCodiceFiscale(""+System.currentTimeMillis());
 		
-		return service.createUser(user, password);
+		return service.insertUser(user, password);
 	}
 	
 	@Test

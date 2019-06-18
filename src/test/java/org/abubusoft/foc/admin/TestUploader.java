@@ -49,7 +49,7 @@ public class TestUploader extends BaseTest {
 		user.setUsername(username);
 		user.setImage(IOUtils.toByteArray(new FileInputStream(image)));
 		
-		return service.createUser(user, password);
+		return service.insertUser(user, password);
 	}
 	
 	@Test

@@ -48,9 +48,9 @@ public class UploaderServiceFacadeImpl implements UploaderServiceFacade {
 	}
 
 	@Override
-	public UploaderWto createUploader(UploaderWto value) {
+	public UploaderWto insertUploader(UploaderWto value) {
 		Uploader user = mapper.convertUploaderToDto(value);
-		Uploader result = uploaderService.createUser(user, value.getPassword());
+		Uploader result = uploaderService.insertUser(user, value.getPassword());
 
 		return mapper.convertUploaderToWto(result);
 	}
@@ -112,7 +112,7 @@ public class UploaderServiceFacadeImpl implements UploaderServiceFacade {
 
 		Consumer result = null;
 		if (value.getId() == null) {
-			result = consumerService.createUser(user, value.getPassword());
+			result = consumerService.insertUser(user, value.getPassword());
 		} else {
 			result = consumerService.updateById(user);
 		}
@@ -201,7 +201,7 @@ public class UploaderServiceFacadeImpl implements UploaderServiceFacade {
 	}
 
 	@Override
-	public CloudFileWto newCloudFile(long uploaderId, long consumerId) {
+	public CloudFileWto createCloudFile(long uploaderId, long consumerId) {
 		Optional<Uploader> uploader = uploaderService.findById(uploaderId);
 		Optional<Consumer> consumer = consumerService.findById(consumerId);
 

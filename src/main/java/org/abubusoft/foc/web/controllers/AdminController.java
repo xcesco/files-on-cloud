@@ -17,9 +17,9 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -28,42 +28,45 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AdminController {
 
 	private AdminServiceFacade service;
-
-	@PostMapping("/administrators")
-	public ResponseEntity<AdminWto> adminCreate(@RequestBody @Valid AdminWto value) {
-		return ResponseEntity.ok(service.createAdmin(value));
-	}
-
-	/*
-	 * @GetMapping("/administrators") public ResponseEntity<Boolean>
-	 * greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-	 * return ResponseEntity.ok(Boolean.TRUE); }
-	 */
-
-	@DeleteMapping("/administrators/{id}")
-	public ResponseEntity<Boolean> adminDelete(@PathVariable("id") long id) {
-		return ResponseEntity.ok(service.deleteAdminById(id));
-	}
-
+	
 	@GetMapping("/administrators")
 	public ResponseEntity<List<AdminWto>> adminFindAll() {
 		return ResponseEntity.ok(service.findAllAdmin());
 	}
 
-	@PatchMapping("/administrators/{id}")
-	public ResponseEntity<AdminWto> adminModify(@PathVariable("id") long id, @RequestBody @Valid AdminWto value) {
-		value.setId(id);
-		return ResponseEntity.ok(service.updateAdmin(value));
+	@PostMapping("/administrators")
+	public ResponseEntity<AdminWto> adminCreate(@RequestBody @Valid AdminWto value) {
+		return ResponseEntity.ok(service.saveAdmin(value));
+	}
+	
+	@GetMapping("/administrators/new")
+	public ResponseEntity<AdminWto> adminNew() {		
+		return ResponseEntity.ok(service.createAdministrator());
 	}
 
-	@GetMapping("/administrator/{id}/change-password")
+	@GetMapping("/administrators/{id}")
+	public ResponseEntity<AdminWto> adminGet(@PathVariable("id") long id) {
+		return ResponseEntity.ok(service.findAdminById(id));
+	}
+
+	@DeleteMapping("/administrators/{id}")
+	public ResponseEntity<Boolean> adminDelete(@PathVariable("id") long id) {
+		return ResponseEntity.ok(service.deleteAdminById(id));
+	}
+	
+	@PutMapping("/administrators/{id}")
+	public ResponseEntity<AdminWto> adminModify(@PathVariable("id") long id, @RequestBody @Valid AdminWto value) {
+		value.setId(id);
+		return ResponseEntity.ok(service.saveAdmin(value));
+	}
+
+	@GetMapping("/administrators/{id}/change-password")
 	public ResponseEntity<String> adminGetChangePasswordUrl(@PathVariable("id") long id) {
 		
 		return ResponseEntity.ok(service.getChangePasswordUrlByUsername(null));
-	}
-	
+	}	
 
-	@GetMapping("/summary")
+	@GetMapping("/administrators/summary")
 	public ResponseEntity<List<UploaderSummary>> reportCloudFileForAllUploaders(
 			@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "dataDal", required = false) LocalDate dataDal,
 			@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "dataAl", required = false) LocalDate dataAl) {
@@ -76,7 +79,7 @@ public class AdminController {
 		return ResponseEntity.ok(service.reportCloudFileForAllUploaders(dataDal, dataAl));
 	}
 
-	@GetMapping("/summary-detail")
+	@GetMapping("/administrators/detailed-summary")
 	public ResponseEntity<List<UploaderDetailSummary>> reportConsumerForAllUploaderset(
 			@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "dataDal", required = false) LocalDate dataDal,
 			@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "dataAl", required = false) LocalDate dataAl) {
@@ -97,7 +100,12 @@ public class AdminController {
 		
 	@PostMapping("/uploaders")
 	public ResponseEntity<UploaderWto> uploaderCreate(@RequestBody @Valid UploaderWto value) {
-		return ResponseEntity.ok(service.createUploader(value));
+		return ResponseEntity.ok(service.updateUploader(value));
+	}
+	
+	@GetMapping("/uploaders/new")
+	public ResponseEntity<UploaderWto> uploaderCreate() {		
+		return ResponseEntity.ok(service.createUploader());
 	}
 	
 
@@ -111,7 +119,7 @@ public class AdminController {
 		return ResponseEntity.ok(service.findAllUploaders());
 	}
 
-	@PatchMapping("/uploaders/{id}")
+	@PutMapping("/uploaders/{id}")
 	public ResponseEntity<UploaderWto> uploaderModify(@PathVariable("id") long uploaderId, @RequestBody @Valid UploaderWto value) {
 		value.setId(uploaderId);
 		return ResponseEntity.ok(service.updateUploader(value));

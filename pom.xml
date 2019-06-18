@@ -51,10 +51,19 @@
 			<artifactId>spring-cloud-gcp-starter</artifactId>
 		</dependency>
 
+<!-- GESTIONE DB BEGIN -->
+
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-gcp-starter-sql-mysql</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+<!-- GESTIONE DB END -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -76,12 +85,7 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
-
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
@@ -147,6 +151,14 @@
 			<version>6.8.1</version>
 		</dependency>
 		<!-- My config END -->
+
+<!-- -Dspring.profiles.active=dev -->
+		<!-- H2 Database -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+
 
 		<dependency>
 			<groupId>com.google.guava</groupId>

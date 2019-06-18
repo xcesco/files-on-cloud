@@ -37,7 +37,7 @@ public class TestAdmin extends BaseTest {
 		user.setEmail(email);
 		user.setUsername(username);
 		
-		return service.createUser(user, password);
+		return service.insertUser(user, password);
 	}
 	
 	@Test

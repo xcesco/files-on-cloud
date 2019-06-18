@@ -3,24 +3,22 @@ package org.abubusoft.foc.web.controllers;
 import java.util.List;
 import java.util.Set;
 
-import javax.validation.Valid;
+import javax.servlet.http.HttpServletRequest;
 
 import org.abubusoft.foc.model.CloudFile;
 import org.abubusoft.foc.model.UploaderDetailSummary;
 import org.abubusoft.foc.services.ConsumerServiceFacade;
 import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.CloudFileWto;
-import org.abubusoft.foc.web.model.ConsumerWto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.util.Pair;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestAPIV1Controller
@@ -47,16 +45,43 @@ public class ConsumerController {
 		return ResponseEntity.ok(service.findUploadersWithFileByConsumerId(consumerId));
 	}
 
-	@GetMapping("/files")
+	@GetMapping("/consumers/{consumerId}/uploaders/{uploaderId}/files")
 	public ResponseEntity<List<CloudFileWto>> consumerGetFiles(
-			@RequestParam(value="consumerId", required = true) long consumerId,
-			@RequestParam(value="uploaderId", required = true) long uploaderId, 
-			@RequestParam(value="tags", required = true) Set<String> tags) {
+			@PathVariable(value="consumerId") long consumerId,
+			@PathVariable(value="uploaderId") long uploaderId, 
+			@RequestParam(value="tags") Set<String> tags) {
 		return ResponseEntity.ok(service.findFilesByConsumerAndUploader(consumerId, uploaderId, tags));
 	}
 	
-	@GetMapping("/download/{fileUUID}")
-	public ResponseEntity<ByteArrayResource> consumerGetFiles(@PathVariable("fileUUID") String fileUUID) {
+	@GetMapping("/consumers/{consumerId}/change-password")
+	public ResponseEntity<String> modify(@PathVariable("consumerId") long consumerId) {
+		return ResponseEntity.ok(service.getChangePasswordUrlByUsername(null));
+	}
+	
+	@GetMapping("/user/ip")
+	public ResponseEntity<String> ip(HttpServletRequest request) {
+		String ip = request.getHeader("X-Forwarded-For");  
+        if (StringUtils.isEmpty(ip)) {  
+            ip = request.getHeader("Proxy-Client-IP");  
+        }  
+        if (StringUtils.isEmpty(ip)) {  
+            ip = request.getHeader("WL-Proxy-Client-IP");  
+        }  
+        if (StringUtils.isEmpty(ip)) {  
+            ip = request.getHeader("HTTP_CLIENT_IP");  
+        }  
+        if (StringUtils.isEmpty(ip)) {  
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");  
+        }  
+        if (StringUtils.isEmpty(ip)) {  
+            ip = request.getRemoteAddr();  
+        }
+        
+        return ResponseEntity.ok(ip);
+	}
+	
+	@GetMapping("/cloud/{fileUUID}")
+	public ResponseEntity<ByteArrayResource> consumerGetFiles(HttpServletRequest request, @PathVariable("fileUUID") String fileUUID) {
 		ResponseEntity.ok();
 		
 		Pair<CloudFile, byte[]> file = service.getFile(fileUUID);
@@ -74,10 +99,4 @@ public class ConsumerController {
 		            .contentType(MediaType.valueOf(file.getFirst().getMimeType()))
 		            .body(resource);
 	}
-
-	@PatchMapping("/consumers/{consumerId}/change-password")
-	public ResponseEntity<String> modify(@PathVariable("consumerId") long consumerId) {
-		return ResponseEntity.ok(service.getChangePasswordUrlByUsername(null));
-	}
-
 }

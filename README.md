@@ -24,6 +24,8 @@ https://startbootstrap.com/templates/sb-admin/
 #Rest upload
 https://www.callicoder.com/spring-boot-file-upload-download-rest-api-example/
 
+#H2 config per sviluppo local
+https://dzone.com/articles/integrate-h2-database-in-your-spring-boot-applicat
 
 # Eclipse Plugin
 http://download.eclipse.org/egit/github/updates

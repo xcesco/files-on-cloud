@@ -2,6 +2,7 @@ package org.abubusoft.foc.services.impl;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -24,7 +25,7 @@ public class AdminServiceFacadeImpl implements AdminServiceFacade {
 	private WtoMapper mapper = WtoMapper.INSTANCE;
 
 	private AdminService adminService;
-	
+
 	private UploaderService uploaderService;
 
 	@Autowired
@@ -38,17 +39,15 @@ public class AdminServiceFacadeImpl implements AdminServiceFacade {
 	}
 
 	@Override
-	public AdminWto createAdmin(@Valid AdminWto value) {
+	public AdminWto saveAdmin(@Valid AdminWto value) {
 		Administrator user = mapper.convertAdminToDto(value);
-		Administrator result = adminService.createUser(user, value.getPassword());
-
-		return mapper.convertAdminToWto(result);
-	}
-
-	@Override
-	public AdminWto updateAdmin(@Valid AdminWto value) {
-		Administrator user = mapper.convertAdminToDto(value);
-		Administrator result = adminService.updateById(user);
+		Administrator result;
+		
+		if (user.getId() == null) {
+			result = adminService.insertUser(user, value.getPassword());
+		} else {
+			result = adminService.updateById(user);
+		}
 
 		return mapper.convertAdminToWto(result);
 	}
@@ -62,7 +61,7 @@ public class AdminServiceFacadeImpl implements AdminServiceFacade {
 	public List<AdminWto> findAllAdmin() {
 		return mapper.convertAdminListToWto(adminService.findAll());
 	}
-	
+
 	@Override
 	public List<UploaderSummary> reportCloudFileForAllUploaders(LocalDate validoDal, LocalDate validoAl) {
 		return uploaderService.reportCloudFileForAllUploaders(validoDal, validoAl);
@@ -74,17 +73,15 @@ public class AdminServiceFacadeImpl implements AdminServiceFacade {
 	}
 
 	@Override
-	public UploaderWto createUploader(@Valid UploaderWto value) {
-		Uploader user = mapper.convertUploaderToDto(value);
-		Uploader result = uploaderService.createUser(user, value.getPassword());
-
-		return mapper.convertUploaderToWto(result);
-	}
-
-	@Override
 	public UploaderWto updateUploader(@Valid UploaderWto value) {
 		Uploader user = mapper.convertUploaderToDto(value);
-		Uploader result = uploaderService.updateById(user);
+
+		Uploader result;
+		if (user.getId() == null) {
+			result = uploaderService.insertUser(user, value.getPassword());
+		} else {
+			result = uploaderService.updateById(user);
+		}
 
 		return mapper.convertUploaderToWto(result);
 	}
@@ -102,5 +99,29 @@ public class AdminServiceFacadeImpl implements AdminServiceFacade {
 	@Override
 	public String getChangePasswordUrlByUsername(String username) {
 		return adminService.getChangePasswordUrlByUsername(username);
+	}
+
+	@Override
+	public AdminWto createAdministrator() {
+		AdminWto result = new AdminWto();
+
+		return result;
+	}
+
+	@Override
+	public AdminWto findAdminById(long id) {
+		Optional<Administrator> value = adminService.findById(id);
+
+		if (value.isPresent()) {
+			return mapper.convertAdminToWto(value.get());
+		}
+		return null;
+	}
+
+	@Override
+	public UploaderWto createUploader() {
+		UploaderWto result = new UploaderWto();
+
+		return result;
 	}
 }
