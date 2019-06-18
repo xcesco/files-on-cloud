@@ -34,11 +34,12 @@ public class ConsumerController {
 		this.service = service;
 	}
 
+	/*
 	@PatchMapping("/consumers/{consumerId}")
 	public ResponseEntity<ConsumerWto> modify(@PathVariable("consumerId") long consumerId, @RequestBody @Valid ConsumerWto value) {
 		value.setId(consumerId);
 		return ResponseEntity.ok(service.updateConsumerById(value));
-	}
+	}*/
 
 	@GetMapping("/consumers/{consumerId}/uploaders-summary")
 	public ResponseEntity<List<UploaderDetailSummary>> consumerGetUploaderWithFiles(
