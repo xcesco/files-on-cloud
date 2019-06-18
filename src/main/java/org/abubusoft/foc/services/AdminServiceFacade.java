@@ -31,4 +31,6 @@ public interface AdminServiceFacade {
 	List<UploaderSummary> reportCloudFileForAllUploaders(LocalDate validoDal, LocalDate validoAl);
 
 	List<UploaderDetailSummary> reportConsumerForAllUploaders(LocalDate validoDal, LocalDate validoAl);
+
+	String getChangePasswordUrlByUsername(String username);
 }

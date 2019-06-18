@@ -10,8 +10,6 @@ import org.abubusoft.foc.web.support.LocalDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import io.swagger.annotations.ApiModelProperty;
-
 public class CloudFileWto {
 	
 	protected String consumerDisplayName;

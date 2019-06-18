@@ -98,4 +98,9 @@ public class AdminServiceFacadeImpl implements AdminServiceFacade {
 	public List<UploaderWto> findAllUploaders() {
 		return mapper.convertUploaderListToWto(uploaderService.findAll());
 	}
+
+	@Override
+	public String getChangePasswordUrlByUsername(String username) {
+		return adminService.getChangePasswordUrlByUsername(username);
+	}
 }

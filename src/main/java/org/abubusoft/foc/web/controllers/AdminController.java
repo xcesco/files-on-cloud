@@ -10,6 +10,7 @@ import org.abubusoft.foc.model.UploaderSummary;
 import org.abubusoft.foc.services.AdminServiceFacade;
 import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.AdminWto;
+import org.abubusoft.foc.web.model.UploaderWto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -28,9 +29,9 @@ public class AdminController {
 
 	private AdminServiceFacade service;
 
-	@Autowired
-	public void setAdminServiceFacade(AdminServiceFacade adminService) {
-		this.service = adminService;
+	@PostMapping("/administrators")
+	public ResponseEntity<AdminWto> adminCreate(@RequestBody @Valid AdminWto value) {
+		return ResponseEntity.ok(service.createAdmin(value));
 	}
 
 	/*
@@ -39,26 +40,28 @@ public class AdminController {
 	 * return ResponseEntity.ok(Boolean.TRUE); }
 	 */
 
+	@DeleteMapping("/administrators/{id}")
+	public ResponseEntity<Boolean> adminDelete(@PathVariable("id") long id) {
+		return ResponseEntity.ok(service.deleteAdminById(id));
+	}
+
 	@GetMapping("/administrators")
-	public ResponseEntity<List<AdminWto>> findAll() {
+	public ResponseEntity<List<AdminWto>> adminFindAll() {
 		return ResponseEntity.ok(service.findAllAdmin());
 	}
 
-	@PostMapping("/administrators")
-	public ResponseEntity<AdminWto> create(@RequestBody @Valid AdminWto value) {
-		return ResponseEntity.ok(service.createAdmin(value));
-	}
-
 	@PatchMapping("/administrators/{id}")
-	public ResponseEntity<AdminWto> modify(@PathVariable("id") long id, @RequestBody @Valid AdminWto value) {
+	public ResponseEntity<AdminWto> adminModify(@PathVariable("id") long id, @RequestBody @Valid AdminWto value) {
 		value.setId(id);
 		return ResponseEntity.ok(service.updateAdmin(value));
 	}
 
-	@DeleteMapping("/administrators/{id}")
-	public ResponseEntity<Boolean> delete(@PathVariable("id") long id) {
-		return ResponseEntity.ok(service.deleteAdminById(id));
+	@GetMapping("/administrator/{id}/change-password")
+	public ResponseEntity<String> adminGetChangePasswordUrl(@PathVariable("id") long id) {
+		
+		return ResponseEntity.ok(service.getChangePasswordUrlByUsername(null));
 	}
+	
 
 	@GetMapping("/summary")
 	public ResponseEntity<List<UploaderSummary>> reportCloudFileForAllUploaders(
@@ -74,7 +77,7 @@ public class AdminController {
 	}
 
 	@GetMapping("/summary-detail")
-	public ResponseEntity<List<UploaderDetailSummary>> greportConsumerForAllUploaderset(
+	public ResponseEntity<List<UploaderDetailSummary>> reportConsumerForAllUploaderset(
 			@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "dataDal", required = false) LocalDate dataDal,
 			@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "dataAl", required = false) LocalDate dataAl) {
 		LocalDate now = LocalDate.now();
@@ -85,6 +88,33 @@ public class AdminController {
 		
 		return ResponseEntity.ok(service.reportConsumerForAllUploaders(dataDal, dataAl));
 
+	}
+
+	@Autowired
+	public void setAdminServiceFacade(AdminServiceFacade adminService) {
+		this.service = adminService;
+	}
+		
+	@PostMapping("/uploaders")
+	public ResponseEntity<UploaderWto> uploaderCreate(@RequestBody @Valid UploaderWto value) {
+		return ResponseEntity.ok(service.createUploader(value));
+	}
+	
+
+	@DeleteMapping("/uploaders/{id}")
+	public ResponseEntity<Boolean> uploaderDelete(@PathVariable("id") long uploaderId) {
+		return ResponseEntity.ok(service.deleteUploaderById(uploaderId));
+	}
+	
+	@GetMapping("/uploaders")
+	public ResponseEntity<List<UploaderWto>> uploaderFindAll() {
+		return ResponseEntity.ok(service.findAllUploaders());
+	}
+
+	@PatchMapping("/uploaders/{id}")
+	public ResponseEntity<UploaderWto> uploaderModify(@PathVariable("id") long uploaderId, @RequestBody @Valid UploaderWto value) {
+		value.setId(uploaderId);
+		return ResponseEntity.ok(service.updateUploader(value));
 	}
 
 }

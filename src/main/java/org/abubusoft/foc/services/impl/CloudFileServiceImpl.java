@@ -2,6 +2,7 @@ package org.abubusoft.foc.services.impl;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -117,8 +118,9 @@ public class CloudFileServiceImpl implements CloudFileService {
 
 		// recuperiamo interamente il consumer o lo creiamo nel caso in cui non ci sia
 		// il codice fiscale
-		if (consumerRepository.existsByCodiceFiscale(consumer.getCodiceFiscale())) {
-			consumer = consumerRepository.findByCodiceFiscale(consumer.getCodiceFiscale());
+		Optional<Consumer> optConsumer = consumerRepository.findByCodiceFiscale(consumer.getCodiceFiscale());
+		if (optConsumer.isPresent()) {
+			consumer = optConsumer.get();
 		} else {
 			consumer = consumerRepository.save(consumer);
 		}
@@ -195,20 +197,10 @@ public class CloudFileServiceImpl implements CloudFileService {
 	}
 
 	@Override
-	public List<CloudFile> findByUploaderAndConsumerTags(long uploaderId, long consumerId, Set<String> tags) {
-		if (tags==null || tags.size()==0) {
-			return repository.findByUploaderAndConsumer(uploaderId, consumerId);
-		} else {
-			return repository.findByUploaderAndConsumerAndTags(uploaderId, consumerId, tags);
-		}
-	}
-
-	@Override
 	public boolean deleteById(long id) {
 		repository.deleteById(id);
 		
-		return true;
-		
+		return true;	
 	}
 
 	@Override
@@ -219,6 +211,15 @@ public class CloudFileServiceImpl implements CloudFileService {
 	@Override
 	public CloudFile save(CloudFile file) {
 		return repository.save(file);
+	}
+
+	@Override
+	public List<CloudFile> findByConsumerAndUploaderAndTags(long consumerId, long uploaderId, Set<String> tags) {
+		if (tags==null || tags.size()==0) {
+			return repository.findByUploaderAndConsumer(uploaderId, consumerId);
+		} else {
+			return repository.findByUploaderAndConsumerAndTags(uploaderId, consumerId, tags);
+		}
 	}
 
 }

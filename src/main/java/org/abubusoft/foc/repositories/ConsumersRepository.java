@@ -1,6 +1,7 @@
 package org.abubusoft.foc.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.abubusoft.foc.model.Consumer;
 import org.abubusoft.foc.model.UploaderDetailSummary;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ConsumersRepository extends UserRepository<Consumer> {
 
-	Consumer findByCodiceFiscale(String codiceFiscale);
+	Optional<Consumer> findByCodiceFiscale(String codiceFiscale);
 	
 	boolean existsByCodiceFiscale(String codiceFiscale);
 

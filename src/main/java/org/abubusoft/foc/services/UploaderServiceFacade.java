@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.abubusoft.foc.web.model.CloudFileWto;
+import org.abubusoft.foc.web.model.ConsumerAndCloudFileWto;
 import org.abubusoft.foc.web.model.ConsumerWto;
 import org.abubusoft.foc.web.model.UploaderWto;
 
@@ -39,6 +40,10 @@ public interface UploaderServiceFacade  {
 	CloudFileWto findCloudFilesByUploaderAndConsumerAndFile(long uploaderId, long consumerId, long fileId);
 
 	long createCloudFile(long uploaderId, long consumerId, CloudFileWto cloudFile);
+
+	String uploaderGetChangePasswordUrlByUsername(String username);
+
+	boolean createCloudFile(long uploaderId, ConsumerAndCloudFileWto consumerCloudFile);
 	
 
 }

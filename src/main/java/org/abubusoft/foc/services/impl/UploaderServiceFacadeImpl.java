@@ -13,6 +13,7 @@ import org.abubusoft.foc.services.ConsumerService;
 import org.abubusoft.foc.services.UploaderService;
 import org.abubusoft.foc.services.UploaderServiceFacade;
 import org.abubusoft.foc.web.model.CloudFileWto;
+import org.abubusoft.foc.web.model.ConsumerAndCloudFileWto;
 import org.abubusoft.foc.web.model.ConsumerWto;
 import org.abubusoft.foc.web.model.UploaderWto;
 import org.abubusoft.foc.web.support.WtoMapper;
@@ -162,5 +163,32 @@ public class UploaderServiceFacadeImpl implements UploaderServiceFacade {
 		
 		return file.getId();
 	}
+
+	@Override
+	public String uploaderGetChangePasswordUrlByUsername(String username) {
+		return uploaderService.getChangePasswordUrlByUsername(username);
+	}
+		
+	@Override
+	public boolean createCloudFile(long uploaderId, ConsumerAndCloudFileWto consumerCloudFile) {
+		Consumer consumer=new Consumer();
+		consumer.setCodiceFiscale(consumerCloudFile.getConsumerCodiceFiscale());
+		consumer.setDisplayName(consumerCloudFile.getConsumerDisplayName());
+		consumer.setEmail(consumerCloudFile.getConsumerEmail());
+		consumer.setUsername(consumerCloudFile.getConsumerUsername());
+		
+		
+		
+		Optional<Uploader> uploaderDto=uploaderService.findById(uploaderId);
+		Optional<Consumer> consumerDto=consumerService.findByCodiceFiscale(consumer.getCodiceFiscale());
+		if (!consumerDto.isPresent()) {
+			consumer=consumerService.updateByUsername(consumer);
+		}
+		
+		cloudFileService.uploadFile(uploaderDto.get().getUsername(), consumer, consumerCloudFile.getFileName(), consumerCloudFile.getFile().getBytes(), consumerCloudFile.getTags());		
+		
+		return true;
+	}
+
 
 }

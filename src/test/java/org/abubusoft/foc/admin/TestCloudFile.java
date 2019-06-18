@@ -287,7 +287,7 @@ public class TestCloudFile extends BaseTest {
 		{
 			Set<String> set=new HashSet<>();
 			//set.add("frutta");
-			List<CloudFile> files = cloudFileService.findByUploaderAndConsumerTags(uploader1.getId(), consumer1.getId(), set);
+			List<CloudFile> files = cloudFileService.findByConsumerAndUploaderAndTags(consumer1.getId(), uploader1.getId(), set);
 			logger.info("Found "+files.size());
 			for (CloudFile item : files) {
 				String msg=objMapper.writeValueAsString(item);
@@ -298,14 +298,11 @@ public class TestCloudFile extends BaseTest {
 	}
 	
 	
-
 	private CloudFile createCloudFile(Consumer consumer, Uploader uploader, File file, Set<String> tags)
 			throws IOException, FileNotFoundException {
 		byte[] content = IOUtils.toByteArray(new FileInputStream(file));
 
 		return cloudFileService.uploadFile(uploader.getUsername(), consumer, file.getName(), content, tags);
-	}
-
-	
+	}	
 
 }

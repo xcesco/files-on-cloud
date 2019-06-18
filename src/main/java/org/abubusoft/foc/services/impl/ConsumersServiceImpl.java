@@ -1,6 +1,7 @@
 package org.abubusoft.foc.services.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.abubusoft.foc.model.Consumer;
 import org.abubusoft.foc.model.UploaderDetailSummary;
@@ -13,7 +14,7 @@ public class ConsumersServiceImpl extends AbstractUserServiceImpl<ConsumersRepos
 		implements ConsumerService {
 
 	@Override
-	public Consumer findByCodiceFiscale(String codiceFiscale) {
+	public Optional<Consumer> findByCodiceFiscale(String codiceFiscale) {
 		return repository.findByCodiceFiscale(codiceFiscale);
 	}
 
