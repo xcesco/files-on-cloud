@@ -27,9 +27,9 @@ public class UploaderServiceFacadeImpl implements UploaderServiceFacade {
 	private WtoMapper mapper = WtoMapper.INSTANCE;
 
 	private UploaderService uploaderService;
-	
+
 	private ConsumerService consumerService;
-	
+
 	private CloudFileService cloudFileService;
 
 	@Autowired
@@ -103,21 +103,19 @@ public class UploaderServiceFacadeImpl implements UploaderServiceFacade {
 
 	@Override
 	public List<ConsumerWto> findAllConsumers() {
-		return mapper.convertConsumerListToWto(consumerService.findAll());		
+		return mapper.convertConsumerListToWto(consumerService.findAll());
 	}
 
 	@Override
-	public ConsumerWto createConsumer(@Valid ConsumerWto value) {
+	public ConsumerWto saveConsumer(@Valid ConsumerWto value) {
 		Consumer user = mapper.convertConsumerToDto(value);
-		Consumer result = consumerService.createUser(user, value.getPassword());
 
-		return mapper.convertConsumerToWto(result);
-	}
-
-	@Override
-	public ConsumerWto updateConsumerById(@Valid ConsumerWto value) {
-		Consumer user = mapper.convertConsumerToDto(value);
-		Consumer result = consumerService.updateById(user);
+		Consumer result = null;
+		if (value.getId() == null) {
+			result = consumerService.createUser(user, value.getPassword());
+		} else {
+			result = consumerService.updateById(user);
+		}
 
 		return mapper.convertConsumerToWto(result);
 	}
@@ -135,33 +133,33 @@ public class UploaderServiceFacadeImpl implements UploaderServiceFacade {
 	@Override
 	public boolean deleteCloudFileByUploaderAndConsumerAndFile(long uploaderId, long consumerId, long fileId) {
 		CloudFile file = cloudFileService.findByUploaderAndConsumerAndFileId(uploaderId, consumerId, fileId);
-		
+
 		cloudFileService.deleteById(file.getId());
-		
+
 		return true;
 	}
 
 	@Override
 	public CloudFileWto findCloudFilesByUploaderAndConsumerAndFile(long uploaderId, long consumerId, long fileId) {
 		CloudFile file = cloudFileService.findByUploaderAndConsumerAndFileId(uploaderId, consumerId, fileId);
-		
+
 		return mapper.convertToFileWto(file);
 	}
 
 	@Override
 	public long createCloudFile(long uploaderId, long consumerId, CloudFileWto cloudFile) {
-		//TODO inserire invio notifica
-		
-		CloudFile file=mapper.convertToFileDto(cloudFile);
-		
-		Optional<Uploader> uploader=uploaderService.findById(uploaderId);
-		Optional<Consumer> consumer=consumerService.findById(consumerId);
-		
+		// TODO inserire invio notifica
+
+		CloudFile file = mapper.convertToFileDto(cloudFile);
+
+		Optional<Uploader> uploader = uploaderService.findById(uploaderId);
+		Optional<Consumer> consumer = consumerService.findById(consumerId);
+
 		file.setConsumer(consumer.get());
 		file.setUploader(uploader.get());
-		
-		file=cloudFileService.save(file);
-		
+
+		file = cloudFileService.save(file);
+
 		return file.getId();
 	}
 
@@ -169,25 +167,24 @@ public class UploaderServiceFacadeImpl implements UploaderServiceFacade {
 	public String uploaderGetChangePasswordUrlByUsername(String username) {
 		return uploaderService.getChangePasswordUrlByUsername(username);
 	}
-		
+
 	@Override
 	public boolean createCloudFile(long uploaderId, ConsumerAndCloudFileWto consumerCloudFile) {
-		Consumer consumer=new Consumer();
+		Consumer consumer = new Consumer();
 		consumer.setCodiceFiscale(consumerCloudFile.getConsumerCodiceFiscale());
 		consumer.setDisplayName(consumerCloudFile.getConsumerDisplayName());
 		consumer.setEmail(consumerCloudFile.getConsumerEmail());
 		consumer.setUsername(consumerCloudFile.getConsumerUsername());
-		
-		
-		
-		Optional<Uploader> uploaderDto=uploaderService.findById(uploaderId);
-		Optional<Consumer> consumerDto=consumerService.findByCodiceFiscale(consumer.getCodiceFiscale());
+
+		Optional<Uploader> uploaderDto = uploaderService.findById(uploaderId);
+		Optional<Consumer> consumerDto = consumerService.findByCodiceFiscale(consumer.getCodiceFiscale());
 		if (!consumerDto.isPresent()) {
-			consumer=consumerService.updateByUsername(consumer);
+			consumer = consumerService.updateByUsername(consumer);
 		}
-		
-		cloudFileService.uploadFile(uploaderDto.get().getUsername(), consumer, consumerCloudFile.getFileName(), consumerCloudFile.getFile().getBytes(), consumerCloudFile.getTags());		
-		
+
+		cloudFileService.uploadFile(uploaderDto.get().getUsername(), consumer, consumerCloudFile.getFileName(),
+				consumerCloudFile.getFile().getBytes(), consumerCloudFile.getTags());
+
 		return true;
 	}
 
@@ -196,5 +193,28 @@ public class UploaderServiceFacadeImpl implements UploaderServiceFacade {
 		return cloudFileService.findTagsByUploaderAndConsumer(uploaderId, consumerId);
 	}
 
+	@Override
+	public ConsumerWto createConsumer() {
+		ConsumerWto result = new ConsumerWto();
+
+		return result;
+	}
+
+	@Override
+	public CloudFileWto newCloudFile(long uploaderId, long consumerId) {
+		Optional<Uploader> uploader = uploaderService.findById(uploaderId);
+		Optional<Consumer> consumer = consumerService.findById(consumerId);
+
+		if (uploader.isPresent() && consumer.isPresent()) {
+			CloudFileWto result = new CloudFileWto();
+			result.setConsumerId(consumer.get().getId());
+
+			result.setUploaderId(uploader.get().getId());
+
+			return result;
+		}
+
+		return null;
+	}
 
 }

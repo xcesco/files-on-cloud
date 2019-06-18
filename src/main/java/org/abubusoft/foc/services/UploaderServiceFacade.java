@@ -28,9 +28,7 @@ public interface UploaderServiceFacade  {
 
 	List<ConsumerWto> findAllConsumers();
 
-	ConsumerWto createConsumer(@Valid ConsumerWto value);
-
-	ConsumerWto updateConsumerById(@Valid ConsumerWto value);
+	ConsumerWto saveConsumer(@Valid ConsumerWto value);
 
 	boolean deleteConsumerById(long id);
 
@@ -47,6 +45,10 @@ public interface UploaderServiceFacade  {
 	boolean createCloudFile(long uploaderId, ConsumerAndCloudFileWto consumerCloudFile);
 
 	List<CloudFileTag> findTagsByUploaderAndConsumer(long uploaderId, long consumerId);
+	
+	ConsumerWto createConsumer();
+
+	CloudFileWto newCloudFile(long uploaderId, long consumerId);
 	
 
 }

@@ -34,27 +34,28 @@ public class ConsumerController {
 		this.service = service;
 	}
 
-	@PatchMapping("/consumers/{id}")
-	public ResponseEntity<ConsumerWto> modify(@PathVariable("id") long id, @RequestBody @Valid ConsumerWto value) {
-		value.setId(id);
+	@PatchMapping("/consumers/{consumerId}")
+	public ResponseEntity<ConsumerWto> modify(@PathVariable("consumerId") long consumerId, @RequestBody @Valid ConsumerWto value) {
+		value.setId(consumerId);
 		return ResponseEntity.ok(service.updateConsumerById(value));
 	}
 
-	@GetMapping("/consumers/{id}/uploaders-summary")
+	@GetMapping("/consumers/{consumerId}/uploaders-summary")
 	public ResponseEntity<List<UploaderDetailSummary>> consumerGetUploaderWithFiles(
-			@PathVariable("id") long consumerId) {
+			@PathVariable("consumerId") long consumerId) {
 		return ResponseEntity.ok(service.findUploadersWithFileByConsumerId(consumerId));
 	}
 
 	@GetMapping("/files")
-	public ResponseEntity<List<CloudFileWto>> consumerGetFiles(@RequestParam(value="consumerId", required = true) long consumerId,
-			@RequestParam(value="uploaderId", required = true) long uploaderId, @RequestParam(value="tags", required = true) Set<String> tags) {
+	public ResponseEntity<List<CloudFileWto>> consumerGetFiles(
+			@RequestParam(value="consumerId", required = true) long consumerId,
+			@RequestParam(value="uploaderId", required = true) long uploaderId, 
+			@RequestParam(value="tags", required = true) Set<String> tags) {
 		return ResponseEntity.ok(service.findFilesByConsumerAndUploader(consumerId, uploaderId, tags));
 	}
 	
-	@GetMapping("/files/{fileUUID}")
-	public ResponseEntity<ByteArrayResource> consumerGetFiles(@PathVariable("id") long id,
-			@PathVariable("uploaderId") long uploaderId, @PathVariable("fileUUID") String fileUUID) {
+	@GetMapping("/download/{fileUUID}")
+	public ResponseEntity<ByteArrayResource> consumerGetFiles(@PathVariable("fileUUID") String fileUUID) {
 		ResponseEntity.ok();
 		
 		Pair<CloudFile, byte[]> file = service.getFile(fileUUID);
@@ -73,8 +74,8 @@ public class ConsumerController {
 		            .body(resource);
 	}
 
-	@PatchMapping("/consumers/{id}/change-password")
-	public ResponseEntity<String> modify(@PathVariable("id") long id) {
+	@PatchMapping("/consumers/{consumerId}/change-password")
+	public ResponseEntity<String> modify(@PathVariable("consumerId") long consumerId) {
 		return ResponseEntity.ok(service.getChangePasswordUrlByUsername(null));
 	}
 
