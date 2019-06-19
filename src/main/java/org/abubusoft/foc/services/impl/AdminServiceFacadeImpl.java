@@ -77,7 +77,7 @@ public class AdminServiceFacadeImpl implements AdminServiceFacade {
 		Uploader user = mapper.convertUploaderToDto(value);
 
 		Uploader result;
-		if (user.getId() == null) {
+		if (user.getId() == null || user.getId() == 0L) {
 			result = uploaderService.insertUser(user, value.getPassword());
 		} else {
 			result = uploaderService.updateById(user);

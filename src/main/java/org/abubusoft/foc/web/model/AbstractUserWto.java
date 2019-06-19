@@ -5,7 +5,15 @@ public abstract class AbstractUserWto {
 
 	protected String email;
 
-	protected long id;
+	protected Long id;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	protected String password;
 	
@@ -18,11 +26,7 @@ public abstract class AbstractUserWto {
 	public String getEmail() {
 		return email;
 	}
-
-	public long getId() {
-		return id;
-	}
-
+	
 	public String getPassword() {
 		return password;
 	}
@@ -37,10 +41,6 @@ public abstract class AbstractUserWto {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public void setPassword(String password) {

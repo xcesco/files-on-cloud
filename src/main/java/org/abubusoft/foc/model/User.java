@@ -17,6 +17,20 @@ public class User extends AbstractEntity {
 
 	@Column(nullable = false)
 	protected String email;
+	
+	/**
+	 * generato da firebase
+	 */
+	@Column(nullable = false)
+	protected String uid;
+
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
 
 	/**
 	 * L'email con il quale viene effettuato il login. Per disaccoppiare l'email di

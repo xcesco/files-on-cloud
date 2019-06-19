@@ -35,7 +35,8 @@ public class AbstractUserServiceImpl<R extends UserRepository<U>, U extends User
 		request.setEmail(user.getUsername()).setPassword(password).setDisplayName(user.getDisplayName());
 
 		try {
-			firebaseAuth.createUser(request);
+			UserRecord userRecord = firebaseAuth.createUser(request);						
+			user.setUid(userRecord.getUid());
 			
 			return repository.save(user);
 		} catch (FirebaseAuthException e) {

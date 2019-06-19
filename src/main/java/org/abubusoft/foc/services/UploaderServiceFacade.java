@@ -1,5 +1,6 @@
 package org.abubusoft.foc.services;
 
+import java.io.InputStream;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -49,6 +50,8 @@ public interface UploaderServiceFacade  {
 	ConsumerWto createConsumer();
 
 	CloudFileWto createCloudFile(long uploaderId, long consumerId);
+
+	void storeFile(InputStream inputStream);
 	
 
 }

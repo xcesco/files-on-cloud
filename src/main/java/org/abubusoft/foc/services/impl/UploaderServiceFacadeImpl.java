@@ -1,5 +1,6 @@
 package org.abubusoft.foc.services.impl;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -215,6 +216,12 @@ public class UploaderServiceFacadeImpl implements UploaderServiceFacade {
 		}
 
 		return null;
+	}
+
+	@Override
+	public void storeFile(InputStream inputStream) {
+		//uploaderService.
+		
 	}
 
 }
