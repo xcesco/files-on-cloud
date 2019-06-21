@@ -10,12 +10,12 @@ import {AdminService} from '../services/admin.service';
 })
 export class AdminPasswordUrlResolver implements Resolve<string> {
 
-  constructor(private adminService: AdminService) {
+  constructor(private service: AdminService) {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> {
     console.log('recupera password url');
     const utenteId = route.params[ROUTE_PARAM_USER_ID];
-    return this.adminService.adminsChangePassword(utenteId);
+    return this.service.changePasswordUrl(utenteId);
   }
 }

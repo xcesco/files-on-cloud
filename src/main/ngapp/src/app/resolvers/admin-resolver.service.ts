@@ -9,12 +9,12 @@ import {AdminService} from '../services/admin.service';
 })
 export class AdminListResolver implements Resolve<Administrator[]> {
 
-  constructor(private adminService: AdminService) {
+  constructor(private service: AdminService) {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Administrator[]> {
     console.log('recupera elenco');
     // route.params['name'];
-    return this.adminService.findAllAdmins();
+    return this.service.findAll();
   }
 }

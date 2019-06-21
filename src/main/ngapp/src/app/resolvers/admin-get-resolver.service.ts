@@ -8,12 +8,12 @@ import {ROUTE_PARAM_USER_ID} from '../app-routing.costant';
 @Injectable({providedIn: 'root'})
 export class AdminReadResolver implements Resolve<Administrator> {
 
-  constructor(private adminService: AdminService) {
+  constructor(private service: AdminService) {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Administrator> {
     console.log('recupera elenco');
     const utenteId = route.params[ROUTE_PARAM_USER_ID];
-    return this.adminService.adminsGet(utenteId);
+    return this.service.get(utenteId);
   }
 }

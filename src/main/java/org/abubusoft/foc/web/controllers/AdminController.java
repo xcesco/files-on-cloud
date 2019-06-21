@@ -10,6 +10,7 @@ import org.abubusoft.foc.model.UploaderSummary;
 import org.abubusoft.foc.services.AdminServiceFacade;
 import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.AdminWto;
+import org.abubusoft.foc.web.model.ChangePasswordWto;
 import org.abubusoft.foc.web.model.UploaderWto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -56,7 +57,7 @@ public class AdminController {
 	}
 	
 	@GetMapping("/administrators/{id}/change-password")
-	public ResponseEntity<String> adminGetChangePasswordUrl(@PathVariable("id") long id) {
+	public ResponseEntity<ChangePasswordWto> adminGetChangePasswordUrl(@PathVariable("id") long id) {
 		
 		return ResponseEntity.ok(service.getChangePasswordUrlById(id));
 	}	

@@ -106,6 +106,7 @@ public abstract class AbstractUserServiceImpl<R extends UserRepository<U>, U ext
 		Optional<User> user=this.userRepository.findById(id);
 		
 		if (user.isPresent()) {
+			log.info("cerco "+user.get().getUsername());
 			String value=getChangePasswordUrlByUsername(user.get().getUsername());
 			
 			return value;

@@ -14,6 +14,7 @@ import org.abubusoft.foc.services.AdminServiceFacade;
 import org.abubusoft.foc.services.UploaderService;
 import org.abubusoft.foc.services.AdminService;
 import org.abubusoft.foc.web.model.AdminWto;
+import org.abubusoft.foc.web.model.ChangePasswordWto;
 import org.abubusoft.foc.web.model.UploaderWto;
 import org.abubusoft.foc.web.support.WtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,8 +98,8 @@ public class AdminServiceFacadeImpl implements AdminServiceFacade {
 	}
 
 	@Override
-	public String getChangePasswordUrlById(long id) {
-		return adminService.getChangePasswordUrlById(id);		
+	public ChangePasswordWto getChangePasswordUrlById(long id) {
+		return new ChangePasswordWto(adminService.getChangePasswordUrlById(id));		
 	}
 
 	@Override

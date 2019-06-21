@@ -6,7 +6,7 @@ import {AbstractUserService} from './abstract-user.service';
 @Injectable({
   providedIn: 'root'
 })
-export class UploaderServiceextends extends AbstractUserService<Uploader> {
+export class UploaderService extends AbstractUserService<Uploader> {
 
   constructor(httpClient: HttpClient) {
     super(httpClient);

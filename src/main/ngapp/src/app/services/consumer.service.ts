@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Administrator, Consumer} from '../types/users';
+import {Consumer} from '../types/users';
 import {HttpClient} from '@angular/common/http';
 import {AbstractUserService} from './abstract-user.service';
 

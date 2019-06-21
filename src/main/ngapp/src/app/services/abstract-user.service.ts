@@ -1,9 +1,9 @@
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Administrator} from '../types/users';
+import {Administrator, User} from '../types/users';
 import {environment} from '../../environments/environment';
 
-export class AbstractUserService<E> {
+export class AbstractUserService<E extends User> {
 
   protected baseUrl;
 
@@ -29,24 +29,24 @@ export class AbstractUserService<E> {
    * Recupera un admin mediante il suo id
    * @param id  id dell'utente
    */
-  get(id: number): Observable<Administrator> {
-    return this.httpClient.get<Administrator>(environment.API_URL + this.baseUrl + `/${id}`);
+  get(id: number): Observable<E> {
+    return this.httpClient.get<E>(environment.API_URL + this.baseUrl + `/${id}`);
   }
 
   /**
    * Recupera un admin mediante il suo id
    * @param id  id dell'utente
    */
-  save(bean: Administrator): Observable<Administrator> {
-    return this.httpClient.put<Administrator>(environment.API_URL + this.baseUrl + `/${bean.id}`, bean);
+  save(bean: E): Observable<E> {
+    return this.httpClient.put<E>(environment.API_URL + this.baseUrl + `/${bean.id}`, bean);
   }
 
   /**
    * Cancella un admin mediante il suo id
    * @param id  id dell'utente
    */
-  delete(bean: Administrator): Observable<Administrator> {
-    return this.httpClient.delete<Administrator>(environment.API_URL + this.baseUrl + `/${bean.id}`);
+  delete(bean: E): Observable<E> {
+    return this.httpClient.delete<E>(environment.API_URL + this.baseUrl + `/${bean.id}`);
   }
 
   /**

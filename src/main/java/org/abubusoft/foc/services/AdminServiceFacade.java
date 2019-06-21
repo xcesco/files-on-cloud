@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.abubusoft.foc.model.UploaderDetailSummary;
 import org.abubusoft.foc.model.UploaderSummary;
 import org.abubusoft.foc.web.model.AdminWto;
+import org.abubusoft.foc.web.model.ChangePasswordWto;
 import org.abubusoft.foc.web.model.UploaderWto;
 
 public interface AdminServiceFacade {
@@ -28,7 +29,7 @@ public interface AdminServiceFacade {
 
 	List<UploaderDetailSummary> reportConsumerForAllUploaders(LocalDate validoDal, LocalDate validoAl);
 
-	String getChangePasswordUrlById(long id);
+	ChangePasswordWto getChangePasswordUrlById(long id);
 
 	AdminWto createAdministrator();
 
