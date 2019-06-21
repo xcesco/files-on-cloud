@@ -11,8 +11,8 @@ public interface AbstractUserService<U extends User> {
 	int deleteByUsername(String username);
 	
 	boolean deleteById(long id);
-
-	String getChangePasswordUrlByUsername(String username);
+	
+	String getChangePasswordUrlById(long id);
 
 	Iterable<U> findAll();
 	

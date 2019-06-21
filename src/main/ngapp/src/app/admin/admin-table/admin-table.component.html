@@ -1,0 +1,37 @@
+<div class="card m-2">
+  <div class="card-header">
+    <h5 class="card-title float-left">Elenco degli amministratori di sistema</h5>
+    <a  href="#" class="btn btn-primary float-right" routerLink="../create" role="button">Nuovo</a>
+  </div>
+  <div class="card-body">
+
+    <table class="table table-bordered table-hover">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Username</th>
+        <th scope="col">Display name</th>
+        <th scope="col">Email</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of list; index as i">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ item.username }}</td>
+        <td>{{ item.displayName }}</td>
+        <td>{{ item.email }}</td>
+        <td>
+          <a href="#" [routerLink]="'/admins/'+item.id" ngbTooltip="Seleziona"><i class="fa fa-2x fa-edit"></i></a>
+          <a class="float-right" href="#" [routerLink]="'/admins/'+item.id" ngbTooltip="Cancella"><i class="fa fa-2x fa-trash"></i></a>
+          <a class="float-right" href="#" [routerLink]="'/admins/'+item.id+'/change-password'" ngbTooltip="Cambia password"><i class="fa fa-2x fa-key"></i></a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+
+

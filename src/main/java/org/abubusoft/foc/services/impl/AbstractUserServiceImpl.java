@@ -16,15 +16,22 @@ import com.google.firebase.auth.UserRecord;
 import com.google.firebase.auth.UserRecord.CreateRequest;
 import com.google.firebase.auth.UserRecord.UpdateRequest;
 
-public class AbstractUserServiceImpl<R extends UserRepository<U>, U extends User> implements AbstractUserService<U> {
+public abstract class AbstractUserServiceImpl<R extends UserRepository<U>, U extends User> implements AbstractUserService<U> {
 
 	protected Logger log=Logger.getLogger(getClass());
 	
 	protected R repository;
+	
+	protected UserRepository<User> userRepository;
 
 	@Autowired
 	public void setRepository(R repository) {
 		this.repository = repository;
+	}
+	
+	@Autowired
+	public void setUserRepository(UserRepository<User> userRepository) {
+		this.userRepository =userRepository;
 	}
 
 	@Override
@@ -93,8 +100,21 @@ public class AbstractUserServiceImpl<R extends UserRepository<U>, U extends User
 	public int deleteByUsername(String username) {
 		return repository.deleteByUsername(username);
 	}
-
+	
 	@Override
+	public String getChangePasswordUrlById(long id) {
+		Optional<User> user=this.userRepository.findById(id);
+		
+		if (user.isPresent()) {
+			String value=getChangePasswordUrlByUsername(user.get().getUsername());
+			
+			return value;
+		}
+		
+		return null;
+			
+	}
+
 	public String getChangePasswordUrlByUsername(String username) {
 		FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 		try {

@@ -15,7 +15,7 @@ public interface UploaderServiceFacade  {
 	
 	boolean deleteById(long id);
 
-	String generateChangePasswordUrl(String username);
+	String consumerGeChangePasswordUrl(long id);
 
 	List<UploaderWto> findAll();
 	
@@ -40,8 +40,8 @@ public interface UploaderServiceFacade  {
 	CloudFileWto findCloudFilesByUploaderAndConsumerAndFile(long uploaderId, long consumerId, long fileId);
 
 	long createCloudFile(long uploaderId, long consumerId, CloudFileWto cloudFile);
-
-	String uploaderGetChangePasswordUrlByUsername(String username);
+	
+	String uploaderGetChangePasswordUrlById(long id);
 
 	boolean createCloudFile(long uploaderId, ConsumerAndCloudFileWto consumerCloudFile);
 

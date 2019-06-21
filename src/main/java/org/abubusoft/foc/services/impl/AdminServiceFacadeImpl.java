@@ -97,8 +97,8 @@ public class AdminServiceFacadeImpl implements AdminServiceFacade {
 	}
 
 	@Override
-	public String getChangePasswordUrlByUsername(String username) {
-		return adminService.getChangePasswordUrlByUsername(username);
+	public String getChangePasswordUrlById(long id) {
+		return adminService.getChangePasswordUrlById(id);		
 	}
 
 	@Override

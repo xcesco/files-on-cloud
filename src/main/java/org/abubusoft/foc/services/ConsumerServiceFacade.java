@@ -11,7 +11,7 @@ import org.springframework.data.util.Pair;
 
 public interface ConsumerServiceFacade  {
 	
-	String getChangePasswordUrlByUsername(String username);
+	String consumerGetChangePasswordUrlById(long id);
 
 	ConsumerWto updateConsumerById(ConsumerWto user);
 	

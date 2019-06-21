@@ -28,11 +28,12 @@ public interface AdminServiceFacade {
 
 	List<UploaderDetailSummary> reportConsumerForAllUploaders(LocalDate validoDal, LocalDate validoAl);
 
-	String getChangePasswordUrlByUsername(String username);
+	String getChangePasswordUrlById(long id);
 
 	AdminWto createAdministrator();
 
 	AdminWto findAdminById(long id);
 
 	UploaderWto createUploader();
+
 }

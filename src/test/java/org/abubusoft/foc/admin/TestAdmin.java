@@ -22,7 +22,7 @@ public class TestAdmin extends BaseTest {
 	public void test0ChangePassword() throws FirebaseAuthException {
 		Administrator user = createUser();
 		
-		String urlToApply=service.getChangePasswordUrlByUsername(user.getUsername());
+		String urlToApply=service.getChangePasswordUrlById(user.getId());
 		logger.info(urlToApply);
 	}
 

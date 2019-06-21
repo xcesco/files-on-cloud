@@ -55,7 +55,7 @@ public class ConsumerController {
 	
 	@GetMapping("/consumers/{consumerId}/change-password")
 	public ResponseEntity<String> modify(@PathVariable("consumerId") long consumerId) {
-		return ResponseEntity.ok(service.getChangePasswordUrlByUsername(null));
+		return ResponseEntity.ok(service.consumerGetChangePasswordUrlById(consumerId));
 	}
 	
 	@GetMapping("/user/ip")

@@ -52,10 +52,10 @@ public class ConsumerServiceFacadeImpl implements ConsumerServiceFacade {
 
 		return mapper.convertConsumerToWto(result);
 	}
-
+	
 	@Override
-	public String getChangePasswordUrlByUsername(String username) {
-		return consumerService.getChangePasswordUrlByUsername(username);
+	public String consumerGetChangePasswordUrlById(long id) {
+		return consumerService.getChangePasswordUrlById(id);		
 	}
 
 	@Override

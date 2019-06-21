@@ -13,7 +13,6 @@ export class AdminCreateResolver implements Resolve<Administrator> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Administrator> {
-    console.log('recupera elenco');
-    return this.adminService.adminsNew();
+    return this.adminService.create();
   }
 }

@@ -2,18 +2,19 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Administrator} from '../../types/users';
 import {map} from 'rxjs/operators';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
   selector: 'app-admins-table',
-  templateUrl: './admins-table.component.html',
-  styleUrls: ['./admins-table.component.scss']
+  templateUrl: './admin-table.component.html',
+  styleUrls: ['./admin-table.component.scss']
 })
-export class AdminsTableComponent implements OnInit {
+export class AdminTableComponent implements OnInit {
 
   list: Administrator[];
 
-  constructor(private actr: ActivatedRoute) {
+  constructor(private actr: ActivatedRoute, private modalService: NgbModal) {
     this.actr.data.pipe(map(data => data.list)).subscribe((value: Administrator[]) => {
       console.log('caricato', value);
       this.list = value;

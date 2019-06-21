@@ -39,11 +39,6 @@ public class AdminController {
 		return ResponseEntity.ok(service.saveAdmin(value));
 	}
 	
-	@GetMapping("/administrators/new")
-	public ResponseEntity<AdminWto> adminNew() {		
-		return ResponseEntity.ok(service.createAdministrator());
-	}
-
 	@GetMapping("/administrators/{id}")
 	public ResponseEntity<AdminWto> adminGet(@PathVariable("id") long id) {
 		return ResponseEntity.ok(service.findAdminById(id));
@@ -59,12 +54,17 @@ public class AdminController {
 		value.setId(id);
 		return ResponseEntity.ok(service.saveAdmin(value));
 	}
-
+	
 	@GetMapping("/administrators/{id}/change-password")
 	public ResponseEntity<String> adminGetChangePasswordUrl(@PathVariable("id") long id) {
 		
-		return ResponseEntity.ok(service.getChangePasswordUrlByUsername(null));
+		return ResponseEntity.ok(service.getChangePasswordUrlById(id));
 	}	
+	
+	@GetMapping("/administrators/new")
+	public ResponseEntity<AdminWto> adminNew() {		
+		return ResponseEntity.ok(service.createAdministrator());
+	}
 
 	@GetMapping("/administrators/summary")
 	public ResponseEntity<List<UploaderSummary>> reportCloudFileForAllUploaders(

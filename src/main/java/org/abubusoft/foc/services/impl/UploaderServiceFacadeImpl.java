@@ -62,11 +62,6 @@ public class UploaderServiceFacadeImpl implements UploaderServiceFacade {
 	}
 
 	@Override
-	public String generateChangePasswordUrl(String username) {
-		return uploaderService.getChangePasswordUrlByUsername(username);
-	}
-
-	@Override
 	public List<UploaderWto> findAll() {
 		return mapper.convertUploaderListToDto(uploaderService.findAll());
 	}
@@ -164,10 +159,6 @@ public class UploaderServiceFacadeImpl implements UploaderServiceFacade {
 		return file.getId();
 	}
 
-	@Override
-	public String uploaderGetChangePasswordUrlByUsername(String username) {
-		return uploaderService.getChangePasswordUrlByUsername(username);
-	}
 
 	@Override
 	public boolean createCloudFile(long uploaderId, ConsumerAndCloudFileWto consumerCloudFile) {
@@ -223,5 +214,16 @@ public class UploaderServiceFacadeImpl implements UploaderServiceFacade {
 		//uploaderService.
 		
 	}
+
+	@Override
+	public String uploaderGetChangePasswordUrlById(long id) {
+		return uploaderService.getChangePasswordUrlById(id);
+	}
+
+	@Override
+	public String consumerGeChangePasswordUrl(long id) {
+		return consumerService.getChangePasswordUrlById(id);
+	}
+
 
 }

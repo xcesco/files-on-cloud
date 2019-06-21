@@ -5,10 +5,10 @@ import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-admins-detail',
-  templateUrl: './admins-detail.component.html',
-  styleUrls: ['./admins-detail.component.scss']
+  templateUrl: './admin-detail.component.html',
+  styleUrls: ['./admin-detail.component.scss']
 })
-export class AdminsDetailComponent implements OnInit {
+export class AdminDetailComponent implements OnInit {
 
   detail: Administrator;
 
