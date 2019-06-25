@@ -2,7 +2,7 @@ package org.abubusoft.foc.business.services;
 
 import java.util.Optional;
 
-import org.abubusoft.foc.model.User;
+import org.abubusoft.foc.repositories.model.User;
 
 public interface AbstractUserService<U extends User> {
 		

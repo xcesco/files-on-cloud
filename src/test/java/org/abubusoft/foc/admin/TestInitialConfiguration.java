@@ -78,10 +78,11 @@ public class TestInitialConfiguration extends BaseTest {
 		{
 			// creazione consumer
 			ConsumerWto user = consumerFacade.create();
-			user.setDisplayName("Defatul consumer");
+			user.setDisplayName("Mario Rossi");
 			user.setUsername("uxcesco-consumer@gmail.com");
 			user.setEmail("uxcesco@gmail.com");
 			user.setPassword("password");
+			user.setCodiceFiscale("RSSMRA80A01L424F");
 			user = consumerFacade.save(user);		
 		}
 

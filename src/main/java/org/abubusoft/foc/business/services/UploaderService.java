@@ -3,7 +3,7 @@ package org.abubusoft.foc.business.services;
 import java.io.InputStream;
 import java.util.List;
 
-import org.abubusoft.foc.model.Uploader;
+import org.abubusoft.foc.repositories.model.Uploader;
 
 public interface UploaderService extends AbstractUserService<Uploader> {
 	

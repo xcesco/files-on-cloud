@@ -2,10 +2,10 @@ package org.abubusoft.foc.web.support;
 
 import java.util.List;
 
-import org.abubusoft.foc.model.Administrator;
-import org.abubusoft.foc.model.CloudFile;
-import org.abubusoft.foc.model.Consumer;
-import org.abubusoft.foc.model.Uploader;
+import org.abubusoft.foc.repositories.model.Administrator;
+import org.abubusoft.foc.repositories.model.CloudFile;
+import org.abubusoft.foc.repositories.model.Consumer;
+import org.abubusoft.foc.repositories.model.Uploader;
 import org.abubusoft.foc.web.model.AdminWto;
 import org.abubusoft.foc.web.model.CloudFileWto;
 import org.abubusoft.foc.web.model.ConsumerWto;

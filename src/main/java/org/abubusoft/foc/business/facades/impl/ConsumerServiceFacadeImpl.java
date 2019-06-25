@@ -7,8 +7,8 @@ import javax.validation.Valid;
 
 import org.abubusoft.foc.business.facades.ConsumerFacade;
 import org.abubusoft.foc.business.services.ConsumerService;
-import org.abubusoft.foc.model.Consumer;
-import org.abubusoft.foc.model.UploaderDetailSummary;
+import org.abubusoft.foc.repositories.model.Consumer;
+import org.abubusoft.foc.repositories.model.UploaderDetailSummary;
 import org.abubusoft.foc.web.model.ConsumerWto;
 import org.springframework.stereotype.Service;
 

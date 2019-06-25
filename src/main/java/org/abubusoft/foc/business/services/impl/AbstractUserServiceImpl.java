@@ -5,8 +5,8 @@ import java.util.Optional;
 import org.abubusoft.foc.business.services.AbstractUserService;
 import org.abubusoft.foc.exception.AppNotFoundEntityException;
 import org.abubusoft.foc.exception.AppRuntimeException;
-import org.abubusoft.foc.model.User;
 import org.abubusoft.foc.repositories.UserRepository;
+import org.abubusoft.foc.repositories.model.User;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -42,10 +42,10 @@ public abstract class AbstractUserServiceImpl<R extends UserRepository<U>, U ext
 		request.setEmail(user.getUsername()).setPassword(password).setDisplayName(user.getDisplayName());
 
 		try {
-			firebaseAuth.createUser(request);			
+			//firebaseAuth.createUser(request);			
 			
 			return repository.save(user);
-		} catch (FirebaseAuthException e) {
+		} catch (Throwable e) {
 			e.printStackTrace();
 			throw (AppRuntimeException.create(e));
 		}

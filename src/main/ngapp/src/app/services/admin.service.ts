@@ -4,6 +4,7 @@ import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
 import {Administrator} from '../types/users';
 import {AbstractUserService} from './abstract-user.service';
+import {AdminModule} from '../admin/admin.module';
 
 @Injectable({
   providedIn: 'root'

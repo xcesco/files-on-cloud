@@ -1,4 +1,4 @@
-package org.abubusoft.foc.model;
+package org.abubusoft.foc.repositories.model;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;

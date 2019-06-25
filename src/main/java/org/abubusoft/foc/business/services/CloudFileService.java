@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import org.abubusoft.foc.model.CloudFile;
-import org.abubusoft.foc.model.CloudFileTag;
-import org.abubusoft.foc.model.Consumer;
+import org.abubusoft.foc.repositories.model.CloudFile;
+import org.abubusoft.foc.repositories.model.CloudFileTag;
+import org.abubusoft.foc.repositories.model.Consumer;
 import org.springframework.data.util.Pair;
 
 public interface CloudFileService {

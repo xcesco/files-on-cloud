@@ -1,6 +1,6 @@
 package org.abubusoft.foc.business.services;
 
-import org.abubusoft.foc.model.User;
+import org.abubusoft.foc.repositories.model.User;
 
 public interface IdentityManagementService {
 

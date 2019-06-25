@@ -1,0 +1,47 @@
+<form [formGroup]="form" novalidate (ngSubmit)="onSave()">
+
+  <div class="form-group">
+    <label for="username">Username:</label>
+    <input type="username" placeholder="Es: test@gmail.com" formControlName="username" class="form-control"
+           id="username"
+           appManagedError
+    >
+    <app-display-managed-error controlName="username">Insert a valid email address</app-display-managed-error>
+  </div>
+
+  <!--<div class="form-group">-->
+  <!--<label for="password">Password:</label>-->
+  <!--<input type="password" formControlName="password" class="form-control" id="password"
+  [ngClass]="{'is-invalid': form.get('password').invalid && form.get('password').dirty}">-->
+  <!--<div class="invalid-feedback"-->
+  <!--*ngIf="form.get('password').invalid && form.get('password').dirty">-->
+  <!--Inserire una password.-->
+  <!--</div>-->
+  <!--</div>-->
+
+  <div class="form-group" *ngIf="isJustCreated">
+    <label for="password">Password:</label>
+    <input type="password" formControlName="password" class="form-control" id="password" appManagedError>
+    <app-display-managed-error controlName="password">Insert a password</app-display-managed-error>
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input type="email" placeholder="Es: test@gmail.com" formControlName="email" class="form-control" id="email"
+           appManagedError
+    >
+    <app-display-managed-error controlName="email">Insert a valid email address</app-display-managed-error>
+  </div>
+
+  <div class="form-group">
+    <label for="displayName">Display name:</label>
+    <input type="displayName" formControlName="displayName" class="form-control" id="displayName" appManagedError>
+    <app-display-managed-error controlName="email">Insert a valid display name.</app-display-managed-error>
+  </div>
+
+  <a href="#" class="m-2 float-right btn btn-lg btn-outline-primary " routerLink="../list"
+     role="button">Cancel</a>
+  <button type="submit" [disabled]="form.invalid" class="m-2 float-right btn btn-lg btn-primary">Save</button>
+
+</form>
+

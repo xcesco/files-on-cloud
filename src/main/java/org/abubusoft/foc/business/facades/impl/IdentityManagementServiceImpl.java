@@ -5,8 +5,8 @@ import java.util.Set;
 
 import org.abubusoft.foc.business.services.IdentityManagementService;
 import org.abubusoft.foc.exception.AppRuntimeException;
-import org.abubusoft.foc.model.User;
 import org.abubusoft.foc.repositories.GenericUserRepository;
+import org.abubusoft.foc.repositories.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;

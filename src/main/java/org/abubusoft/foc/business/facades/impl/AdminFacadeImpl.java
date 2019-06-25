@@ -8,9 +8,9 @@ import javax.validation.Valid;
 
 import org.abubusoft.foc.business.facades.AdminFacade;
 import org.abubusoft.foc.business.services.AdminService;
-import org.abubusoft.foc.model.Administrator;
-import org.abubusoft.foc.model.UploaderDetailSummary;
-import org.abubusoft.foc.model.UploaderSummary;
+import org.abubusoft.foc.repositories.model.Administrator;
+import org.abubusoft.foc.repositories.model.UploaderDetailSummary;
+import org.abubusoft.foc.repositories.model.UploaderSummary;
 import org.abubusoft.foc.web.model.AdminWto;
 import org.springframework.stereotype.Service;
 

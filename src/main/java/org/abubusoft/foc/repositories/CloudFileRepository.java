@@ -3,8 +3,8 @@ package org.abubusoft.foc.repositories;
 import java.util.List;
 import java.util.Set;
 
-import org.abubusoft.foc.model.CloudFile;
-import org.abubusoft.foc.model.CloudFileTag;
+import org.abubusoft.foc.repositories.model.CloudFile;
+import org.abubusoft.foc.repositories.model.CloudFileTag;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;

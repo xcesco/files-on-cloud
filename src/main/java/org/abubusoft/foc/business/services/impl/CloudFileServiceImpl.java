@@ -13,13 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import org.abubusoft.foc.business.services.CloudFileService;
-import org.abubusoft.foc.model.CloudFile;
-import org.abubusoft.foc.model.CloudFileTag;
-import org.abubusoft.foc.model.Consumer;
-import org.abubusoft.foc.model.Uploader;
 import org.abubusoft.foc.repositories.CloudFileRepository;
 import org.abubusoft.foc.repositories.ConsumersRepository;
 import org.abubusoft.foc.repositories.UploadersRepository;
+import org.abubusoft.foc.repositories.model.CloudFile;
+import org.abubusoft.foc.repositories.model.CloudFileTag;
+import org.abubusoft.foc.repositories.model.Consumer;
+import org.abubusoft.foc.repositories.model.Uploader;
 import org.abubusoft.foc.repositories.support.MimeTypeUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;

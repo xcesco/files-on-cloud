@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.abubusoft.foc.model;
+package org.abubusoft.foc.repositories.model;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;

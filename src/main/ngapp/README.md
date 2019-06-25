@@ -28,3 +28,9 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Riferimenti
 https://codeburst.io/understanding-resolvers-in-angular-736e9db71267
+
+Toaster dialog
+https://stackblitz.com/edit/angular-confirmation-dialog
+
+Toaster
+https://www.npmjs.com/package/ngx-toastr

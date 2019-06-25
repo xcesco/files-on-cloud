@@ -7,8 +7,8 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.abubusoft.foc.business.facades.CloudFileFacade;
-import org.abubusoft.foc.model.CloudFile;
-import org.abubusoft.foc.model.CloudFileTag;
+import org.abubusoft.foc.repositories.model.CloudFile;
+import org.abubusoft.foc.repositories.model.CloudFileTag;
 import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.CloudFileWto;
 import org.abubusoft.foc.web.model.ConsumerAndCloudFileWto;

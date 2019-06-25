@@ -2,9 +2,9 @@ package org.abubusoft.foc.repositories;
 
 import java.util.List;
 
-import org.abubusoft.foc.model.CloudFile;
-import org.abubusoft.foc.model.Consumer;
-import org.abubusoft.foc.model.Uploader;
+import org.abubusoft.foc.repositories.model.CloudFile;
+import org.abubusoft.foc.repositories.model.Consumer;
+import org.abubusoft.foc.repositories.model.Uploader;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 

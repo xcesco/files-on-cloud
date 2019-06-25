@@ -6,7 +6,7 @@ import javax.transaction.Transactional;
 
 import org.abubusoft.foc.BaseTest;
 import org.abubusoft.foc.business.services.AdminService;
-import org.abubusoft.foc.model.Administrator;
+import org.abubusoft.foc.repositories.model.Administrator;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

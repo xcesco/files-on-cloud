@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.abubusoft.foc.business.facades.ConsumerFacade;
-import org.abubusoft.foc.model.UploaderDetailSummary;
+import org.abubusoft.foc.repositories.model.UploaderDetailSummary;
 import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.ChangePasswordWto;
 import org.abubusoft.foc.web.model.ConsumerWto;

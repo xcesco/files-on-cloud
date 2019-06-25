@@ -1,7 +1,8 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Administrator, User} from '../types/users';
 import {environment} from '../../environments/environment';
+import {isNotBlank} from '../shared/utils';
 
 export class AbstractUserService<E extends User> {
 
@@ -38,7 +39,12 @@ export class AbstractUserService<E extends User> {
    * @param id  id dell'utente
    */
   save(bean: E): Observable<E> {
-    return this.httpClient.put<E>(environment.API_URL + this.baseUrl + `/${bean.id}`, bean);
+    if (isNotBlank(bean.id)) {
+      return this.httpClient.put<E>(environment.API_URL + this.baseUrl + `/${bean.id}`, bean);
+    } else {
+      return this.httpClient.post<E>(environment.API_URL + this.baseUrl, bean);
+    }
+
   }
 
   /**

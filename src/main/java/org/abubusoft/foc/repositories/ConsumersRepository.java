@@ -3,8 +3,8 @@ package org.abubusoft.foc.repositories;
 import java.util.List;
 import java.util.Optional;
 
-import org.abubusoft.foc.model.Consumer;
-import org.abubusoft.foc.model.UploaderDetailSummary;
+import org.abubusoft.foc.repositories.model.Consumer;
+import org.abubusoft.foc.repositories.model.UploaderDetailSummary;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 

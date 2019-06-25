@@ -1,6 +1,6 @@
 package org.abubusoft.foc.repositories;
 
-import org.abubusoft.foc.model.User;
+import org.abubusoft.foc.repositories.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

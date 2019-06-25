@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.abubusoft.foc.business.services.AdminService;
-import org.abubusoft.foc.model.Administrator;
-import org.abubusoft.foc.model.UploaderDetailSummary;
-import org.abubusoft.foc.model.UploaderSummary;
 import org.abubusoft.foc.repositories.AdministratorsRepository;
+import org.abubusoft.foc.repositories.model.Administrator;
+import org.abubusoft.foc.repositories.model.UploaderDetailSummary;
+import org.abubusoft.foc.repositories.model.UploaderSummary;
 import org.springframework.stereotype.Service;
 
 @Service

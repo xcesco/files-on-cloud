@@ -6,7 +6,7 @@ import javax.transaction.Transactional;
 
 import org.abubusoft.foc.BaseTest;
 import org.abubusoft.foc.business.services.ConsumerService;
-import org.abubusoft.foc.model.Consumer;
+import org.abubusoft.foc.repositories.model.Consumer;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
