@@ -6,5 +6,7 @@ public interface UploaderFacade extends AbstractUserFacade<UploaderWto>  {
 	
 	byte[] getLogoById(long id);
 
+	boolean saveLogo(long id, byte[] byteArray);
+
 	
 }

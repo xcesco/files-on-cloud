@@ -86,4 +86,14 @@ https://www.baeldung.com/hibernate-persist-json-object
  # Plugin usati per Eclipse
  Per impostare una variabile d'ambiente per tutto l'IDE
  https://stackoverflow.com/questions/7048216/environment-variables-in-eclipse
+
+
+# Codifice fiscale
+Elenco dei codici fiscali generati da http://www.codicefiscaleonline.com/
+
+ - Mario Rossi RSSMRA80A01L424F
+ - Vittoria Rossi RSSVTR80A01L424L
  
+ Libreria validazione presa da 
+ https://github.com/okkam-it/fiscal-code-validator
+ http://pscode.rs/jpa-custom-validation-contraints/
