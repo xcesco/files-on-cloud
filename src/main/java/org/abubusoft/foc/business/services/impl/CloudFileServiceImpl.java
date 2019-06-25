@@ -1,4 +1,4 @@
-package org.abubusoft.foc.services.impl;
+package org.abubusoft.foc.business.services.impl;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.abubusoft.foc.business.services.CloudFileService;
 import org.abubusoft.foc.model.CloudFile;
 import org.abubusoft.foc.model.CloudFileTag;
 import org.abubusoft.foc.model.Consumer;
@@ -20,7 +21,6 @@ import org.abubusoft.foc.repositories.CloudFileRepository;
 import org.abubusoft.foc.repositories.ConsumersRepository;
 import org.abubusoft.foc.repositories.UploadersRepository;
 import org.abubusoft.foc.repositories.support.MimeTypeUtils;
-import org.abubusoft.foc.services.CloudFileService;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;

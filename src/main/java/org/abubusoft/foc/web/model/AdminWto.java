@@ -1,6 +1,6 @@
 package org.abubusoft.foc.web.model;
 
-public class AdminWto extends AbstractUserWto {
+public class AdminWto extends UserWto {
 
 	
 }

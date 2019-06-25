@@ -10,8 +10,8 @@ import java.io.IOException;
 import javax.transaction.Transactional;
 
 import org.abubusoft.foc.BaseTest;
+import org.abubusoft.foc.business.services.UploaderService;
 import org.abubusoft.foc.model.Uploader;
-import org.abubusoft.foc.services.UploaderService;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

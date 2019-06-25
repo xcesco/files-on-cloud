@@ -5,13 +5,12 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.abubusoft.foc.business.facades.AdminFacade;
 import org.abubusoft.foc.model.UploaderDetailSummary;
 import org.abubusoft.foc.model.UploaderSummary;
-import org.abubusoft.foc.services.AdminServiceFacade;
 import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.AdminWto;
 import org.abubusoft.foc.web.model.ChangePasswordWto;
-import org.abubusoft.foc.web.model.UploaderWto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -28,45 +27,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 //@RestController
 public class AdminController {
 
-	private AdminServiceFacade service;
+	private AdminFacade service;
 	
 	@GetMapping("/administrators")
 	public ResponseEntity<List<AdminWto>> adminFindAll() {
-		return ResponseEntity.ok(service.findAllAdmin());
+		return ResponseEntity.ok(service.findAll());
 	}
 
-	@PostMapping("/administrators")
-	public ResponseEntity<AdminWto> adminCreate(@RequestBody @Valid AdminWto value) {
-		return ResponseEntity.ok(service.saveAdmin(value));
+	@GetMapping("/administrators/new")
+	public ResponseEntity<AdminWto> create() {		
+		return ResponseEntity.ok(service.create());
 	}
 	
-	@GetMapping("/administrators/{id}")
-	public ResponseEntity<AdminWto> adminGet(@PathVariable("id") long id) {
-		return ResponseEntity.ok(service.findAdminById(id));
-	}
-
 	@DeleteMapping("/administrators/{id}")
-	public ResponseEntity<Boolean> adminDelete(@PathVariable("id") long id) {
-		return ResponseEntity.ok(service.deleteAdminById(id));
+	public ResponseEntity<Boolean> deleteById(@PathVariable("id") long id) {
+		return ResponseEntity.ok(service.deleteById(id));
 	}
-	
-	@PutMapping("/administrators/{id}")
-	public ResponseEntity<AdminWto> adminModify(@PathVariable("id") long id, @RequestBody @Valid AdminWto value) {
-		value.setId(id);
-		return ResponseEntity.ok(service.saveAdmin(value));
+
+	@GetMapping("/administrators/{id}")
+	public ResponseEntity<AdminWto> findById(@PathVariable("id") long id) {
+		return ResponseEntity.ok(service.findById(id));
 	}
 	
 	@GetMapping("/administrators/{id}/change-password")
-	public ResponseEntity<ChangePasswordWto> adminGetChangePasswordUrl(@PathVariable("id") long id) {
-		
+	public ResponseEntity<ChangePasswordWto> getChangePasswordUrl(@PathVariable("id") long id) {		
 		return ResponseEntity.ok(service.getChangePasswordUrlById(id));
-	}	
-	
-	@GetMapping("/administrators/new")
-	public ResponseEntity<AdminWto> adminNew() {		
-		return ResponseEntity.ok(service.createAdministrator());
 	}
-
+	
 	@GetMapping("/administrators/summary")
 	public ResponseEntity<List<UploaderSummary>> reportCloudFileForAllUploaders(
 			@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "dataDal", required = false) LocalDate dataDal,
@@ -78,8 +65,8 @@ public class AdminController {
 		}
 
 		return ResponseEntity.ok(service.reportCloudFileForAllUploaders(dataDal, dataAl));
-	}
-
+	}	
+	
 	@GetMapping("/administrators/detailed-summary")
 	public ResponseEntity<List<UploaderDetailSummary>> reportConsumerForAllUploaderset(
 			@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "dataDal", required = false) LocalDate dataDal,
@@ -94,36 +81,21 @@ public class AdminController {
 
 	}
 
+	@PostMapping("/administrators")
+	public ResponseEntity<AdminWto> save(@RequestBody @Valid AdminWto value) {
+		return ResponseEntity.ok(service.save(value));
+	}
+
 	@Autowired
-	public void setAdminServiceFacade(AdminServiceFacade adminService) {
+	public void setAdminServiceFacade(AdminFacade adminService) {
 		this.service = adminService;
 	}
-		
-	@PostMapping("/uploaders")
-	public ResponseEntity<UploaderWto> uploaderCreate(@RequestBody @Valid UploaderWto value) {
-		return ResponseEntity.ok(service.updateUploader(value));
-	}
-	
-	@GetMapping("/uploaders/new")
-	public ResponseEntity<UploaderWto> uploaderCreate() {		
-		return ResponseEntity.ok(service.createUploader());
-	}
-	
 
-	@DeleteMapping("/uploaders/{id}")
-	public ResponseEntity<Boolean> uploaderDelete(@PathVariable("id") long uploaderId) {
-		return ResponseEntity.ok(service.deleteUploaderById(uploaderId));
+	@PutMapping("/administrators/{id}")
+	public ResponseEntity<AdminWto> update(@PathVariable("id") long id, @RequestBody @Valid AdminWto value) {
+		value.setId(id);
+		return ResponseEntity.ok(service.save(value));
 	}
-	
-	@GetMapping("/uploaders")
-	public ResponseEntity<List<UploaderWto>> uploaderFindAll() {
-		return ResponseEntity.ok(service.findAllUploaders());
-	}
-
-	@PutMapping("/uploaders/{id}")
-	public ResponseEntity<UploaderWto> uploaderModify(@PathVariable("id") long uploaderId, @RequestBody @Valid UploaderWto value) {
-		value.setId(uploaderId);
-		return ResponseEntity.ok(service.updateUploader(value));
-	}
+			
 
 }

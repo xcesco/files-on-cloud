@@ -1,12 +1,12 @@
-package org.abubusoft.foc.services.impl;
+package org.abubusoft.foc.business.services.impl;
 
 import java.util.Optional;
 
+import org.abubusoft.foc.business.services.AbstractUserService;
 import org.abubusoft.foc.exception.AppNotFoundEntityException;
 import org.abubusoft.foc.exception.AppRuntimeException;
 import org.abubusoft.foc.model.User;
 import org.abubusoft.foc.repositories.UserRepository;
-import org.abubusoft.foc.services.AbstractUserService;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -112,8 +112,7 @@ public abstract class AbstractUserServiceImpl<R extends UserRepository<U>, U ext
 			return value;
 		}
 		
-		return null;
-			
+		return null;		
 	}
 
 	public String getChangePasswordUrlByUsername(String username) {

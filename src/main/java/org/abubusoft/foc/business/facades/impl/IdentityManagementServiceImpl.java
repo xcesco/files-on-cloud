@@ -1,12 +1,12 @@
-package org.abubusoft.foc.services.impl;
+package org.abubusoft.foc.business.facades.impl;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import org.abubusoft.foc.business.services.IdentityManagementService;
 import org.abubusoft.foc.exception.AppRuntimeException;
 import org.abubusoft.foc.model.User;
 import org.abubusoft.foc.repositories.GenericUserRepository;
-import org.abubusoft.foc.services.IdentityManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;

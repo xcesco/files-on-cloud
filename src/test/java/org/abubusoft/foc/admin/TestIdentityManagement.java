@@ -3,8 +3,8 @@ package org.abubusoft.foc.admin;
 import javax.transaction.Transactional;
 
 import org.abubusoft.foc.BaseTest;
-import org.abubusoft.foc.services.CloudFileService;
-import org.abubusoft.foc.services.IdentityManagementService;
+import org.abubusoft.foc.business.services.CloudFileService;
+import org.abubusoft.foc.business.services.IdentityManagementService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;

@@ -1,4 +1,4 @@
-package org.abubusoft.foc.services.impl;
+package org.abubusoft.foc.business.services.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -9,11 +9,11 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import org.abubusoft.foc.business.services.UploaderService;
 import org.abubusoft.foc.model.Uploader;
 import org.abubusoft.foc.model.UploaderDetailSummary;
 import org.abubusoft.foc.model.UploaderSummary;
 import org.abubusoft.foc.repositories.UploadersRepository;
-import org.abubusoft.foc.services.UploaderService;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,16 +41,6 @@ public class UploaderServiceImpl extends AbstractUserServiceImpl<UploadersReposi
 		repository.save(user);
 
 		return user;
-	}
-
-	@Override
-	public List<UploaderSummary> reportCloudFileForAllUploaders(LocalDate validoDal, LocalDate validoAl) {
-		return repository.reportCloudFileForAllUploaders(validoDal.atTime(0, 0), validoAl.atTime(23, 59));
-	}
-
-	@Override
-	public List<UploaderDetailSummary> reportConsumerForAllUploaders(LocalDate validoDal, LocalDate validoAl) {
-		return repository.reportConsumerForAllUploaders(validoDal.atTime(0, 0), validoAl.atTime(23, 59));
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package org.abubusoft.foc.services.impl;
+package org.abubusoft.foc.business.services.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
@@ -15,7 +15,7 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SendMailServiceImpl implements org.abubusoft.foc.services.SendMailService {
+public class SendMailServiceImpl implements org.abubusoft.foc.business.services.SendMailService {
 
 	@Override
 	public void send() {

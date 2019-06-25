@@ -2,10 +2,11 @@ package org.abubusoft.foc;
 
 import java.io.IOException;
 
-import org.abubusoft.foc.services.AdminService;
-import org.abubusoft.foc.services.CloudFileService;
-import org.abubusoft.foc.services.ConsumerService;
-import org.abubusoft.foc.services.UploaderService;
+import org.abubusoft.foc.business.services.AdminService;
+import org.abubusoft.foc.business.services.CloudFileService;
+import org.abubusoft.foc.business.services.ConsumerService;
+import org.abubusoft.foc.business.services.IdentityManagementService;
+import org.abubusoft.foc.business.services.UploaderService;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -24,17 +25,24 @@ public abstract class BaseTest {
 	
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	
+	protected IdentityManagementService identityManagementService;
+	
+	@Autowired
+	public void setIdentityManagementService(IdentityManagementService identityManagementService) {
+		this.identityManagementService = identityManagementService;
+	}
+
 	protected AdminService adminService;
 	
 	protected UploaderService uploaderService;
 	
 	protected ConsumerService consumerService;
 	
-	protected CloudFileService cloudStorageService;
+	protected CloudFileService cloudFileService;
 
 	@Autowired
-	public void setCloudStorageService(CloudFileService cloudStorageService) {
-		this.cloudStorageService = cloudStorageService;
+	public void setCloudFileService(CloudFileService cloudFileService) {
+		this.cloudFileService = cloudFileService;
 	}
 
 	@Autowired

@@ -14,15 +14,15 @@ import java.util.Set;
 import javax.transaction.Transactional;
 
 import org.abubusoft.foc.BaseTest;
+import org.abubusoft.foc.business.services.CloudFileService;
+import org.abubusoft.foc.business.services.ConsumerService;
+import org.abubusoft.foc.business.services.UploaderService;
 import org.abubusoft.foc.model.CloudFile;
 import org.abubusoft.foc.model.CloudFileTag;
 import org.abubusoft.foc.model.Consumer;
 import org.abubusoft.foc.model.Uploader;
 import org.abubusoft.foc.model.UploaderDetailSummary;
 import org.abubusoft.foc.model.UploaderSummary;
-import org.abubusoft.foc.services.CloudFileService;
-import org.abubusoft.foc.services.ConsumerService;
-import org.abubusoft.foc.services.UploaderService;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,14 +146,14 @@ public class TestCloudFile extends BaseTest {
 		assertEquals(result.size(), 3);
 
 		{
-			List<UploaderSummary> summary = uploaderService.reportCloudFileForAllUploaders(LocalDate.of(2019, 1, 1), LocalDate.of(2019, 12, 31));
+			List<UploaderSummary> summary = adminService.reportCloudFileForAllUploaders(LocalDate.of(2019, 1, 1), LocalDate.of(2019, 12, 31));
 			for (UploaderSummary item : summary) {
 				logger.info(objMapper.writeValueAsString(item));
 			}
 		}
 		
 		{
-			List<UploaderDetailSummary> summary = uploaderService.reportConsumerForAllUploaders(LocalDate.of(2019, 1, 1), LocalDate.of(2019, 12, 31));
+			List<UploaderDetailSummary> summary = adminService.reportConsumerForAllUploaders(LocalDate.of(2019, 1, 1), LocalDate.of(2019, 12, 31));
 			for (UploaderDetailSummary item : summary) {
 				logger.info(objMapper.writeValueAsString(item));
 			}
