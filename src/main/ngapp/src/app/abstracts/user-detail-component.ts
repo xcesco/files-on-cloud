@@ -1,7 +1,6 @@
-import {Administrator, User} from '../types/users';
+import {User} from '../types/users';
 import {AbstractUserService} from '../services/abstract-user.service';
 import {ActivatedRoute} from '@angular/router';
-import {AdminService} from '../services/admin.service';
 import {Location} from '@angular/common';
 import {ToastrService} from 'ngx-toastr';
 import {map} from 'rxjs/operators';

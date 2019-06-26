@@ -1,14 +1,13 @@
-import {Consumer, User} from '../types/users';
+import {User} from '../types/users';
 import {ActivatedRoute} from '@angular/router';
 import {ConfirmationDialogService} from '../shared/components/confirmation-dialog/confirmation-dialog.service';
 import {ChangePasswordDialogService} from '../shared/components/change-password-dialog/change-password-dialog.service';
-import {ConsumerService} from '../services/consumer.service';
 import {map} from 'rxjs/operators';
 import {AbstractUserService} from '../services/abstract-user.service';
 import {ToastrService} from 'ngx-toastr';
 
 export class AbstractUserTableComponent<E extends User, S extends AbstractUserService<E>> {
-  protected list: E[] = null;
+  list: E[] = null;
 
   constructor(protected actr: ActivatedRoute, protected confirmationDialogService: ConfirmationDialogService,
               protected changePasswordDialogService: ChangePasswordDialogService,
