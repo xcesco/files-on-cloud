@@ -42,7 +42,7 @@ public abstract class AbstractUserServiceImpl<R extends UserRepository<U>, U ext
 		request.setEmail(user.getUsername()).setPassword(password).setDisplayName(user.getDisplayName());
 
 		try {
-			//firebaseAuth.createUser(request);			
+			firebaseAuth.createUser(request);			
 			
 			return repository.save(user);
 		} catch (Throwable e) {
@@ -96,10 +96,10 @@ public abstract class AbstractUserServiceImpl<R extends UserRepository<U>, U ext
 		}
 	}
 
-	@Override
-	public int deleteByUsername(String username) {
-		return repository.deleteByUsername(username);
-	}
+//	@Override
+//	public int deleteByUsername(String username) {
+//		return repository.deleteByUsername(username);
+//	}
 	
 	@Override
 	public String getChangePasswordUrlById(long id) {
@@ -139,9 +139,23 @@ public abstract class AbstractUserServiceImpl<R extends UserRepository<U>, U ext
 
 	@Override
 	public boolean deleteById(long id) {
-		repository.deleteById(id);
+		FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+		Optional<User> user=this.userRepository.findById(id);
 		
-		return true;
+		if (user.isPresent()) {
+			try {
+				UserRecord userFirebase = firebaseAuth.getUserByEmail(user.get().getUsername());
+				firebaseAuth.deleteUser(userFirebase.getUid());
+				
+				repository.deleteById(user.get().getId());
+				return true;
+			} catch (FirebaseAuthException e) {
+				e.printStackTrace();
+				throw (AppRuntimeException.create(e));
+			}
+		}
+		
+		return false;
 	}
 
 	@Override

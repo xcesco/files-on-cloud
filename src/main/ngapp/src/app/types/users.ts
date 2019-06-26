@@ -14,3 +14,7 @@ export type Uploader = User;
 export interface Consumer extends User {
   codiceFiscale: string;
 }
+
+export interface ChangePasswordUrl {
+  url: string;
+}

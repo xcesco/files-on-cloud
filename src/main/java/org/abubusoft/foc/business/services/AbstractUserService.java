@@ -8,7 +8,7 @@ public interface AbstractUserService<U extends User> {
 		
 	U insertUser(U user, String password);
 		
-	int deleteByUsername(String username);
+	//int deleteByUsername(String username);
 	
 	boolean deleteById(long id);
 	

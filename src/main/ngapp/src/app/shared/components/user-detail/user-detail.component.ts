@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Administrator} from '../../../types/users';
 import {ActivatedRoute} from '@angular/router';
 import {map} from 'rxjs/operators';
-import {isNotBlank} from '../../utils';
+import {isNotBlank} from '../../utils/utils';
 
 @Component({
   selector: 'app-user-detail',

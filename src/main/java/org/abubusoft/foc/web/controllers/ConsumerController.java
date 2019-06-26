@@ -48,7 +48,7 @@ public class ConsumerController {
 	}
 
 	@DeleteMapping("/consumers/{consumerId}")
-	public ResponseEntity<Boolean> consumerDelete(@PathVariable("consumerId") long consumerId) {
+	public ResponseEntity<Boolean> delete(@PathVariable("consumerId") long consumerId) {
 		return ResponseEntity.ok(service.deleteById(consumerId));
 	}
 

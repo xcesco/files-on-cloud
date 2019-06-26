@@ -70,7 +70,7 @@ public class TestUploader extends BaseTest {
 	public void test2Delete() throws FirebaseAuthException, FileNotFoundException, IOException {
 		Uploader user = createUser();		
 		
-		int result=service.deleteByUsername(user.getUsername());
+		boolean result=service.deleteById(user.getId());
 		
 		logger.info("deleted "+result);
 	}

@@ -60,7 +60,7 @@ public class TestConsumer extends BaseTest {
 	public void test2Delete() throws FirebaseAuthException {
 		Consumer user = createUser();		
 		
-		int result=adminService.deleteByUsername(user.getUsername());
+		boolean result=adminService.deleteById(user.getId());
 		
 		logger.info("deleted "+result);
 	}

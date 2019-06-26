@@ -1,8 +1,8 @@
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Administrator, User} from '../types/users';
+import {Administrator, ChangePasswordUrl, User} from '../types/users';
 import {environment} from '../../environments/environment';
-import {isNotBlank} from '../shared/utils';
+import {isNotBlank} from '../shared/utils/utils';
 
 export class AbstractUserService<E extends User> {
 
@@ -22,8 +22,8 @@ export class AbstractUserService<E extends User> {
   /**
    * Prepara un admin di default, pronto per essere salvato
    */
-  create(): Observable<Administrator> {
-    return this.httpClient.get<Administrator>(environment.API_URL + this.baseUrl + '/new');
+  create(): Observable<E> {
+    return this.httpClient.get<E>(environment.API_URL + this.baseUrl + '/new');
   }
 
   /**
@@ -59,7 +59,7 @@ export class AbstractUserService<E extends User> {
    * Recupera un admin mediante il suo id
    * @param id  id dell'utente
    */
-  changePasswordUrl(id: number): Observable<string> {
-    return this.httpClient.get<string>(environment.API_URL + this.baseUrl + `/${id}/change-password`);
+  changePasswordUrl(id: number): Observable<ChangePasswordUrl> {
+    return this.httpClient.get<ChangePasswordUrl>(environment.API_URL + this.baseUrl + `/${id}/change-password`);
   }
 }
