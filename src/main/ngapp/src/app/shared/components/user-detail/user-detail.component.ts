@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Administrator} from '../../../types/users';
+import {Administrator, Consumer, Uploader} from '../../../types/users';
 import {ActivatedRoute} from '@angular/router';
-import {map} from 'rxjs/operators';
 import {isNotBlank} from '../../utils/utils';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-user-detail',
@@ -12,13 +12,17 @@ import {isNotBlank} from '../../utils/utils';
 })
 export class UserDetailComponent implements OnInit {
 
-  @Input() user: Administrator = null;
-
-  @Output() save: EventEmitter<Administrator> = new EventEmitter();
+  @Input() type: 'Administrator' | 'Uploader' | 'Consumer' = 'Administrator';
+  @Input() user: Administrator | Uploader | Consumer = null;
+  @Output() save: EventEmitter<Administrator | Uploader | Consumer> = new EventEmitter();
 
   form: FormGroup = null;
 
-  constructor(private actr: ActivatedRoute) {
+  get isConsumer(): boolean {
+    return this.type === 'Consumer';
+  }
+
+  constructor(private actr: ActivatedRoute, private location: Location) {
   }
 
   ngOnInit() {
@@ -26,17 +30,30 @@ export class UserDetailComponent implements OnInit {
     this.createForm(this.user);
   }
 
-  createForm(detail: Administrator) {
-    this.form = new FormGroup({
-      id: new FormControl(detail.id),
-      displayName: new FormControl(detail.displayName, [Validators.required]),
-      email: new FormControl(detail.email, [Validators.required, Validators.email]),
-      password: new FormControl(detail.password, [Validators.required]),
-      username: new FormControl(detail.username, [Validators.required, Validators.email])
-    });
+  createForm(detail: Administrator | Uploader | Consumer) {
+
+    if (this.type === 'Consumer') {
+      this.form = new FormGroup({
+        id: new FormControl(detail.id),
+        displayName: new FormControl(detail.displayName, [Validators.required]),
+        codiceFiscale: new FormControl((detail as Consumer).codiceFiscale, [Validators.required]),
+        email: new FormControl(detail.email, [Validators.required, Validators.email]),
+        password: new FormControl(detail.password, [Validators.required]),
+        username: new FormControl(detail.username, [Validators.required, Validators.email])
+      });
+    } else {
+      this.form = new FormGroup({
+        id: new FormControl(detail.id),
+        displayName: new FormControl(detail.displayName, [Validators.required]),
+        email: new FormControl(detail.email, [Validators.required, Validators.email]),
+        password: new FormControl(detail.password, [Validators.required]),
+        username: new FormControl(detail.username, [Validators.required, Validators.email])
+      });
+    }
+
 
     if (isNotBlank(detail.id)) {
-      this.form.get('username').disable();
+      // username viene messo in readonly this.form.get('username').
       this.form.get('password').disable();
     }
 
@@ -49,6 +66,11 @@ export class UserDetailComponent implements OnInit {
 
   get alreadyExists(): boolean {
     return isNotBlank(this.user.id);
+  }
+
+  goBack(): void {
+    console.log('go back');
+    this.location.back();
   }
 
   onSave() {

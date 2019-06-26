@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AbstractUserDetailComponent} from '../../../abstracts/user-detail-component';
+import {AbstractUserDetailComponent} from '../../user-detail.abstract';
 import {Consumer} from '../../../types/users';
 import {ActivatedRoute} from '@angular/router';
 import {Location} from '@angular/common';

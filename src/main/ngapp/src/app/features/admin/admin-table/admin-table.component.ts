@@ -5,7 +5,7 @@ import {map} from 'rxjs/operators';
 import {ConfirmationDialogService} from '../../../shared/components/confirmation-dialog/confirmation-dialog.service';
 import {AdminService} from '../../../services/admin.service';
 import {ChangePasswordDialogService} from '../../../shared/components/change-password-dialog/change-password-dialog.service';
-import {AbstractUserTableComponent} from '../../../abstracts/user-table-component';
+import {AbstractUserTableComponent} from '../../user-table.abstract';
 import {ToastrService} from 'ngx-toastr';
 
 

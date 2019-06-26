@@ -4,7 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {ConfirmationDialogService} from '../../../shared/components/confirmation-dialog/confirmation-dialog.service';
 import {ChangePasswordDialogService} from '../../../shared/components/change-password-dialog/change-password-dialog.service';
 import {UploaderService} from '../../../services/uploader.service';
-import {AbstractUserTableComponent} from '../../../abstracts/user-table-component';
+import {AbstractUserTableComponent} from '../../user-table.abstract';
 import {ToastrService} from 'ngx-toastr';
 
 @Component({
@@ -24,5 +24,9 @@ export class UploaderTableComponent extends AbstractUserTableComponent<Uploader,
 
   ngOnInit() {
     console.log('componentns --');
+  }
+
+  getLogoUrl(id: number): string {
+    return `/api/v1/uploaders/${id}/logo?t=` + (new Date()).getTime();
   }
 }

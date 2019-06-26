@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
 
-  API_URL: '../api/v1/',
+  API_URL: '/api/v1/',
   firebase: {
     apiKey: 'AIzaSyDHRei9lTBnZDkK2HA9XDybwO0UKAEsLqY',
     authDomain: 'programmazione-web-238419.firebaseapp.com',

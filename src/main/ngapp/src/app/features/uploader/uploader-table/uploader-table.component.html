@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-header d-flex flex-row align-items-center">
     <p class="float-left display-4 p-1">Uploaders</p>
-    <a href="#" class="btn btn-primary ml-auto" routerLink="../create" role="button">New uploader</a>
+    <a href="#" class="btn btn-primary ml-auto" routerLink="./create" role="button">New uploader</a>
   </div>
   <div class="card-body">
 
@@ -9,6 +9,7 @@
       <thead>
       <tr>
         <th scope="col">#</th>
+        <th scope="col">Logo</th>
         <th scope="col">Username</th>
         <th scope="col">Display name</th>
         <th scope="col">Email</th>
@@ -18,11 +19,12 @@
       <tbody>
       <tr *ngFor="let item of list; index as i" class="align-content-md-center">
         <th scope="row">{{ i + 1 }}</th>
+        <td><div class="img"><img alt="logo" class="img-fluid" style="width: 64px;" src="{{getLogoUrl(item.id)}}"></div></td>
         <td>{{ item.username }}</td>
         <td>{{ item.displayName }}</td>
         <td>{{ item.email }}</td>
         <td>
-          <a href="#" class="m-2 btn btn-lg btn-outline-primary float-left" [routerLink]="'/admins/'+item.id"
+          <a href="#" class="m-2 btn btn-lg btn-outline-primary float-left" [routerLink]="item.id"
              ngbTooltip="Edit"><i class="fa fa-edit"></i></a>
 
           <button (click)="onChangePassword(item)" type="button"

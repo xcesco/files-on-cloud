@@ -6,9 +6,7 @@ import {isNotBlank} from '../shared/utils/utils';
 
 export class AbstractUserService<E extends User> {
 
-  protected baseUrl;
-
-  constructor(protected httpClient: HttpClient) {
+  constructor(protected httpClient: HttpClient, protected baseUrl) {
 
   }
 
@@ -16,6 +14,7 @@ export class AbstractUserService<E extends User> {
    * Elenco di tutti gli admin
    */
   findAll(): Observable<E[]> {
+    console.log('findAll ', environment.API_URL + this.baseUrl + '/');
     return this.httpClient.get<E[]>(environment.API_URL + this.baseUrl + '/');
   }
 
@@ -23,6 +22,7 @@ export class AbstractUserService<E extends User> {
    * Prepara un admin di default, pronto per essere salvato
    */
   create(): Observable<E> {
+    console.log('create ', environment.API_URL + this.baseUrl + '/');
     return this.httpClient.get<E>(environment.API_URL + this.baseUrl + '/new');
   }
 
@@ -31,6 +31,7 @@ export class AbstractUserService<E extends User> {
    * @param id  id dell'utente
    */
   get(id: number): Observable<E> {
+    console.log('get ', environment.API_URL + this.baseUrl + '/');
     return this.httpClient.get<E>(environment.API_URL + this.baseUrl + `/${id}`);
   }
 
@@ -39,6 +40,7 @@ export class AbstractUserService<E extends User> {
    * @param id  id dell'utente
    */
   save(bean: E): Observable<E> {
+    console.log('save ', environment.API_URL + this.baseUrl + '/');
     if (isNotBlank(bean.id)) {
       return this.httpClient.put<E>(environment.API_URL + this.baseUrl + `/${bean.id}`, bean);
     } else {
@@ -52,6 +54,7 @@ export class AbstractUserService<E extends User> {
    * @param id  id dell'utente
    */
   delete(bean: E): Observable<E> {
+    console.log('delete ', environment.API_URL + this.baseUrl + '/');
     return this.httpClient.delete<E>(environment.API_URL + this.baseUrl + `/${bean.id}`);
   }
 
@@ -60,6 +63,7 @@ export class AbstractUserService<E extends User> {
    * @param id  id dell'utente
    */
   changePasswordUrl(id: number): Observable<ChangePasswordUrl> {
+    console.log('changePasswordUrl ', environment.API_URL + this.baseUrl + '/');
     return this.httpClient.get<ChangePasswordUrl>(environment.API_URL + this.baseUrl + `/${id}/change-password`);
   }
 }

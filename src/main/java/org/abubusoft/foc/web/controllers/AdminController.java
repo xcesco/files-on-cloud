@@ -27,41 +27,42 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @RestAPIV1Controller
-//@RestController
+@RequestMapping(value="${api.v1.base-url}/admins", produces = "application/json; charset=utf-8")
 public class AdminController {
 
 	private AdminFacade service;
 	
-	@GetMapping("/administrators")
+	@GetMapping
 	public ResponseEntity<List<AdminWto>> adminFindAll() {
 		return ResponseEntity.ok(service.findAll());
 	}
 
-	@GetMapping("/administrators/new")
+	@GetMapping("/new")
 	public ResponseEntity<AdminWto> create() {		
 		return ResponseEntity.ok(service.create());
 	}
 	
-	@DeleteMapping("/administrators/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Boolean> deleteById(@PathVariable("id") long id) {
 		return ResponseEntity.ok(service.deleteById(id));
 	}
 
-	@GetMapping("/administrators/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<AdminWto> findById(@PathVariable("id") long id) {
 		return ResponseEntity.ok(service.findById(id));
 	}
 	
-	@GetMapping("/administrators/{id}/change-password")
+	@GetMapping("/{id}/change-password")
 	public ResponseEntity<ChangePasswordWto> getChangePasswordUrl(@PathVariable("id") long id) {		
 		return ResponseEntity.ok(service.getChangePasswordUrlById(id));
 	}
 	
-	@GetMapping("/administrators/summary")
+	@GetMapping("/summary")
 	public ResponseEntity<List<UploaderSummary>> reportCloudFileForAllUploaders(
 			@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "dataDal", required = false) LocalDate dataDal,
 			@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "dataAl", required = false) LocalDate dataAl) {
@@ -74,7 +75,7 @@ public class AdminController {
 		return ResponseEntity.ok(service.reportCloudFileForAllUploaders(dataDal, dataAl));
 	}	
 	
-	@GetMapping("/administrators/detailed-summary")
+	@GetMapping("/detailed-summary")
 	public ResponseEntity<List<UploaderDetailSummary>> reportConsumerForAllUploaderset(
 			@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "dataDal", required = false) LocalDate dataDal,
 			@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "dataAl", required = false) LocalDate dataAl) {
@@ -100,7 +101,7 @@ public class AdminController {
 	    });
 	    return errors;
 	}
-	@PostMapping("/administrators")
+	@PostMapping
 	public ResponseEntity<AdminWto> save(@RequestBody @Valid AdminWto value) {
 		return ResponseEntity.ok(service.save(value));
 	}
@@ -110,7 +111,7 @@ public class AdminController {
 		this.service = adminService;
 	}
 
-	@PutMapping("/administrators/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<AdminWto> update(@PathVariable("id") long id, @RequestBody @Valid AdminWto value) {
 		value.setId(id);
 		return ResponseEntity.ok(service.save(value));

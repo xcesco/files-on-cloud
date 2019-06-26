@@ -9,8 +9,7 @@ import {ConfirmationDialogComponent} from './components/confirmation-dialog/conf
 import {NgbModalModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ConfirmationDialogService} from './components/confirmation-dialog/confirmation-dialog.service';
 import {ToastrModule} from 'ngx-toastr';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { ChangePasswordDialogComponent } from './components/change-password-dialog/change-password-dialog.component';
+import {ChangePasswordDialogComponent} from './components/change-password-dialog/change-password-dialog.component';
 import {ChangePasswordDialogService} from './components/change-password-dialog/change-password-dialog.service';
 
 

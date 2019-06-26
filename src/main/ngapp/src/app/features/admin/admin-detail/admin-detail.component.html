@@ -1,10 +1,11 @@
 <div class="card">
   <div class="card-header d-flex flex-row align-items-center">
     <p class="float-left display-4 p-1">{{ isJustCreated ? 'New': 'Edit'}} Administrator</p>
-    <a href="#" class="btn btn-primary ml-auto" routerLink="../list"
-       role="button">
-
-      <i class="fa fa-arrow-left"></i>&nbsp;Back</a></div>
+    <button class="btn btn-primary ml-auto" (click)="goBack()"
+            role="button">
+      <i class="fa fa-arrow-left"></i>&nbsp;Back
+    </button>
+  </div>
   <div class="card-body">
     <app-user-detail [user]="user" (save)="onSave($event)"></app-user-detail>
   </div>

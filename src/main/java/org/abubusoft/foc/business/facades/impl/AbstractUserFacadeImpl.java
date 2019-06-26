@@ -5,9 +5,12 @@ import org.abubusoft.foc.business.services.AbstractUserService;
 import org.abubusoft.foc.web.model.ChangePasswordWto;
 import org.abubusoft.foc.web.model.UserWto;
 import org.abubusoft.foc.web.support.WtoMapper;
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractUserFacadeImpl<W extends UserWto, S extends AbstractUserService<?>> implements AbstractUserFacade<W> {
+	
+	protected Logger log=Logger.getLogger(getClass());
 	
 	protected WtoMapper mapper = WtoMapper.INSTANCE;
 	

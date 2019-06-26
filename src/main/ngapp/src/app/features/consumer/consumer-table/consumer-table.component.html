@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-header d-flex flex-row align-items-center">
     <p class="float-left display-4 p-1">Consumers</p>
-    <a href="#" class="btn btn-primary ml-auto" routerLink="../create" role="button">New consumer</a>
+    <a href="#" class="btn btn-primary ml-auto" routerLink="./create" role="button">New consumer</a>
   </div>
   <div class="card-body">
 
@@ -24,7 +24,7 @@
         <td>{{ item.codiceFiscale }}</td>
         <td>{{ item.email }}</td>
         <td>
-          <a href="#" class="m-2 btn btn-lg btn-outline-primary float-left" [routerLink]="'/admins/'+item.id"
+          <a href="#" class="m-2 btn btn-lg btn-outline-primary float-left" [routerLink]="item.id"
              ngbTooltip="Edit"><i class="fa fa-edit"></i></a>
 
           <button (click)="onChangePassword(item)" type="button"

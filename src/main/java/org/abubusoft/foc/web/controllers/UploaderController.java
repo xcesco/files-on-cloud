@@ -1,5 +1,6 @@
 package org.abubusoft.foc.web.controllers;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -14,13 +15,17 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestAPIV1Controller
-//@RestController
+@RequestMapping(value="${api.v1.base-url}/uploaders", produces = "application/json; charset=utf-8")
 public class UploaderController {
 
 	private UploaderFacade service;
@@ -33,7 +38,7 @@ public class UploaderController {
 //	}			
 
 
-	@GetMapping("/uploaders/{id}/logo")
+	@GetMapping("/{id}/logo")
 	public ResponseEntity<ByteArrayResource> getUploaderLogo(@PathVariable("id") long uploaderId) {
 		byte[] content = service.getLogoById(uploaderId);
 		ByteArrayResource resource = new ByteArrayResource(content);
@@ -47,34 +52,45 @@ public class UploaderController {
 		return ResponseEntity.ok().headers(headers).contentLength(content.length).contentType(MediaType.IMAGE_PNG)
 				.body(resource);
 	}
+	
+	@PatchMapping("/{id}/logo")
+    public ResponseEntity<Boolean> handleFileUpload(@PathVariable("id") long uploaderId, @RequestParam("file") MultipartFile file) throws IOException {
+		service.saveLogo(uploaderId, file.getBytes());
+        
+        return ResponseEntity.ok(true);
+    }
 
 	@Autowired
 	public void setService(UploaderFacade service) {
 		this.service = service;
 	}
 	
-	@PostMapping("/uploaders")
+	@PostMapping
 	public ResponseEntity<UploaderWto> save(@RequestBody @Valid UploaderWto value) {
 		return ResponseEntity.ok(service.save(value));
 	}
 	
-	@GetMapping("/uploaders/new")
+	@GetMapping("/new")
 	public ResponseEntity<UploaderWto> uploaderNew() {		
 		return ResponseEntity.ok(service.create());
 	}
-	
 
-	@DeleteMapping("/uploaders/{id}")
+	@GetMapping("/{id}")
+	public ResponseEntity<UploaderWto> findById(@PathVariable("id") long id) {
+		return ResponseEntity.ok(service.findById(id));
+	}
+
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Boolean> uploaderDelete(@PathVariable("id") long uploaderId) {
 		return ResponseEntity.ok(service.deleteById(uploaderId));
 	}
 	
-	@GetMapping("/uploaders")
+	@GetMapping
 	public ResponseEntity<List<UploaderWto>> uploaderFindAll() {
 		return ResponseEntity.ok(service.findAll());
 	}
 
-	@PutMapping("/uploaders/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<UploaderWto> uploaderModify(@PathVariable("id") long uploaderId, @RequestBody @Valid UploaderWto value) {
 		value.setId(uploaderId);
 		return ResponseEntity.ok(service.save(value));

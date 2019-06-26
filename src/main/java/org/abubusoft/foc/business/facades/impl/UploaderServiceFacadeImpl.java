@@ -1,6 +1,7 @@
 package org.abubusoft.foc.business.facades.impl;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,11 +9,16 @@ import org.abubusoft.foc.business.facades.UploaderFacade;
 import org.abubusoft.foc.business.services.UploaderService;
 import org.abubusoft.foc.repositories.model.Uploader;
 import org.abubusoft.foc.web.model.UploaderWto;
+import org.apache.commons.io.IOUtils;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UploaderServiceFacadeImpl extends AbstractUserFacadeImpl<UploaderWto, UploaderService> implements UploaderFacade {
 
+	
+	
 	@Override
 	public UploaderWto save(UploaderWto value) {
 		Uploader user = mapper.convertUploaderToDto(value);
@@ -36,11 +42,23 @@ public class UploaderServiceFacadeImpl extends AbstractUserFacadeImpl<UploaderWt
 	public byte[] getLogoById(long id) {
 		Optional<Uploader> result = service.findById(id);
 
-		if (result.isPresent()) {
+		if (result.isPresent() && result.get().getImage()!=null) {
 			return result.get().getImage();
 		}
 
-		return null;
+		// carichiamo logo di default
+		try {
+			return IOUtils.toByteArray(loadDefaultLogo().getInputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	private Resource loadDefaultLogo() throws IOException {
+	    ClassPathResource resource = new ClassPathResource("images/user.png");
+	    log.info(resource.getFile().getAbsoluteFile().toString());
+	    return resource;
 	}
 
 	@Override

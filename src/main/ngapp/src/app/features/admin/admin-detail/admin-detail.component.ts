@@ -4,7 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {AdminService} from '../../../services/admin.service';
 import {Location} from '@angular/common';
 import {ToastrService} from 'ngx-toastr';
-import {AbstractUserDetailComponent} from '../../../abstracts/user-detail-component';
+import {AbstractUserDetailComponent} from '../../user-detail.abstract';
 
 @Component({
   selector: 'app-admins-detail',

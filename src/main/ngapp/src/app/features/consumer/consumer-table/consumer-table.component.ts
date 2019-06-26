@@ -4,7 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {ConfirmationDialogService} from '../../../shared/components/confirmation-dialog/confirmation-dialog.service';
 import {ChangePasswordDialogService} from '../../../shared/components/change-password-dialog/change-password-dialog.service';
 import {ConsumerService} from '../../../services/consumer.service';
-import {AbstractUserTableComponent} from '../../../abstracts/user-table-component';
+import {AbstractUserTableComponent} from '../../user-table.abstract';
 import {ToastrService} from 'ngx-toastr';
 
 @Component({

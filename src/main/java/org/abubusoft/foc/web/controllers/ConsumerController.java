@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.abubusoft.foc.business.facades.ConsumerFacade;
 import org.abubusoft.foc.repositories.model.UploaderDetailSummary;
 import org.abubusoft.foc.web.RestAPIV1Controller;
+import org.abubusoft.foc.web.model.AdminWto;
 import org.abubusoft.foc.web.model.ChangePasswordWto;
 import org.abubusoft.foc.web.model.ConsumerWto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestAPIV1Controller
-//@RestController
+@RequestMapping(value="${api.v1.base-url}/consumers", produces = "application/json; charset=utf-8")
 public class ConsumerController {
 
 	private ConsumerFacade service;
@@ -32,27 +34,32 @@ public class ConsumerController {
 	}
 	
 
-	@GetMapping("/consumers/new")
+	@GetMapping("new")
 	public ResponseEntity<ConsumerWto> create() {
 		return ResponseEntity.ok(service.create());
 	}
 
-	@GetMapping("/consumers")
+	@GetMapping
 	public ResponseEntity<List<ConsumerWto>> consumerFindAll() {
 		return ResponseEntity.ok(service.findAll());
 	}
 
-	@PostMapping("/consumers")
+	@PostMapping
 	public ResponseEntity<ConsumerWto> consumerInsert(@RequestBody @Valid ConsumerWto value) {
 		return ResponseEntity.ok(service.save(value));
 	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<ConsumerWto> findById(@PathVariable("id") long id) {
+		return ResponseEntity.ok(service.findById(id));
+	}
 
-	@DeleteMapping("/consumers/{consumerId}")
+	@DeleteMapping("/{consumerId}")
 	public ResponseEntity<Boolean> delete(@PathVariable("consumerId") long consumerId) {
 		return ResponseEntity.ok(service.deleteById(consumerId));
 	}
 
-	@PutMapping("/consumers/{consumerId}")
+	@PutMapping("/{consumerId}")
 	public ResponseEntity<ConsumerWto> consumerUpdate(@PathVariable("consumerId") long consumerId,
 			@RequestBody @Valid ConsumerWto value) {
 		value.setId(consumerId);
@@ -66,7 +73,7 @@ public class ConsumerController {
 		return ResponseEntity.ok(service.updateConsumerById(value));
 	}*/
 
-	@GetMapping("/consumers/{consumerId}/uploaders-summary")
+	@GetMapping("/{consumerId}/uploaders-summary")
 	public ResponseEntity<List<UploaderDetailSummary>> findUploaderWithFiles(
 			@PathVariable("consumerId") long consumerId) {
 		return ResponseEntity.ok(service.findUploadersWithFileByConsumerId(consumerId));
@@ -74,12 +81,12 @@ public class ConsumerController {
 
 	
 	
-	@GetMapping("/consumers/{consumerId}/change-password")
+	@GetMapping("/{consumerId}/change-password")
 	public ResponseEntity<ChangePasswordWto> getChangePasswordUrlById(@PathVariable("consumerId") long consumerId) {
 		return ResponseEntity.ok(service.getChangePasswordUrlById(consumerId));
 	}
 	
-	@GetMapping("/user/ip")
+	@GetMapping("/ip")
 	public ResponseEntity<String> ip(HttpServletRequest request) {
 		String ip = request.getHeader("X-Forwarded-For");  
         if (StringUtils.isEmpty(ip)) {  

@@ -31,57 +31,56 @@ public class IdentityManagementServiceImpl implements IdentityManagementService 
 	public User findByUsername(String email) {
 		try {
 			return repository.findByUsername(email);
-		} catch(EmptyResultDataAccessException nre) {
+		} catch (EmptyResultDataAccessException nre) {
 			return null;
-		}				
+		}
 	}
-	
+
 	@Override
 	public void deleteByUsername(String username) {
 		FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-		
+
 		UserRecord user;
 		try {
 			user = firebaseAuth.getUserByEmail(username);
 			firebaseAuth.deleteUser(user.getUid());
-			
+
 			repository.deleteByUsername(username);
 		} catch (FirebaseAuthException e) {
 			e.printStackTrace();
 			throw (AppRuntimeException.create(e));
 		}
-		
+
 	}
 
 	@Override
 	public void deleteAllUsers() {
-		FirebaseAuth firebase = FirebaseAuth.getInstance();			
+		FirebaseAuth firebase = FirebaseAuth.getInstance();
 
-		Set<String> uidToDelete=new HashSet<>();
+		Set<String> uidToDelete = new HashSet<>();
 		ListUsersPage list;
 		try {
 			list = firebase.listUsers(null);
-			
-			 while(list!=null) {					
-					for (ExportedUserRecord item: list.getValues()) {
-						//log.info(String.format("Select %s (%s) to delete ", item.getEmail(), item.getUid()));				
-						uidToDelete.add(item.getUid());
-					}			
-					
-					list=list.getNextPage();
+
+			while (list != null) {
+				for (ExportedUserRecord item : list.getValues()) {
+					// log.info(String.format("Select %s (%s) to delete ", item.getEmail(),
+					// item.getUid()));
+					uidToDelete.add(item.getUid());
 				}
-				
-				for (String uid: uidToDelete) {
-					firebase.deleteUser(uid);
-				}
-				
-				repository.findAll();
-		} catch (FirebaseAuthException e) {
+
+				list = list.getNextPage();
+			}
+
+			for (String uid : uidToDelete) {
+				firebase.deleteUser(uid);
+			}
+
+			repository.deleteAllInBatch();
+		} catch (Throwable e) {
 			e.printStackTrace();
 			throw AppRuntimeException.create(e);
 		}
-								
-		
-		
+
 	}
 }
