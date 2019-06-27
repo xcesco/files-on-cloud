@@ -7,6 +7,7 @@ import org.abubusoft.foc.repositories.model.CloudFile;
 import org.abubusoft.foc.repositories.model.Consumer;
 import org.abubusoft.foc.repositories.model.Uploader;
 import org.abubusoft.foc.web.model.AdminWto;
+import org.abubusoft.foc.web.model.CloudFileInfoWto;
 import org.abubusoft.foc.web.model.CloudFileWto;
 import org.abubusoft.foc.web.model.ConsumerWto;
 import org.abubusoft.foc.web.model.UploaderWto;
@@ -24,7 +25,7 @@ public interface WtoMapper {
 
 	AdminWto convertAdminToWto(Administrator result);	
 	
-	List<CloudFileWto> convertCloudFileListToWto(Iterable<CloudFile> iterable);
+	List<CloudFileInfoWto> convertCloudFileListToWto(Iterable<CloudFile> iterable);
 
 	List<ConsumerWto> convertConsumerListToWto(Iterable<Consumer> findAll);
 
@@ -48,13 +49,8 @@ public interface WtoMapper {
 		result.setMimeType(value.getMimeType());
 		result.setContentLength(value.getContentLength());
 		
-		result.setConsumerId(value.getConsumer().getId());
-		result.setConsumerUsername(value.getConsumer().getUsername());
-		result.setConsumerDisplayName(value.getConsumer().getDisplayName());
-		
-		result.setUploaderId(value.getUploader().getId());
-		result.setUploaderDisplayName(value.getUploader().getDisplayName());
-		result.setUploaderUsername(value.getUploader().getUsername());
+		result.setConsumer(convertConsumerToWto(value.getConsumer()));
+		result.setUploader(convertUploaderToWto(value.getUploader()));
 		
 		return result;
     }
@@ -63,7 +59,8 @@ public interface WtoMapper {
 		CloudFile result=new CloudFile();
 		
 		result.setUuid(value.getUuid());
-		//result.setCreationTime(value.getCreatedDateTime());
+		
+		result.setCreatedDateTime(value.getCreationTime());
 		result.setNotified(value.isNotified());
 		
 		result.setViewIp(value.getViewIp());
@@ -75,13 +72,8 @@ public interface WtoMapper {
 		result.setMimeType(value.getMimeType());
 		result.setContentLength(value.getContentLength());
 		
-		//result.setConsumerId(value.getConsumer().getId());
-		//result.setConsumerUsername(value.getConsumer().getUsername());
-		//result.setConsumerDisplayName(value.getConsumer().getDisplayName());
-		
-		//result.setUploaderId(value.getUploader().getId());
-		//result.setUploaderDisplayName(value.getUploader().getDisplayName());
-		//result.setUploaderUsername(value.getUploader().getUsername());
+		result.setConsumer(convertConsumerToDto(value.getConsumer()));
+		result.setUploader(convertUploaderToDto(value.getUploader()));
 		
 		return result;
     }

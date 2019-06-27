@@ -10,7 +10,7 @@ import org.abubusoft.foc.business.facades.CloudFileFacade;
 import org.abubusoft.foc.repositories.model.CloudFile;
 import org.abubusoft.foc.repositories.model.CloudFileTag;
 import org.abubusoft.foc.web.RestAPIV1Controller;
-import org.abubusoft.foc.web.model.CloudFileWto;
+import org.abubusoft.foc.web.model.CloudFileInfoWto;
 import org.abubusoft.foc.web.model.ConsumerAndCloudFileWto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,18 +41,21 @@ public class CloudFileController {
 
 	@PostMapping("/uploaders/{uploaderId}/consumers/{consumerId}/files")
 	public ResponseEntity<Long> create(@PathVariable("uploaderId") long uploaderId,
-			@PathVariable("consumerId") long consumerId, @RequestBody CloudFileWto cloudFile) {
+			@PathVariable("consumerId") long consumerId, @RequestBody CloudFileInfoWto cloudFile) {
 		return ResponseEntity.ok(service.create(uploaderId, consumerId, cloudFile));
 	}
 	
-	@PostMapping(value = "/uploaders/{uploaderId}/files")
+	@PostMapping(value = "/files", consumes={MediaType.MULTIPART_FORM_DATA_VALUE})
 	@ResponseStatus(HttpStatus.OK)
-	public void handleFileUpload(@RequestParam("file") MultipartFile file) throws IOException {
+	public ResponseEntity<Boolean> handleFileUpload(@RequestPart("file") MultipartFile file, @RequestPart("info") CloudFileInfoWto info) throws IOException {
+		
 		service.storeFile(file.getInputStream());
+		
+		return ResponseEntity.ok(true);
 	}
 	
 	@GetMapping("/consumers/{consumerId}/uploaders/{uploaderId}/files")
-	public ResponseEntity<List<CloudFileWto>> findFiles(
+	public ResponseEntity<List<CloudFileInfoWto>> findFiles(
 			@PathVariable(value="consumerId") long consumerId,
 			@PathVariable(value="uploaderId") long uploaderId, 
 			@RequestParam(value="tags") Set<String> tags) {
@@ -85,19 +89,19 @@ public class CloudFileController {
 	}
 
 	@GetMapping("/uploaders/{uploaderId}/consumers/{consumerId}/files")
-	public ResponseEntity<List<CloudFileWto>> findFilesByUploaderAndConsumer(
+	public ResponseEntity<List<CloudFileInfoWto>> findFilesByUploaderAndConsumer(
 			@PathVariable(value = "uploaderId") long uploaderId, @PathVariable(value = "consumerId") long consumerId) {
 		return ResponseEntity.ok(service.findByUploaderAndConsumer(uploaderId, consumerId));
 	}
 	
 	@GetMapping("/uploaders/{uploaderId}/consumers/{consumerId}/files/create")
-	public ResponseEntity<CloudFileWto> fileCreate(@PathVariable(value = "uploaderId") long uploaderId,
+	public ResponseEntity<CloudFileInfoWto> fileCreate(@PathVariable(value = "uploaderId") long uploaderId,
 			@PathVariable(value = "consumerId") long consumerId) {
 		return ResponseEntity.ok(service.create(uploaderId, consumerId));
 	}
 
 	@GetMapping("/uploaders/{uploaderId}/consumers/{consumerId}/files/{fileId}")
-	public ResponseEntity<CloudFileWto> fileFindById(@PathVariable(value = "uploaderId") long uploaderId,
+	public ResponseEntity<CloudFileInfoWto> fileFindById(@PathVariable(value = "uploaderId") long uploaderId,
 			@PathVariable(value = "consumerId") long consumerId, @PathVariable("fileId") long fileId) {
 		return ResponseEntity.ok(service.findByUploaderAndConsumerAndFile(uploaderId, consumerId, fileId));
 	}

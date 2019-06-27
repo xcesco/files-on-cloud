@@ -1,8 +1,6 @@
 package org.abubusoft.foc.web.model;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 import org.abubusoft.foc.web.support.LocalDateTimeDeserializer;
 import org.abubusoft.foc.web.support.LocalDateTimeSerializer;
@@ -10,20 +8,9 @@ import org.abubusoft.foc.web.support.LocalDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-public class CloudFileWto {
+public class CloudFileWto extends CloudFileInfoWto {
 	
-	protected String consumerDisplayName;
-	
-	protected long consumerId;
-
-	protected String consumerUsername;
-
 	protected long contentLength;
-
-	//@ApiModelProperty(required = true, dataType = "org.joda.time.LocalDate")
-	@JsonDeserialize(using = LocalDateTimeDeserializer.class)  
-	@JsonSerialize(using = LocalDateTimeSerializer.class)
-	protected LocalDateTime creationTime;
 
 	protected String fileName;
 
@@ -31,37 +18,18 @@ public class CloudFileWto {
 
 	protected boolean notified;
 
-	protected Set<String> tags = new LinkedHashSet<>();
-
-	protected String uploaderDisplayName;
-
-	protected long uploaderId;
-
-	protected String uploaderUsername;
+	protected UploaderWto uploader;
 
 	protected String uuid;
 
 	protected String viewIp;
 
-	//@ApiModelProperty(required = true, dataType = "org.joda.time.LocalDate")
-	@JsonDeserialize(using = LocalDateTimeDeserializer.class)  
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	protected LocalDateTime viewTime;
 
-	public String getConsumerDisplayName() {
-		return consumerDisplayName;
-	}
-
-	public String getConsumerUsername() {
-		return consumerUsername;
-	}
-
 	public long getContentLength() {
 		return contentLength;
-	}
-
-	public LocalDateTime getCreationTime() {
-		return creationTime;
 	}
 
 	public String getFileName() {
@@ -72,24 +40,8 @@ public class CloudFileWto {
 		return mimeType;
 	}
 
-	public Set<String> getTags() {
-		return tags;
-	}
-
-	public String getUploaderDisplayName() {
-		return uploaderDisplayName;
-	}
-
-	public long getUploaderId() {
-		return uploaderId;
-	}
-
-	public void setUploaderId(long uploaderId) {
-		this.uploaderId = uploaderId;
-	}
-
-	public String getUploaderUsername() {
-		return uploaderUsername;
+	public UploaderWto getUploader() {
+		return uploader;
 	}
 
 	public String getUuid() {
@@ -99,37 +51,17 @@ public class CloudFileWto {
 	public String getViewIp() {
 		return viewIp;
 	}
-	
+
 	public LocalDateTime getViewTime() {
 		return viewTime;
 	}
-	
+
 	public boolean isNotified() {
 		return notified;
-	}
-	
-	public void setConsumerDisplayName(String consumerDisplayName) {
-		this.consumerDisplayName = consumerDisplayName;
-	}
-	
-	public long getConsumerId() {
-		return consumerId;
-	}
-
-	public void setConsumerId(long consumerId) {
-		this.consumerId = consumerId;
-	}
-
-	public void setConsumerUsername(String consumerUsername) {
-		this.consumerUsername = consumerUsername;
 	}
 
 	public void setContentLength(long contentLength) {
 		this.contentLength = contentLength;
-	}
-	
-	public void setCreationTime(LocalDateTime creationTime) {
-		this.creationTime = creationTime;
 	}
 
 	public void setFileName(String fileName) {
@@ -144,16 +76,8 @@ public class CloudFileWto {
 		this.notified = notified;
 	}
 
-	public void setTags(Set<String> tags) {
-		this.tags = tags;
-	}
-
-	public void setUploaderDisplayName(String uploaderDisplayName) {
-		this.uploaderDisplayName = uploaderDisplayName;
-	}
-	
-	public void setUploaderUsername(String uploaderUsername) {
-		this.uploaderUsername = uploaderUsername;
+	public void setUploader(UploaderWto uploader) {
+		this.uploader = uploader;
 	}
 
 	public void setUuid(String uuid) {

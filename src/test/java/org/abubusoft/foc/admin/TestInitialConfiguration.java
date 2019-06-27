@@ -11,7 +11,9 @@ import org.abubusoft.foc.BaseTest;
 import org.abubusoft.foc.business.facades.AdminFacade;
 import org.abubusoft.foc.business.facades.ConsumerFacade;
 import org.abubusoft.foc.business.facades.UploaderFacade;
+import org.abubusoft.foc.repositories.model.CloudFile;
 import org.abubusoft.foc.web.model.AdminWto;
+import org.abubusoft.foc.web.model.CloudFileInfoWto;
 import org.abubusoft.foc.web.model.ConsumerWto;
 import org.abubusoft.foc.web.model.UploaderWto;
 import org.apache.commons.io.IOUtils;
@@ -84,6 +86,13 @@ public class TestInitialConfiguration extends BaseTest {
 			user.setPassword("password");
 			user.setCodiceFiscale("RSSMRA80A01L424F");
 			user = consumerFacade.save(user);		
+		}
+		
+		{
+			// creazione file
+			CloudFileInfoWto file=new CloudFileInfoWto();
+			//file.set
+			
 		}
 
 	}

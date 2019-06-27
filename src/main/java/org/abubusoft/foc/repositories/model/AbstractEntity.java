@@ -2,6 +2,7 @@ package org.abubusoft.foc.repositories.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,7 +38,8 @@ public abstract class AbstractEntity {
 
 	@CreatedDate
 	@JsonDeserialize(using = LocalDateTimeDeserializer.class)  
-	@JsonSerialize(using = LocalDateTimeSerializer.class)  
+	@JsonSerialize(using = LocalDateTimeSerializer.class) 
+	@Column(nullable = false)
 	protected LocalDateTime createdDateTime;
 	
 	

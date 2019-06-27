@@ -2,6 +2,7 @@ package org.abubusoft.foc.business.facades.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,11 +81,11 @@ public class UploaderServiceFacadeImpl extends AbstractUserFacadeImpl<UploaderWt
 	}
 
 	@Override
-	public boolean saveLogo(long id, byte[] byteArray) {
+	public boolean saveLogo(long id, InputStream inputStream) {
 		Optional<Uploader> result = service.findById(id);
 
 		if (result.isPresent()) {
-			service.updateUploaderLogo(result.get().getUsername(), new ByteArrayInputStream(byteArray));
+			service.updateUploaderLogo(result.get().getUsername(), inputStream);
 			return true;
 		}
 

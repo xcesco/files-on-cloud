@@ -55,7 +55,7 @@ public class UploaderController {
 	
 	@PatchMapping("/{id}/logo")
     public ResponseEntity<Boolean> handleFileUpload(@PathVariable("id") long uploaderId, @RequestParam("file") MultipartFile file) throws IOException {
-		service.saveLogo(uploaderId, file.getBytes());
+		service.saveLogo(uploaderId, file.getInputStream());
         
         return ResponseEntity.ok(true);
     }
