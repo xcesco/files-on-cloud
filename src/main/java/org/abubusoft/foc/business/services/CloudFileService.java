@@ -1,27 +1,15 @@
 package org.abubusoft.foc.business.services;
 
-import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
-
 import org.abubusoft.foc.repositories.model.CloudFile;
 import org.abubusoft.foc.repositories.model.CloudFileTag;
-import org.abubusoft.foc.repositories.model.Consumer;
 import org.springframework.data.util.Pair;
 
 public interface CloudFileService {
  
-	String uploadFile(Part filePart) throws IOException;
-
-	String getImageUrl(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException;
-	
-	CloudFile uploadFile(String uploaderUsername, Consumer consumer, String fileName, byte[] content, Set<String> tags);
-
 	void deleteAllFiles();
 	
 	List<CloudFile> findByUploaderAndConsumer(long uploaderId, long consumerId);
@@ -38,6 +26,6 @@ public interface CloudFileService {
 
 	Pair<CloudFile, byte[]> getFile(String fileUuid);
 
-	
+	CloudFile uploadFile(CloudFile cloudFile, InputStream content);	
 	
 }

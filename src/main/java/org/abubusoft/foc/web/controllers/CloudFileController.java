@@ -1,9 +1,12 @@
 package org.abubusoft.foc.web.controllers;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.print.attribute.HashAttributeSet;
 import javax.servlet.http.HttpServletRequest;
 
 import org.abubusoft.foc.business.facades.CloudFileFacade;
@@ -11,7 +14,7 @@ import org.abubusoft.foc.repositories.model.CloudFile;
 import org.abubusoft.foc.repositories.model.CloudFileTag;
 import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.CloudFileInfoWto;
-import org.abubusoft.foc.web.model.ConsumerAndCloudFileWto;
+import org.abubusoft.foc.web.model.ConsumerWto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.util.Pair;
@@ -19,6 +22,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,15 +49,35 @@ public class CloudFileController {
 		return ResponseEntity.ok(service.create(uploaderId, consumerId, cloudFile));
 	}
 	
-	@PostMapping(value = "/files", consumes={MediaType.MULTIPART_FORM_DATA_VALUE})
+	@PostMapping(value = "/uploaders/{uploaderId}/files", consumes={MediaType.MULTIPART_FORM_DATA_VALUE})
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<Boolean> handleFileUpload(@RequestPart("file") MultipartFile file, @RequestPart("info") CloudFileInfoWto info) throws IOException {
+	public ResponseEntity<Boolean> handleFileUpload(@PathVariable("uploaderId") long uploaderId,
+			@RequestPart(name="codiceFiscale") String codiceFiscale,
+			@RequestPart(name="email", required=false) String email,
+			@RequestPart(name="displayName", required=false) String displayName,
+			@RequestPart(name="hashtag", required=false) String hashtag,
+			@RequestPart(name="username", required=false) String username,
+			@RequestPart(name="file") MultipartFile multipartFile) throws IOException {
+		ConsumerWto consumer=new ConsumerWto();
+		consumer.setCodiceFiscale(codiceFiscale);
+		consumer.setDisplayName(displayName);
+		consumer.setEmail(email);
+		consumer.setUsername(username);
 		
-		service.storeFile(file.getInputStream());
+		Set<String> hashTagSet=null;
+		if (StringUtils.hasText(hashtag)) {
+			hashTagSet=new HashSet<>();			
+			hashTagSet.addAll(Arrays.asList(hashtag.split(",")));
+		}		
+		
+		CloudFileInfoWto info=new CloudFileInfoWto();
+		info.setConsumer(consumer);
+		info.setTags(hashTagSet);
+		service.save(uploaderId, info, multipartFile);
 		
 		return ResponseEntity.ok(true);
 	}
-	
+		
 	@GetMapping("/consumers/{consumerId}/uploaders/{uploaderId}/files")
 	public ResponseEntity<List<CloudFileInfoWto>> findFiles(
 			@PathVariable(value="consumerId") long consumerId,
@@ -62,7 +86,7 @@ public class CloudFileController {
 		return ResponseEntity.ok(service.findByConsumerAndUploader(consumerId, uploaderId, tags));
 	}
 
-	@GetMapping("/cloud/{fileUUID}")
+	@GetMapping("/files/{fileUUID}")
 	public ResponseEntity<ByteArrayResource> getFiles(HttpServletRequest request, @PathVariable("fileUUID") String fileUUID) {
 		ResponseEntity.ok();
 		
@@ -110,12 +134,6 @@ public class CloudFileController {
 	public ResponseEntity<Boolean> fileDeleteById(@PathVariable("uploaderId") long uploaderId,
 			@PathVariable("consumerId") long consumerId, @PathVariable("fileId") long fileId) {
 		return ResponseEntity.ok(service.deleteByUploaderAndConsumerAndFile(uploaderId, consumerId, fileId));
-	}
-	
-	@PostMapping("/cloud/uploader/{uploaderId}")
-	public ResponseEntity<Boolean> fileCreate(@PathVariable("uploaderId") long uploaderId,
-			@RequestBody ConsumerAndCloudFileWto consumerCloudFile) {
-		return ResponseEntity.ok(service.create(uploaderId, consumerCloudFile));
 	}
 
 

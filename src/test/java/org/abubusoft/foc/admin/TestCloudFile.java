@@ -23,6 +23,7 @@ import org.abubusoft.foc.repositories.model.Consumer;
 import org.abubusoft.foc.repositories.model.Uploader;
 import org.abubusoft.foc.repositories.model.UploaderDetailSummary;
 import org.abubusoft.foc.repositories.model.UploaderSummary;
+import org.abubusoft.foc.repositories.support.MimeTypeUtils;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,7 +87,7 @@ public class TestCloudFile extends BaseTest {
 		File file = new File("src/test/resources/images/user.png");
 		byte[] content = IOUtils.toByteArray(new FileInputStream(file));
 
-		cloudFileService.uploadFile(uploader.getUsername(), consumer, file.getName(), content, null);
+		//cloudFileService.uploadFile(uploader.getUsername(), consumer, file.getName(), content, null);
 	}
 
 	@Test
@@ -299,8 +300,16 @@ public class TestCloudFile extends BaseTest {
 	private CloudFile createCloudFile(Consumer consumer, Uploader uploader, File file, Set<String> tags)
 			throws IOException, FileNotFoundException {
 		byte[] content = IOUtils.toByteArray(new FileInputStream(file));
+		
+		CloudFile cloudFile = new CloudFile();
+		cloudFile.setConsumer(consumer);
+		cloudFile.setUploader(uploader);
+		cloudFile.setContentLength(content.length);
+		cloudFile.setFileName(file.getName());
+		cloudFile.setMimeType(MimeTypeUtils.getFromFileName(file.getName()));
+		cloudFile.setTags(tags);
 
-		return cloudFileService.uploadFile(uploader.getUsername(), consumer, file.getName(), content, tags);
+		return cloudFileService.uploadFile(cloudFile, new FileInputStream(file));
 	}	
 
 }

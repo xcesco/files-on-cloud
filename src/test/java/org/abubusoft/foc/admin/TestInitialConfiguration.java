@@ -74,7 +74,7 @@ public class TestInitialConfiguration extends BaseTest {
 			user = uploaderFacade.save(user);
 
 			File image = new File("src/test/resources/images/user.png");
-			uploaderFacade.saveLogo(user.getId(), IOUtils.toByteArray(new FileInputStream(image)));
+			uploaderFacade.saveLogo(user.getId(), new FileInputStream(image));
 		}
 
 		{
