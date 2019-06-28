@@ -5,9 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
-
+import org.springframework.http.MediaType;
 import org.abubusoft.foc.business.facades.AdminFacade;
 import org.abubusoft.foc.repositories.model.UploaderDetailSummary;
 import org.abubusoft.foc.repositories.model.UploaderSummary;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -115,6 +117,34 @@ public class AdminController {
 	public ResponseEntity<AdminWto> update(@PathVariable("id") long id, @RequestBody @Valid AdminWto value) {
 		value.setId(id);
 		return ResponseEntity.ok(service.save(value));
+	}
+	
+	@GetMapping(name="/ip",produces=MediaType.TEXT_PLAIN_VALUE )
+	public ResponseEntity<String> ip(HttpServletRequest request) {
+		String ip = extractIp(request);
+        
+        return ResponseEntity.ok(ip);
+	}
+
+
+	private String extractIp(HttpServletRequest request) {
+		String ip = request.getHeader("X-Forwarded-For");  
+        if (StringUtils.isEmpty(ip)) {  
+            ip = request.getHeader("Proxy-Client-IP");  
+        }  
+        if (StringUtils.isEmpty(ip)) {  
+            ip = request.getHeader("WL-Proxy-Client-IP");  
+        }  
+        if (StringUtils.isEmpty(ip)) {  
+            ip = request.getHeader("HTTP_CLIENT_IP");  
+        }  
+        if (StringUtils.isEmpty(ip)) {  
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");  
+        }  
+        if (StringUtils.isEmpty(ip)) {  
+            ip = request.getRemoteAddr();  
+        }
+		return ip;
 	}
 			
 

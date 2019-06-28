@@ -2,18 +2,15 @@ package org.abubusoft.foc.web.controllers;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.abubusoft.foc.business.facades.ConsumerFacade;
 import org.abubusoft.foc.repositories.model.UploaderDetailSummary;
 import org.abubusoft.foc.web.RestAPIV1Controller;
-import org.abubusoft.foc.web.model.AdminWto;
 import org.abubusoft.foc.web.model.ChangePasswordWto;
 import org.abubusoft.foc.web.model.ConsumerWto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -85,28 +82,5 @@ public class ConsumerController {
 	public ResponseEntity<ChangePasswordWto> getChangePasswordUrlById(@PathVariable("consumerId") long consumerId) {
 		return ResponseEntity.ok(service.getChangePasswordUrlById(consumerId));
 	}
-	
-	@GetMapping("/ip")
-	public ResponseEntity<String> ip(HttpServletRequest request) {
-		String ip = request.getHeader("X-Forwarded-For");  
-        if (StringUtils.isEmpty(ip)) {  
-            ip = request.getHeader("Proxy-Client-IP");  
-        }  
-        if (StringUtils.isEmpty(ip)) {  
-            ip = request.getHeader("WL-Proxy-Client-IP");  
-        }  
-        if (StringUtils.isEmpty(ip)) {  
-            ip = request.getHeader("HTTP_CLIENT_IP");  
-        }  
-        if (StringUtils.isEmpty(ip)) {  
-            ip = request.getHeader("HTTP_X_FORWARDED_FOR");  
-        }  
-        if (StringUtils.isEmpty(ip)) {  
-            ip = request.getRemoteAddr();  
-        }
-        
-        return ResponseEntity.ok(ip);
-	}
-	
 
 }

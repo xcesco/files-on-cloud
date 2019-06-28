@@ -1,5 +1,9 @@
 package org.abubusoft.foc;
 
+import java.util.TimeZone;
+
+import javax.annotation.PostConstruct;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -18,6 +22,12 @@ public class ServletInitializer extends SpringBootServletInitializer {
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(ServletInitializer.class);
 	}
+	
+	@PostConstruct
+    void started() {
+		//http://tutorials.jenkov.com/java-date-time/java-util-timezone.html
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Rome"));
+    }
 
 	public static void main(String[] args) {
 		SpringApplication.run(ServletInitializer.class, args);

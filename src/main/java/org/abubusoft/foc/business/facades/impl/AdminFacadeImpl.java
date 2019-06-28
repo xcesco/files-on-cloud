@@ -42,6 +42,8 @@ public class AdminFacadeImpl extends AbstractUserFacadeImpl<AdminWto, AdminServi
 	@Override
 	public AdminWto create() {
 		AdminWto result = new AdminWto();
+		
+		prepareData(result);
 
 		return result;
 	}

@@ -6,7 +6,7 @@ import {ConsumerListResolver} from '../../resolvers/consumer-list-resolver.servi
 import {ConsumerTableComponent} from './consumer-table/consumer-table.component';
 import {ConsumerReadResolver} from '../../resolvers/consumer-read-resolver.service';
 import {ConsumerCreateResolver} from '../../resolvers/consumer-create-resolver.service';
-import {ConsumerHomeComponent} from './consumer-home.component';
+import {ConsumerHomeComponent} from './consumer-dashboard/consumer-dashboard.component';
 
 const routes: Routes = [
   {

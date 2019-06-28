@@ -97,3 +97,7 @@ Elenco dei codici fiscali generati da http://www.codicefiscaleonline.com/
  Libreria validazione presa da 
  https://github.com/okkam-it/fiscal-code-validator
  http://pscode.rs/jpa-custom-validation-contraints/
+ 
+ 
+ # Html sanitazier
+ https://github.com/OWASP/java-html-sanitizer

@@ -12,29 +12,61 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 //[END simple_includes]
 
+import org.abubusoft.foc.business.services.HtmlSanitizier;
+import org.abubusoft.foc.business.services.SendMailService;
+import org.abubusoft.foc.repositories.model.CloudFile;
+import org.abubusoft.foc.repositories.model.Consumer;
+import org.abubusoft.foc.repositories.model.Uploader;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SendMailServiceImpl implements org.abubusoft.foc.business.services.SendMailService {
+public class SendMailServiceImpl implements SendMailService {
+
+	HtmlSanitizier sanitizer;
+
+	@Value("${app.email.send}")
+	protected boolean sendEmail;
+
+	public void setSendEmail(boolean sendEmail) {
+		this.sendEmail = sendEmail;
+	}
+
+	@Autowired
+	public void setSanitizer(HtmlSanitizier sanitizer) {
+		this.sanitizer = sanitizer;
+	}
+
+	@Override
+	public void send(Uploader uploader, Consumer consumer, CloudFile file) {
+		if (sendEmail) {
+			Properties props = new Properties();
+			Session session = Session.getDefaultInstance(props, null);
+
+			try {
+				Message msg = new MimeMessage(session);
+				msg.setFrom(new InternetAddress("uxcesco@gmail.com", "Files-on-cloud Admin"));
+				msg.addRecipient(Message.RecipientType.TO,
+						new InternetAddress(consumer.getEmail(), consumer.getDisplayName()));
+				msg.setSubject("There's a new file for you on cloud file!");
+				msg.setText(sanitizer
+						.sanitize(uploader.getDisplayName() + " prepared a file for " + consumer.getDisplayName()+" link "+
+								"https://programmazione-web-238419.appspot.com/api/v1/files/"+file.getUuid()));
+				Transport.send(msg);
+			} catch (AddressException e) {
+				e.printStackTrace();
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	@Override
 	public void send() {
-		Properties props = new Properties();
-		Session session = Session.getDefaultInstance(props, null);
+		// TODO Auto-generated method stub
 
-		try {
-			Message msg = new MimeMessage(session);
-			msg.setFrom(new InternetAddress("uxcesco@gmail.com", "files-on-cloud Admin"));
-			msg.addRecipient(Message.RecipientType.TO, new InternetAddress("xcesco@gmail.com", "Mr. User"));
-			msg.setSubject("Your Example.com account has been activated");
-			msg.setText("This is a test");
-			Transport.send(msg);
-		} catch (AddressException e) {
-			e.printStackTrace();
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
 	}
 }

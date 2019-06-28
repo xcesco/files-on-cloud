@@ -6,14 +6,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.print.attribute.HashAttributeSet;
 import javax.servlet.http.HttpServletRequest;
 
 import org.abubusoft.foc.business.facades.CloudFileFacade;
 import org.abubusoft.foc.repositories.model.CloudFile;
 import org.abubusoft.foc.repositories.model.CloudFileTag;
 import org.abubusoft.foc.web.RestAPIV1Controller;
+import org.abubusoft.foc.web.model.AdminWto;
 import org.abubusoft.foc.web.model.CloudFileInfoWto;
+import org.abubusoft.foc.web.model.CloudFileWto;
 import org.abubusoft.foc.web.model.ConsumerWto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -27,31 +28,134 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestAPIV1Controller
-//@RestController
+@RequestMapping(value="${api.v1.base-url}", produces = "application/json; charset=utf-8")
 public class CloudFileController {
 	protected CloudFileFacade service;
 	
+	@GetMapping("/preview-files/{fileUUID}")
+	public ResponseEntity<ByteArrayResource> downloadFileForAdmin(
+			@PathVariable(value = "fileUUID") String fileUUID) {
+		Pair<CloudFile, byte[]> file = service.getFile(fileUUID);
+		ByteArrayResource resource = new ByteArrayResource(file.getSecond());
+				
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+file.getFirst().getFileName());
+        headers.add(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate");
+        headers.add(HttpHeaders.PRAGMA, "no-cache");
+        headers.add(HttpHeaders.EXPIRES, "0");
+		
+		 return ResponseEntity.ok()
+		            .headers(headers)		            
+		            .contentLength(file.getFirst().getContentLength())
+		            .contentType(MediaType.valueOf(file.getFirst().getMimeType()))
+		            .body(resource);
+	}
+	
+	private String extractIp(HttpServletRequest request) {
+		String ip = request.getHeader("X-Forwarded-For");  
+        if (StringUtils.isEmpty(ip)) {  
+            ip = request.getHeader("Proxy-Client-IP");  
+        }  
+        if (StringUtils.isEmpty(ip)) {  
+            ip = request.getHeader("WL-Proxy-Client-IP");  
+        }  
+        if (StringUtils.isEmpty(ip)) {  
+            ip = request.getHeader("HTTP_CLIENT_IP");  
+        }  
+        if (StringUtils.isEmpty(ip)) {  
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");  
+        }  
+        if (StringUtils.isEmpty(ip)) {  
+            ip = request.getRemoteAddr();  
+        }
+		return ip;
+	}
+		
+	@GetMapping("/files/new")
+	public ResponseEntity<CloudFileWto> fileCreate() {		
+		return ResponseEntity.ok(service.create());
+	}
+
+	@GetMapping("/uploaders/{uploaderId}/consumers/{consumerId}/files/new")
+	public ResponseEntity<CloudFileInfoWto> fileCreate(@PathVariable(value = "uploaderId") long uploaderId,
+			@PathVariable(value = "consumerId") long consumerId) {
+		return ResponseEntity.ok(service.create(uploaderId, consumerId));
+	}
+	
+	@DeleteMapping("/files/{fileUUID}")
+	public ResponseEntity<Boolean> fileDeleteByUUID(@PathVariable("fileUUID") String fileUUID) {
+		return ResponseEntity.ok(service.deleteByUUID(fileUUID));
+	}
+	
+	@GetMapping("/uploaders/{uploaderId}/consumers/{consumerId}/files/{fileId}")
+	public ResponseEntity<CloudFileInfoWto> fileFindById(@PathVariable(value = "uploaderId") long uploaderId,
+			@PathVariable(value = "consumerId") long consumerId, @PathVariable("fileId") long fileId) {
+		return ResponseEntity.ok(service.findByUploaderAndConsumerAndFile(uploaderId, consumerId, fileId));
+	}
+	
+	@GetMapping("/consumers/{consumerId}/uploaders/{uploaderId}/files")
+	public ResponseEntity<List<CloudFileWto>> findFiles(
+			@PathVariable(value="consumerId") long consumerId,
+			@PathVariable(value="uploaderId") long uploaderId, 
+			@RequestParam(value="tags") Set<String> tags) {
+		return ResponseEntity.ok(service.findByConsumerAndUploader(consumerId, uploaderId, tags));
+	}
+
+	@GetMapping("/uploaders/{uploaderId}/consumers/{consumerId}/files")
+	public ResponseEntity<List<CloudFileWto>> findFilesByUploaderAndConsumer(
+			@PathVariable(value = "uploaderId") long uploaderId, @PathVariable(value = "consumerId") long consumerId) {
+		return ResponseEntity.ok(service.findByUploaderAndConsumer(uploaderId, consumerId));
+	}
+	
+	@GetMapping("/uploaders/{uploaderId}/consumers/{consumerId}/tags")
+	public ResponseEntity<List<CloudFileTag>> findTagsByUploaderAndConsumer(
+			@PathVariable(value = "uploaderId") long uploaderId, @PathVariable(value = "consumerId") long consumerId) {
+		return ResponseEntity.ok(service.findTagsByUploaderAndConsumer(uploaderId, consumerId));
+	}
+	
+	@GetMapping("/files")
+	public ResponseEntity<List<CloudFileWto>> getFiles() {
+		return ResponseEntity.ok(service.findAll());	
+
+	}
+
+	@GetMapping("/files/{fileUUID}")
+	public ResponseEntity<ByteArrayResource> getFiles(HttpServletRequest request, @PathVariable("fileUUID") String fileUUID) {
+		String ip=extractIp(request);
+		
+		Pair<CloudFile, byte[]> file = service.getFile(fileUUID);
+		ByteArrayResource resource = new ByteArrayResource(file.getSecond());
+				
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+file.getFirst().getFileName());
+        headers.add(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate");
+        headers.add(HttpHeaders.PRAGMA, "no-cache");
+        headers.add(HttpHeaders.EXPIRES, "0");
+        
+        service.updateViewStatus(ip, file.getFirst());
+		
+		 return ResponseEntity.ok()
+		            .headers(headers)		            
+		            .contentLength(file.getFirst().getContentLength())
+		            .contentType(MediaType.valueOf(file.getFirst().getMimeType()))
+		            .body(resource);
+	}
+
 	@Autowired
 	public void setService(CloudFileFacade service) {
 		this.service = service;
 	}
-
-	@PostMapping("/uploaders/{uploaderId}/consumers/{consumerId}/files")
-	public ResponseEntity<Long> create(@PathVariable("uploaderId") long uploaderId,
-			@PathVariable("consumerId") long consumerId, @RequestBody CloudFileInfoWto cloudFile) {
-		return ResponseEntity.ok(service.create(uploaderId, consumerId, cloudFile));
-	}
 	
 	@PostMapping(value = "/uploaders/{uploaderId}/files", consumes={MediaType.MULTIPART_FORM_DATA_VALUE})
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<Boolean> handleFileUpload(@PathVariable("uploaderId") long uploaderId,
+	public ResponseEntity<Boolean> uploadFile(@PathVariable("uploaderId") long uploaderId,
 			@RequestPart(name="codiceFiscale") String codiceFiscale,
 			@RequestPart(name="email", required=false) String email,
 			@RequestPart(name="displayName", required=false) String displayName,
@@ -76,64 +180,6 @@ public class CloudFileController {
 		service.save(uploaderId, info, multipartFile);
 		
 		return ResponseEntity.ok(true);
-	}
-		
-	@GetMapping("/consumers/{consumerId}/uploaders/{uploaderId}/files")
-	public ResponseEntity<List<CloudFileInfoWto>> findFiles(
-			@PathVariable(value="consumerId") long consumerId,
-			@PathVariable(value="uploaderId") long uploaderId, 
-			@RequestParam(value="tags") Set<String> tags) {
-		return ResponseEntity.ok(service.findByConsumerAndUploader(consumerId, uploaderId, tags));
-	}
-
-	@GetMapping("/files/{fileUUID}")
-	public ResponseEntity<ByteArrayResource> getFiles(HttpServletRequest request, @PathVariable("fileUUID") String fileUUID) {
-		ResponseEntity.ok();
-		
-		Pair<CloudFile, byte[]> file = service.getFile(fileUUID);
-		ByteArrayResource resource = new ByteArrayResource(file.getSecond());
-				
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+file.getFirst().getFileName());
-        headers.add(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate");
-        headers.add(HttpHeaders.PRAGMA, "no-cache");
-        headers.add(HttpHeaders.EXPIRES, "0");
-		
-		 return ResponseEntity.ok()
-		            .headers(headers)		            
-		            .contentLength(file.getFirst().getContentLength())
-		            .contentType(MediaType.valueOf(file.getFirst().getMimeType()))
-		            .body(resource);
-	}
-	
-	@GetMapping("/uploaders/{uploaderId}/consumers/{consumerId}/files/{fileId}/tags")
-	public ResponseEntity<List<CloudFileTag>> findTagsByUploaderAndConsumer(
-			@PathVariable(value = "uploaderId") long uploaderId, @PathVariable(value = "consumerId") long consumerId) {
-		return ResponseEntity.ok(service.findTagsByUploaderAndConsumer(uploaderId, consumerId));
-	}
-
-	@GetMapping("/uploaders/{uploaderId}/consumers/{consumerId}/files")
-	public ResponseEntity<List<CloudFileInfoWto>> findFilesByUploaderAndConsumer(
-			@PathVariable(value = "uploaderId") long uploaderId, @PathVariable(value = "consumerId") long consumerId) {
-		return ResponseEntity.ok(service.findByUploaderAndConsumer(uploaderId, consumerId));
-	}
-	
-	@GetMapping("/uploaders/{uploaderId}/consumers/{consumerId}/files/create")
-	public ResponseEntity<CloudFileInfoWto> fileCreate(@PathVariable(value = "uploaderId") long uploaderId,
-			@PathVariable(value = "consumerId") long consumerId) {
-		return ResponseEntity.ok(service.create(uploaderId, consumerId));
-	}
-
-	@GetMapping("/uploaders/{uploaderId}/consumers/{consumerId}/files/{fileId}")
-	public ResponseEntity<CloudFileInfoWto> fileFindById(@PathVariable(value = "uploaderId") long uploaderId,
-			@PathVariable(value = "consumerId") long consumerId, @PathVariable("fileId") long fileId) {
-		return ResponseEntity.ok(service.findByUploaderAndConsumerAndFile(uploaderId, consumerId, fileId));
-	}
-
-	@DeleteMapping("/uploaders/{uploaderId}/consumers/{consumerId}/files/{fileId}")
-	public ResponseEntity<Boolean> fileDeleteById(@PathVariable("uploaderId") long uploaderId,
-			@PathVariable("consumerId") long consumerId, @PathVariable("fileId") long fileId) {
-		return ResponseEntity.ok(service.deleteByUploaderAndConsumerAndFile(uploaderId, consumerId, fileId));
 	}
 
 

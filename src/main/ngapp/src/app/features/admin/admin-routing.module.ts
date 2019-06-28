@@ -6,11 +6,11 @@ import {AdminDetailComponent} from './admin-detail/admin-detail.component';
 import {ROUTE_PARAM_USER_ID} from '../../app-routing.costant';
 import {AdminReadResolver} from '../../resolvers/admin-read-resolver.service';
 import {AdminCreateResolver} from '../../resolvers/admin-create-resolver.service';
-import {AdminHomeComponent} from './admin-home.component';
+import {AdminDashboardComponent} from './admin-dashboard/admin-dashboard.component';
 
 const routes: Routes = [
   {
-    path: 'admins', component: AdminHomeComponent, children: [
+    path: 'admins', component: AdminDashboardComponent, children: [
       {path: '', component: AdminTableComponent, resolve: {list: AdminListResolver}},
       {
         path: 'create', component: AdminDetailComponent, resolve: {detail: AdminCreateResolver}

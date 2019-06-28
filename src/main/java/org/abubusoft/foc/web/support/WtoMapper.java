@@ -26,7 +26,7 @@ public interface WtoMapper {
 
 	AdminWto convertAdminToWto(Administrator result);	
 	
-	List<CloudFileInfoWto> convertCloudFileListToWto(Iterable<CloudFile> iterable);
+	List<CloudFileWto> convertCloudFileListToWto(Iterable<CloudFile> iterable);
 
 	List<ConsumerWto> convertConsumerListToWto(Iterable<Consumer> findAll);
 
@@ -71,7 +71,9 @@ public interface WtoMapper {
 		result.setViewIp(null);
 		result.setViewTime(null);
 		
-		result.getTags().addAll(value.getTags());
+		if (value.getTags()!=null) {
+			result.getTags().addAll(value.getTags());
+		}
 		
 		result.setFileName(file.getOriginalFilename());			
 		result.setMimeType(file.getContentType());
@@ -94,7 +96,9 @@ public interface WtoMapper {
 		result.setViewIp(value.getViewIp());
 		result.setViewTime(value.getViewTime());
 		
-		result.getTags().addAll(value.getTags());
+		if (value.getTags()!=null) {
+			result.getTags().addAll(value.getTags());
+		}
 		
 		result.setFileName(value.getFileName());			
 		result.setMimeType(value.getMimeType());

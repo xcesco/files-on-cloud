@@ -1,0 +1,37 @@
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {environment} from '../../environments/environment';
+import {CloudFile} from '../types/files';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CloudFileService {
+
+  constructor(protected httpClient: HttpClient) {
+
+  }
+
+  protected baseUrl = 'files/';
+
+  findAll(): Observable<CloudFile[]> {
+    console.log('findAll ', environment.API_URL + this.baseUrl);
+    return this.httpClient.get<CloudFile[]>(environment.API_URL + this.baseUrl);
+  }
+
+  delete(item: CloudFile): Observable<boolean> {
+    return this.httpClient.delete<boolean>(environment.API_URL + this.baseUrl + `${item.uuid}`);
+  }
+
+  create(): Observable<CloudFile> {
+    return this.httpClient.get<CloudFile>(environment.API_URL + this.baseUrl + `new`);
+  }
+
+  get(uuid: string): Observable<CloudFile> {
+    return this.httpClient.get<CloudFile>(environment.API_URL + this.baseUrl + `${uuid}`);
+  }
+  save(uploaderId: number, formData: FormData): Observable<boolean> {
+    return this.httpClient.post<boolean>(environment.API_URL +  `uploaders/${uploaderId}/files/`, formData);
+  }
+}

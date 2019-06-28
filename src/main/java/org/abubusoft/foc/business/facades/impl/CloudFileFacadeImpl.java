@@ -1,7 +1,7 @@
 package org.abubusoft.foc.business.facades.impl;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -9,6 +9,7 @@ import java.util.Set;
 import org.abubusoft.foc.business.facades.CloudFileFacade;
 import org.abubusoft.foc.business.services.CloudFileService;
 import org.abubusoft.foc.business.services.ConsumerService;
+import org.abubusoft.foc.business.services.SendMailService;
 import org.abubusoft.foc.business.services.UploaderService;
 import org.abubusoft.foc.repositories.model.CloudFile;
 import org.abubusoft.foc.repositories.model.CloudFileTag;
@@ -18,6 +19,7 @@ import org.abubusoft.foc.web.model.CloudFileInfoWto;
 import org.abubusoft.foc.web.model.CloudFileWto;
 import org.abubusoft.foc.web.model.ConsumerWto;
 import org.abubusoft.foc.web.support.WtoMapper;
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class CloudFileFacadeImpl implements CloudFileFacade {
+	protected Logger logger=Logger.getLogger(getClass());
+	
 	protected WtoMapper mapper = WtoMapper.INSTANCE;
 
 	protected UploaderService uploaderService;
@@ -32,6 +36,13 @@ public class CloudFileFacadeImpl implements CloudFileFacade {
 	protected ConsumerService consumerService;
 
 	protected CloudFileService cloudFileService;
+	
+	protected SendMailService sendMailService;
+
+	@Autowired
+	public void setSendMailService(SendMailService sendMailService) {
+		this.sendMailService = sendMailService;
+	}
 
 	@Autowired
 	public void setCloudFileService(CloudFileService cloudFileService) {
@@ -49,7 +60,7 @@ public class CloudFileFacadeImpl implements CloudFileFacade {
 	}
 
 	@Override
-	public List<CloudFileInfoWto> findByConsumerAndUploader(long consumerId, long uploaderId, Set<String> tags) {
+	public List<CloudFileWto> findByConsumerAndUploader(long consumerId, long uploaderId, Set<String> tags) {
 		List<CloudFile> result = cloudFileService.findByConsumerAndUploaderAndTags(consumerId, uploaderId, tags);
 
 		return mapper.convertCloudFileListToWto(result);
@@ -73,7 +84,7 @@ public class CloudFileFacadeImpl implements CloudFileFacade {
 	}
 
 	@Override
-	public List<CloudFileInfoWto> findByUploaderAndConsumer(long uploaderId, long consumerId) {
+	public List<CloudFileWto> findByUploaderAndConsumer(long uploaderId, long consumerId) {
 		return mapper.convertCloudFileListToWto(cloudFileService.findByUploaderAndConsumer(uploaderId, consumerId));
 	}
 
@@ -98,7 +109,8 @@ public class CloudFileFacadeImpl implements CloudFileFacade {
 			MultipartFile multipartFile) throws IOException {
 		
 		ConsumerWto consumerWto = cloudFileInfo.getConsumer();
-		Optional<Uploader> uploader = uploaderService.findById(uploaderId);
+		Optional<Uploader> uploaderOpt = uploaderService.findById(uploaderId);
+	    Uploader uploader=uploaderOpt.get();
 
 		// vediamo se ha id o codice fiscale. Nel secondo caso lo crea, sempre che non
 		// esista già
@@ -119,27 +131,17 @@ public class CloudFileFacadeImpl implements CloudFileFacade {
 
 		CloudFile cloudFile = mapper.convertToFileDto(cloudFileInfo, multipartFile);
 		cloudFile.setConsumer(consumer);
-		cloudFile.setUploader(uploader.get());
+		cloudFile.setUploader(uploader);
 
 		cloudFile=cloudFileService.uploadFile(cloudFile, multipartFile.getInputStream());		
 		
 		// TODO inserire invio notifica
+		logger.info("Invio email");
+		sendMailService.send(uploader, consumer, cloudFile);
 
 		return cloudFile.getId();
 	}
 
-
-	@Override
-	public long create(long uploaderId, long consumerId, CloudFileInfoWto cloudFile) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void storeFile(InputStream inputStream) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public CloudFileWto create(long uploaderId, long consumerId) {
@@ -149,6 +151,25 @@ public class CloudFileFacadeImpl implements CloudFileFacade {
 		result.setUploader(mapper.convertUploaderToWto(uploaderService.findById(uploaderId).get()));
 		
 		return result;
+	}
+
+	@Override
+	public List<CloudFileWto> findAll() {
+		return mapper.convertCloudFileListToWto(cloudFileService.findAll());
+	}
+
+	@Override
+	public void updateViewStatus(String ip, CloudFile file) {
+		file.setViewIp(ip);
+		file.setViewTime(LocalDateTime.now());
+		
+		cloudFileService.save(file);
+		
+	}
+
+	@Override
+	public boolean deleteByUUID(String fileUUID) {
+		return cloudFileService.deleteByUUID(fileUUID);
 	}
 
 }

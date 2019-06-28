@@ -10,6 +10,7 @@ export class ConsumerService extends AbstractUserService<Consumer> {
 
   constructor(httpClient: HttpClient) {
     super(httpClient, 'consumers');
+
   }
 
 }

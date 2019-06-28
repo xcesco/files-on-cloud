@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {AdminHomeComponent} from './admin-home.component';
+import {AdminDashboardComponent} from './admin-dashboard/admin-dashboard.component';
 import {AdminDetailComponent} from './admin-detail/admin-detail.component';
 import {SharedModule} from '../../shared/shared.module';
 import {AdminTableComponent} from './admin-table/admin-table.component';
@@ -10,14 +10,14 @@ import {AdminRoutingModule} from './admin-routing.module';
   declarations: [
     AdminDetailComponent,
     AdminTableComponent,
-    AdminHomeComponent
+    AdminDashboardComponent
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     SharedModule
   ], exports: [
-    AdminHomeComponent
+    AdminDashboardComponent
   ]
 })
 export class AdminModule {

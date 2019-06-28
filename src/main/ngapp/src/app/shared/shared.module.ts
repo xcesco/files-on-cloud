@@ -11,6 +11,7 @@ import {ConfirmationDialogService} from './components/confirmation-dialog/confir
 import {ToastrModule} from 'ngx-toastr';
 import {ChangePasswordDialogComponent} from './components/change-password-dialog/change-password-dialog.component';
 import {ChangePasswordDialogService} from './components/change-password-dialog/change-password-dialog.service';
+import {FileSizePipe} from './pipe/file-size.pipe';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import {ChangePasswordDialogService} from './components/change-password-dialog/c
     UserDetailComponent,
     DisplayManagedErrorComponent,
     ConfirmationDialogComponent,
-    ChangePasswordDialogComponent
+    ChangePasswordDialogComponent,
+    FileSizePipe
   ],
   providers: [
     ConfirmationDialogService,
@@ -50,6 +52,8 @@ import {ChangePasswordDialogService} from './components/change-password-dialog/c
     ManagedErrorDirective,
     UserDetailComponent,
     DisplayManagedErrorComponent,
+
+    FileSizePipe,
 
     NgbModule,
     NgbModalModule

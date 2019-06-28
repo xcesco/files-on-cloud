@@ -1,0 +1,60 @@
+<div class="card">
+  <div class="card-header d-flex flex-row align-items-center">
+    <p class="float-left display-4 p-1">Cloud files</p>
+    <a href="#" class="btn btn-primary ml-auto" routerLink="./create" role="button">New file</a>
+  </div>
+  <div class="card-body">
+
+    <table class="table table-bordered table-hover">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Uploader</th>
+        <th scope="col">Consumer</th>
+        <th scope="col">File</th>
+        <th scope="col">Size</th>
+        <th scope="col">Viewed</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of list; index as i" class="align-content-md-center">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>
+          <a class="nav-link" routerLink="/uploaders/{{item.uploader.id}}">{{item.uploader.displayName}}</a>
+        </td>
+        <td>
+          <a class="nav-link" routerLink="/consumers/{{item.consumer.id}}">{{item.consumer.displayName}}</a>
+        <td>
+          <p>{{item.fileName}}</p>
+          <span *ngFor="let tag of item.tags" class="badge badge-pill badge-primary m-1">{{tag}}</span></td>
+        <td><i class="float-right">{{item.contentLength | fileSize}}</i></td>
+        <td>
+          <i class="fa fa-2x" [ngClass]="{ 'fa-check-circle': isViewed(item)}"
+             ngbTooltip="Viewed from {{ item.viewIp}} on {{ item.viewTime | date: 'dd/MMM/yyyy hh:mm:ss' }}"></i></td>
+        <td>
+          <button type="button"
+                  [disabled]="!isViewed(item)"
+                  ngbTooltip="Delete"
+                  (click)="onDelete(item)"
+                  class="m-2 btn btn-lg btn-outline-primary float-right">
+            <i class="fa fa-trash"></i>
+          </button>
+
+          <a class="m-2 btn btn-lg btn-outline-primary float-right" ngbTooltip="Download preview" target="_blank"
+             href="/api/v1/preview-files/{{item.uuid}}"><i
+            class="fa fa-cloud-download"></i></a>
+
+          <a class="m-2 btn btn-lg btn-outline-primary float-right" ngbTooltip="Download" target="_blank"
+             href="/api/v1/files/{{item.uuid}}"><i
+            class="fa fa-download"></i></a>
+
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+

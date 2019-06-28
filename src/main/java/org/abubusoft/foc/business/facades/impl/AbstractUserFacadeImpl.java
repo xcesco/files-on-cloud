@@ -7,14 +7,40 @@ import org.abubusoft.foc.web.model.UserWto;
 import org.abubusoft.foc.web.support.WtoMapper;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
-public abstract class AbstractUserFacadeImpl<W extends UserWto, S extends AbstractUserService<?>> implements AbstractUserFacade<W> {
-	
-	protected Logger log=Logger.getLogger(getClass());
-	
+public abstract class AbstractUserFacadeImpl<W extends UserWto, S extends AbstractUserService<?>>
+		implements AbstractUserFacade<W> {
+
+	protected Logger log = Logger.getLogger(getClass());
+
 	protected WtoMapper mapper = WtoMapper.INSTANCE;
-	
+
 	protected S service;
+
+	@Value("${app.fill.email}")
+	private String defaultEmail;
+
+	@Value("${app.fill.username}")
+	private String defaultUsername;
+
+	@Value("${app.fill.password}")
+	private String defaultPassword;
+
+	public void setDefaultUsername(String defaultUsername) {
+		this.defaultUsername = defaultUsername;
+	}
+
+	public void setDefaultPassword(String defaultPassword) {
+		this.defaultPassword = defaultPassword;
+	}
+
+	public void setDebug(boolean debug) {
+		this.debug = debug;
+	}
+
+	@Value("${app.debug}")
+	private boolean debug;
 
 	@Autowired
 	public void setService(S service) {
@@ -28,9 +54,19 @@ public abstract class AbstractUserFacadeImpl<W extends UserWto, S extends Abstra
 
 	@Override
 	public ChangePasswordWto getChangePasswordUrlById(long id) {
-		String url=service.getChangePasswordUrlById(id);
-		
+		String url = service.getChangePasswordUrlById(id);
+
 		return new ChangePasswordWto(url);
+	}
+
+	protected void prepareData(W result) {
+		if (debug) {
+			result.setEmail(defaultEmail);
+			result.setUsername(defaultUsername);
+			result.setPassword(defaultPassword);
+
+		}
+
 	}
 
 }

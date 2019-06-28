@@ -11,6 +11,7 @@ import {SharedModule} from './shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {UploaderModule} from './features/uploader/uploader.module';
 import {ConsumerModule} from './features/consumer/consumer.module';
+import {CloudFileModule} from './features/cloud-file/cloud-file.module';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import {ConsumerModule} from './features/consumer/consumer.module';
     AdminModule,
     UploaderModule,
     ConsumerModule,
+    CloudFileModule,
 
     AppRoutingModule
 

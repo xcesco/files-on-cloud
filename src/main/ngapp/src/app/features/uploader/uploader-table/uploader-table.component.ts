@@ -27,6 +27,6 @@ export class UploaderTableComponent extends AbstractUserTableComponent<Uploader,
   }
 
   getLogoUrl(id: number): string {
-    return `/api/v1/uploaders/${id}/logo?t=` + (new Date()).getTime();
+    return `/api/v1/uploaders/${id}/logo`;//?t=` + (new Date()).getTime();
   }
 }

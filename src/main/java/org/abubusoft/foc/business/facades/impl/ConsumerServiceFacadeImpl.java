@@ -31,6 +31,8 @@ public class ConsumerServiceFacadeImpl extends AbstractUserFacadeImpl<ConsumerWt
 	@Override
 	public ConsumerWto create() {
 		ConsumerWto result = new ConsumerWto();
+		
+		prepareData(result);
 
 		return result;
 	}

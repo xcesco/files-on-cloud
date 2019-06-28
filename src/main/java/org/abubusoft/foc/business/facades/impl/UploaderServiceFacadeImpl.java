@@ -1,6 +1,5 @@
 package org.abubusoft.foc.business.facades.impl;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -76,6 +75,8 @@ public class UploaderServiceFacadeImpl extends AbstractUserFacadeImpl<UploaderWt
 	@Override
 	public UploaderWto create() {
 		UploaderWto result = new UploaderWto();
+		
+		prepareData(result);
 
 		return result;
 	}

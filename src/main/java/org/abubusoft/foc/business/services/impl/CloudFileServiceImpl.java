@@ -17,6 +17,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
@@ -48,6 +49,11 @@ public class CloudFileServiceImpl implements CloudFileService {
 	}
 
 	private CloudFileRepository repository;
+
+	@Autowired
+	public void setRepository(CloudFileRepository repository) {
+		this.repository = repository;
+	}
 
 	private Storage storage;
 
@@ -134,6 +140,24 @@ public class CloudFileServiceImpl implements CloudFileService {
 		} else {
 			return repository.findByUploaderAndConsumerAndTags(uploaderId, consumerId, tags);
 		}
+	}
+
+	@Override
+	public Iterable<CloudFile> findAll() {
+		return repository.findAll();
+	}
+
+	@Override
+	public boolean deleteByUUID(String fileUUID) {
+		CloudFile file = repository.findByUuid(fileUUID);
+		
+		BlobId blobId = BlobId.of(bucketName, file.getStorageName());
+		storage.delete(blobId);
+		
+		repository.deleteById(file.getId());
+		
+		
+		return true;
 	}
 
 }
