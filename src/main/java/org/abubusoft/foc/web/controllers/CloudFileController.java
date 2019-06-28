@@ -175,7 +175,14 @@ public class CloudFileController {
 		Set<String> hashTagSet=null;
 		if (StringUtils.hasText(hashtag)) {
 			hashTagSet=new HashSet<>();			
-			hashTagSet.addAll(Arrays.asList(hashtag.split(",")));
+			List<String> tagValues = Arrays.asList(hashtag.split(","));
+			
+			for (String item: tagValues) {
+				if (StringUtils.hasText(item)) {
+					hashTagSet.add(item);
+				}
+			}
+			
 		}		
 		
 		CloudFileInfoWto info=new CloudFileInfoWto();

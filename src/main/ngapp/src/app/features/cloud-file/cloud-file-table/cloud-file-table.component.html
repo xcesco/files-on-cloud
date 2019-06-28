@@ -41,6 +41,13 @@
             <i class="fa fa-trash"></i>
           </button>
 
+          <button type="button"
+                  ngbTooltip="Send notification, again"
+                  (click)="onSendNotification(item)"
+                  class="m-2 btn btn-lg btn-outline-primary float-right">
+            <i class="fa fa-paper-plane"></i>
+          </button>
+
           <a class="m-2 btn btn-lg btn-outline-primary float-right" ngbTooltip="Download preview" target="_blank"
              href="/api/v1/preview-files/{{item.uuid}}"><i
             class="fa fa-cloud-download"></i></a>

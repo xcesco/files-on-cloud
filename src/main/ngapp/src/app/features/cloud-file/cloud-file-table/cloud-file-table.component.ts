@@ -48,4 +48,16 @@ export class CloudFileTableComponent implements OnInit {
       })
       .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
   }
+
+  onSendNotification(item: CloudFile) {
+    this.confirmationDialogService.confirm('Please confirm..', `Do you really want to send notification again for  ${item.fileName}?`)
+      .then((confirmed) => {
+
+        this.service.sendNotification(item).subscribe(() => this.service.findAll().subscribe((newList: CloudFile[]) => {
+          this.toastr.success(`Notifcation sent, again`, 'Notification status');
+        }));
+
+      })
+      .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
+  }
 }

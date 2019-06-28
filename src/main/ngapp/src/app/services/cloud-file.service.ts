@@ -34,4 +34,8 @@ export class CloudFileService {
   save(uploaderId: number, formData: FormData): Observable<boolean> {
     return this.httpClient.post<boolean>(environment.API_URL +  `uploaders/${uploaderId}/files/`, formData);
   }
+
+  sendNotification(item: CloudFile): Observable<void> {
+    return this.httpClient.get<void>(environment.API_URL +  this.baseUrl + `${item.uuid}/notification/send`);
+  }
 }
