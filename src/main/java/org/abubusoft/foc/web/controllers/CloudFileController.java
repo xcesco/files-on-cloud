@@ -181,8 +181,7 @@ public class CloudFileController {
 				if (StringUtils.hasText(item)) {
 					hashTagSet.add(item);
 				}
-			}
-			
+			}	
 		}		
 		
 		CloudFileInfoWto info=new CloudFileInfoWto();
