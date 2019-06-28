@@ -11,32 +11,15 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 
 /**
- * Application Lifecycle Listener implementation class Startup
- *
+ * Serve ad inizializzare GCLOUD (le credenziali sono prese direttamente
+ * dell'environment)
  */
 @WebListener
 public class Startup implements ServletContextListener {
 
-	/**
-	 * Default constructor.
-	 */
-	public Startup() {
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @see ServletContextListener#contextDestroyed(ServletContextEvent)
-	 */
-	public void contextDestroyed(ServletContextEvent sce) {
-		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @see ServletContextListener#contextInitialized(ServletContextEvent)
-	 */
 	public void contextInitialized(ServletContextEvent sce) {
 		try {
-			
+
 			FirebaseOptions options;
 
 			options = new FirebaseOptions.Builder()
@@ -50,6 +33,11 @@ public class Startup implements ServletContextListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+	}
+
+	@Override
+	public void contextDestroyed(ServletContextEvent sce) {
 
 	}
 

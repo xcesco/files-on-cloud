@@ -7,7 +7,7 @@ import UserCredential = firebase.auth.UserCredential;
 import {ToastrService} from 'ngx-toastr';
 import {HttpClient} from '@angular/common/http';
 import {CloudFile} from '../types/files';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {environment} from '../../environments/environment';
 
@@ -16,10 +16,30 @@ import {environment} from '../../environments/environment';
 })
 export class AuthService {
 
+  public userSubject = new Subject<'LOGIN' | 'LOGOUT'>();
+
   private jwtHelper: JwtHelperService = new JwtHelperService();
 
   protected baseUrl = 'auth/';
   user: User;
+
+  public get token(): string {
+    return sessionStorage.getItem(environment.JWT_NAME);
+  }
+
+  public isAuthenticated(): boolean {
+    return !this.jwtHelper.isTokenExpired(this.token);
+  }
+/*
+  login(jwt: string) {
+    sessionStorage.setItem(environment.JWT_NAME, jwt);
+    this.userSubject.next('LOGIN');
+  }
+
+  logout() {
+    sessionStorage.removeItem(environment.JWT_NAME);
+    this.userSubject.next('LOGOUT');
+  }*/
 
   constructor(public  afAuth: AngularFireAuth, public  router: Router, private toastr: ToastrService, protected httpClient: HttpClient) {
     this.afAuth.authState.subscribe(user => {

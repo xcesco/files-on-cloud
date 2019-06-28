@@ -1,0 +1,104 @@
+package org.abubusoft.foc.web.security;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
+
+import javax.annotation.PostConstruct;
+
+import org.abubusoft.foc.web.security.ng.JwtUser;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import it.insiel.stt.interrogazioni.spring.InterrogazioniUserIdentity;
+
+@Service
+public class JwtServiceImpl implements JwtService {
+	
+	@Value("${app.jwt.secret}")
+	private String jwtSecret;
+
+	public void setJwtSecret(String jwtSecret) {
+		this.jwtSecret = jwtSecret;
+	}
+
+	// Sample method to construct a JWT
+	private Map<String, Object> generateClaims(InterrogazioniUserIdentity user) {
+		Map<String, Object> values = new HashMap<String, Object>();
+		// salviamoli in minuscolo
+		for (Entry<String, String> entry : user.getAttributes().entrySet()) {
+			values.put(entry.getKey().toString(), entry.getValue());
+		}
+				
+		// inseriamo i profili
+		values.put("profiles", user.getProfiles());
+
+		return values;
+	}
+
+	// protected String getToken(String encodedSecret, JwtUserImpl jwtUser) {
+	// return
+	// Jwts.builder().setId(jwtUser.getUid()).setSubject(jwtUser.getUsername())
+	// .setClaims(generateClaims(jwtUser)).setIssuedAt(new
+	// Date(jwtUser.getLastAccessedTime())).setExpiration(new
+	// Date(jwtUser.getLastAccessedTime() + jwtUser.getDurationTime()))
+	// .signWith(SignatureAlgorithm.HS512, encodedSecret).compact();
+	// }
+
+	public String generateToken(InterrogazioniUserIdentity user, long creationTime, long maxInactiveInterval) {
+		JwtUser jwtUser = new JwtUser(user.getAttributes(), creationTime, maxInactiveInterval);
+				
+		return Jwts.builder().setId(jwtUser.getUid()).setSubject(user.getUsername()).claim("user", generateClaims(user))
+				.setIssuedAt(new Date(creationTime)).setExpiration(new Date(creationTime + maxInactiveInterval))
+				.signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+	}
+
+	@PostConstruct
+	protected void init() {
+		// generateEncodedSecret
+		if (StringUtils.isEmpty(jwtSecret)) {
+			throw new IllegalArgumentException("JWT secret cannot be null or empty.");
+		}
+	}
+
+	@Override
+	public JwtUser getUser(JwtAuthentication jwtToken) {
+		try {
+			JwtUser user = jwtToken.getUser();
+
+			return user;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	@Override
+	public JwtAuthentication decodeToken(String authToken) {
+		Jws<Claims> jwt = Jwts.parser().setSigningKey(this.jwtSecret).parseClaimsJws(authToken);
+		Claims claims = jwt.getBody();
+
+		@SuppressWarnings("rawtypes")
+		JwtUser user = new JwtUser(claims.getId(), (Map) claims.get("user"), claims.getIssuedAt().getTime(),
+				claims.getExpiration().getTime());
+		user.setAttribute(JwtSecurity.ROLE_AUTHENTICATED_USER,"true");		
+		JwtAuthentication authRequest = new JwtAuthentication(user);
+				
+		return authRequest;
+	}
+	
+	@Override
+	public JwtAuthentication createAnonymousUser() {
+		Map<String, Object> userClaims = new HashMap<String, Object>();
+		JwtUser user = new JwtUser(userClaims, Calendar.getInstance().getTimeInMillis(), TimeUnit.DAYS.toMillis(7));
+		user.setAttribute(JwtSecurity.ROLE_ANONYMOUS_USER,"true");
+		return new JwtAuthentication(user);
+	}
+}

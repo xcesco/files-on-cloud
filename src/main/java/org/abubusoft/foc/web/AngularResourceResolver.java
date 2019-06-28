@@ -1,4 +1,4 @@
-package org.abubusoft.foc.config;
+package org.abubusoft.foc.web;
 
 import java.io.IOException;
 

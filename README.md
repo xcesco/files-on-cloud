@@ -101,3 +101,8 @@ Elenco dei codici fiscali generati da http://www.codicefiscaleonline.com/
  
  # Html sanitazier
  https://github.com/OWASP/java-html-sanitizer
+ 
+ # Autentication
+ https://www.techiediaries.com/angular-course-firebase-authentication/
+ https://github.com/techiediaries/angular-portfolio
+ 

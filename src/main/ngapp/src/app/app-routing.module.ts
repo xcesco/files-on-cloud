@@ -7,6 +7,18 @@ import {ConsumerHomeComponent} from './features/consumer/consumer-dashboard/cons
 import {CloudFileDashboardComponent} from './features/cloud-file/cloud-file-dashboard/cloud-file-dashboard.component';
 import {LoginComponent} from './login/login.component';
 
+
+/**
+ * path: ROUTE_FESTIVITA, canActivate: [AuthGuard], component: FestivitaHomeComponent,
+ data: {
+            tipoRegola: TipoRegola.chiuso_per_festivita
+        },
+ resolve: {
+            webConfig: ReadRegolaWebConfigService
+        },
+ * @type {({path: string; component: LoginComponent} | {path: string; component: AdminDashboardComponent; loadChildren: () => Promise<any>} | {path: string; component: UploaderDashboardComponent; loadChildren: () => Promise<any>} | {path: string; component: ConsumerHomeComponent; loadChildren: () => Promise<any>} | {path: string; component: CloudFileDashboardComponent; loadChildren: () => Promise<any>} | {path: string; pathMatch: string; component: HomeComponent} | {path: string; component: HomeComponent})[]}
+ */
+
 const routes: Routes = [
   {
     path: 'login', component: LoginComponent

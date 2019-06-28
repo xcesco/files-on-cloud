@@ -1,4 +1,6 @@
 export const environment = {
+  JWT_NAME: 'appJWT',
+
   production: true,
 
   API_URL: '/api/v1/',
