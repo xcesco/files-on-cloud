@@ -12,13 +12,17 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {UploaderModule} from './features/uploader/uploader.module';
 import {ConsumerModule} from './features/consumer/consumer.module';
 import {CloudFileModule} from './features/cloud-file/cloud-file.module';
+import {LoginComponent} from './login/login.component';
+import {environment} from '../environments/environment';
+import {NgbAuthFirebaseUIModule} from '@firebaseui/ng-bootstrap';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +34,9 @@ import {CloudFileModule} from './features/cloud-file/cloud-file.module';
     ConsumerModule,
     CloudFileModule,
 
-    AppRoutingModule
+    AppRoutingModule,
+
+    NgbAuthFirebaseUIModule.forRoot(environment.firebase)
 
   ],
   providers: [],

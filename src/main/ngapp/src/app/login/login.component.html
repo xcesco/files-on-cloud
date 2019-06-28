@@ -1,0 +1,10 @@
+<div>
+
+  <ngb-auth-firebaseui
+    [providers]="[providers.EmailAndPassword]"
+    [guestEnabled]="false"
+    (onSuccess)="printUser($event)"
+    (onError)="printError()">
+  </ngb-auth-firebaseui>
+
+</div>

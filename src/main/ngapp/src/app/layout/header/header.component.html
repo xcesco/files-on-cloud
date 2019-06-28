@@ -1,26 +1,27 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="#">Files On Cloud</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false"
           aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" [routerLink]="'/'">Home <span class="sr-only">(current)</span></a>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLinkActive="app-selected-link" [routerLink]="'/login'">Login</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link"  routerLinkActive="app-selected-link" [routerLink]="'/admins'">Administrators</a>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLinkActive="app-selected-link" [routerLink]="'/admins'">Administrators</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link"  routerLinkActive="app-selected-link" [routerLink]="'/uploaders'">Uploader</a>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLinkActive="app-selected-link" [routerLink]="'/uploaders'">Uploader</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link"  routerLinkActive="app-selected-link" [routerLink]="'/consumers'">Consumers</a>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLinkActive="app-selected-link" [routerLink]="'/consumers'">Consumers</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link"  routerLinkActive="app-selected-link" [routerLink]="'/files'">Files</a>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLinkActive="app-selected-link" [routerLink]="'/files'">Files</a>
       </li>
 
     </ul>

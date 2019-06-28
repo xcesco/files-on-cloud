@@ -5,8 +5,12 @@ import {AdminDashboardComponent} from './features/admin/admin-dashboard/admin-da
 import {UploaderDashboardComponent} from './features/uploader/uploader-dashboard/uploader-dashboard.component';
 import {ConsumerHomeComponent} from './features/consumer/consumer-dashboard/consumer-dashboard.component';
 import {CloudFileDashboardComponent} from './features/cloud-file/cloud-file-dashboard/cloud-file-dashboard.component';
+import {LoginComponent} from './login/login.component';
 
 const routes: Routes = [
+  {
+    path: 'login', component: LoginComponent
+  },
   {
     path: 'admins', component: AdminDashboardComponent,
     loadChildren: () => import('./features/admin/admin.module').then(mod => mod.AdminModule)
