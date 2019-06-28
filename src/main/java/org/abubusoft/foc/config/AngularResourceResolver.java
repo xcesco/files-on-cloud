@@ -12,8 +12,8 @@ public class AngularResourceResolver extends PathResourceResolver {
         Resource requestedResource = location.createRelative(resourcePath);     
         
         //Resource defaultResource=new ClassPathResource("META-INF/resources/"+resourcePath);
-        if (resourcePath.equals("public")) {
-        	resourcePath+="/index.html";
+        if (resourcePath.startsWith("public")) {
+        	resourcePath="/public/index.html";
         } else {
         	resourcePath="/index.html";
         }
