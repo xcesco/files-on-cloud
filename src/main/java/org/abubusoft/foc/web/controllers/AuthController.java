@@ -13,14 +13,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 
-//@RestController
 @RestAPIV1Controller
+@RequestMapping(value="${api.v1.base-url}/auth", produces = "application/json; charset=utf-8")
 public class AuthController {
 	
 	private IdentityManagementService userService;
@@ -44,6 +45,7 @@ public class AuthController {
 			fireToken = FirebaseAuth.getInstance().verifyIdToken(token);
 			
 			User user = userService.findByUsername(fireToken.getEmail());
+			
 			Map<String, Object> claims=new HashMap<>();
 			claims.put("username", fireToken.getEmail()); 
 			StatusType status = LoginStatus.StatusType.TO_COMPLETE;
