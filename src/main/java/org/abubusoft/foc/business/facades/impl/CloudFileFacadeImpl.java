@@ -135,7 +135,6 @@ public class CloudFileFacadeImpl implements CloudFileFacade {
 
 		cloudFile=cloudFileService.uploadFile(cloudFile, multipartFile.getInputStream());		
 		
-		// TODO inserire invio notifica
 		logger.info("Invio email");
 		sendMailService.send(uploader, consumer, cloudFile);
 
@@ -170,6 +169,15 @@ public class CloudFileFacadeImpl implements CloudFileFacade {
 	@Override
 	public boolean deleteByUUID(String fileUUID) {
 		return cloudFileService.deleteByUUID(fileUUID);
+	}
+
+	@Override
+	public boolean sendNotificationByUUID(String fileUUID) {
+		CloudFile file = cloudFileService.findByUUID(fileUUID);
+		logger.info("Invio email");
+		sendMailService.send(file.getUploader(), file.getConsumer(), file);
+		
+		return true;
 	}
 
 }

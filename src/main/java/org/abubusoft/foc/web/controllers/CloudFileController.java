@@ -12,7 +12,6 @@ import org.abubusoft.foc.business.facades.CloudFileFacade;
 import org.abubusoft.foc.repositories.model.CloudFile;
 import org.abubusoft.foc.repositories.model.CloudFileTag;
 import org.abubusoft.foc.web.RestAPIV1Controller;
-import org.abubusoft.foc.web.model.AdminWto;
 import org.abubusoft.foc.web.model.CloudFileInfoWto;
 import org.abubusoft.foc.web.model.CloudFileWto;
 import org.abubusoft.foc.web.model.ConsumerWto;
@@ -92,6 +91,11 @@ public class CloudFileController {
 	@DeleteMapping("/files/{fileUUID}")
 	public ResponseEntity<Boolean> fileDeleteByUUID(@PathVariable("fileUUID") String fileUUID) {
 		return ResponseEntity.ok(service.deleteByUUID(fileUUID));
+	}
+	
+	@GetMapping("/files/{fileUUID}/notification/send")
+	public ResponseEntity<Boolean> fileSendNotificationByUUID(@PathVariable("fileUUID") String fileUUID) {
+		return ResponseEntity.ok(service.sendNotificationByUUID(fileUUID));
 	}
 	
 	@GetMapping("/uploaders/{uploaderId}/consumers/{consumerId}/files/{fileId}")

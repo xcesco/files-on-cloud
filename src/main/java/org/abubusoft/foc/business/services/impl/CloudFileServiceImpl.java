@@ -160,4 +160,9 @@ public class CloudFileServiceImpl implements CloudFileService {
 		return true;
 	}
 
+	@Override
+	public CloudFile findByUUID(String fileUUID) {
+		return repository.findByUuid(fileUUID);
+	}
+
 }

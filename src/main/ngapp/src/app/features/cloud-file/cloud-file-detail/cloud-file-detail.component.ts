@@ -63,8 +63,15 @@ export class CloudFileDetailComponent implements OnInit {
 
     console.log(this.form.value, formData);
     this.service.save(this.form.get('uploaderId').value, formData).subscribe(
-      (res) => console.log(res),
-      (err) => console.log(err)
+      (res) => {
+        console.log(res);
+        this.toastr.info('File correctly uploaded and notified', 'Information');
+        this.goBack();
+      },
+      (err) => {
+        console.log(err);
+        this.toastr.error('Something went wrong!', 'Information');
+      }
     );
     /*this.service.save()
     this.httpClient.post<any>(this.SERVER_URL, formData).subscribe(

@@ -30,6 +30,8 @@ public interface CloudFileService {
 
 	Iterable<CloudFile> findAll();
 
-	boolean deleteByUUID(String fileUUID);	
+	boolean deleteByUUID(String fileUUID);
+
+	CloudFile findByUUID(String fileUUID);	
 	
 }

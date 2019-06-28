@@ -36,6 +36,8 @@ public interface CloudFileFacade {
 
 	boolean deleteByUUID(String fileUUID);
 
+	boolean sendNotificationByUUID(String fileUUID);
+
 	
 }
 
