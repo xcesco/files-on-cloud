@@ -34,3 +34,6 @@ https://stackblitz.com/edit/angular-confirmation-dialog
 
 Toaster
 https://www.npmjs.com/package/ngx-toastr
+
+Login con firebase
+https://www.techiediaries.com/angular-course-firebase-authentication/

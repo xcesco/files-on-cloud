@@ -14,7 +14,8 @@ import {ConsumerModule} from './features/consumer/consumer.module';
 import {CloudFileModule} from './features/cloud-file/cloud-file.module';
 import {LoginComponent} from './login/login.component';
 import {environment} from '../environments/environment';
-import {NgbAuthFirebaseUIModule} from '@firebaseui/ng-bootstrap';
+import {AngularFireAuthModule} from '@angular/fire/auth';
+import {AngularFireModule} from '@angular/fire';
 
 @NgModule({
   declarations: [
@@ -34,10 +35,10 @@ import {NgbAuthFirebaseUIModule} from '@firebaseui/ng-bootstrap';
     ConsumerModule,
     CloudFileModule,
 
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+
     AppRoutingModule,
-
-    NgbAuthFirebaseUIModule.forRoot(environment.firebase)
-
   ],
   providers: [],
   bootstrap: [AppComponent]

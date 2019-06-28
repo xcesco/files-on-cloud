@@ -12,7 +12,6 @@ import {ToastrModule} from 'ngx-toastr';
 import {ChangePasswordDialogComponent} from './components/change-password-dialog/change-password-dialog.component';
 import {ChangePasswordDialogService} from './components/change-password-dialog/change-password-dialog.service';
 import {FileSizePipe} from './pipe/file-size.pipe';
-import {NgbAuthFirebaseUIModule} from '@firebaseui/ng-bootstrap';
 
 
 @NgModule({
@@ -42,9 +41,7 @@ import {NgbAuthFirebaseUIModule} from '@firebaseui/ng-bootstrap';
     }),
 
     NgbModule,
-    NgbModalModule,
-
-    NgbAuthFirebaseUIModule
+    NgbModalModule
   ],
   exports: [
     CommonModule,
@@ -59,9 +56,7 @@ import {NgbAuthFirebaseUIModule} from '@firebaseui/ng-bootstrap';
     FileSizePipe,
 
     NgbModule,
-    NgbModalModule,
-
-    NgbAuthFirebaseUIModule
+    NgbModalModule
   ],
   entryComponents: [ConfirmationDialogComponent, ChangePasswordDialogComponent]
 })

@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthProvider} from '@firebaseui/ng-bootstrap';
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,7 @@ export class LoginComponent implements OnInit {
 
   providers = AuthProvider;
 
-  constructor() {
+  constructor(private  authService: AuthService) {
   }
 
   ngOnInit() {
