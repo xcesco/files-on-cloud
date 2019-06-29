@@ -15,11 +15,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private JwtServiceImpl jwtTokenUtil;
 
     @Value("${jwt.header}")
     private String tokenHeader;

@@ -2,7 +2,7 @@ package org.abubusoft.foc.business.services;
 
 import org.abubusoft.foc.repositories.model.User;
 
-public interface IdentityManagementService {
+public interface IdentityService {
 
 	User findByUsername(String username);
 

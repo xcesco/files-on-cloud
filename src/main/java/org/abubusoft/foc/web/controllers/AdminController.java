@@ -119,7 +119,7 @@ public class AdminController {
 		return ResponseEntity.ok(service.save(value));
 	}
 	
-	@GetMapping(name="/ip",produces=MediaType.TEXT_PLAIN_VALUE )
+	@GetMapping(value = "/ip",produces=MediaType.TEXT_PLAIN_VALUE )
 	public ResponseEntity<String> ip(HttpServletRequest request) {
 		String ip = extractIp(request);
         

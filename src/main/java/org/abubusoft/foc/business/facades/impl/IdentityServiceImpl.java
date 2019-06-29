@@ -3,7 +3,7 @@ package org.abubusoft.foc.business.facades.impl;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.abubusoft.foc.business.services.IdentityManagementService;
+import org.abubusoft.foc.business.services.IdentityService;
 import org.abubusoft.foc.exception.AppRuntimeException;
 import org.abubusoft.foc.repositories.GenericUserRepository;
 import org.abubusoft.foc.repositories.model.User;
@@ -18,7 +18,7 @@ import com.google.firebase.auth.ListUsersPage;
 import com.google.firebase.auth.UserRecord;
 
 @Service
-public class IdentityManagementServiceImpl implements IdentityManagementService {
+public class IdentityServiceImpl implements IdentityService {
 
 	@Autowired
 	private GenericUserRepository repository;

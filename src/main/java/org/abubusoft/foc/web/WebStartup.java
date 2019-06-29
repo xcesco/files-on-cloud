@@ -15,7 +15,7 @@ import com.google.firebase.FirebaseOptions;
  * dell'environment)
  */
 @WebListener
-public class Startup implements ServletContextListener {
+public class WebStartup implements ServletContextListener {
 
 	public void contextInitialized(ServletContextEvent sce) {
 		try {

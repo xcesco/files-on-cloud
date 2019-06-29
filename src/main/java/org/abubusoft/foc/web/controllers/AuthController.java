@@ -3,7 +3,7 @@ package org.abubusoft.foc.web.controllers;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.abubusoft.foc.business.services.IdentityManagementService;
+import org.abubusoft.foc.business.services.IdentityService;
 import org.abubusoft.foc.repositories.model.Administrator;
 import org.abubusoft.foc.repositories.model.Uploader;
 import org.abubusoft.foc.repositories.model.User;
@@ -25,18 +25,11 @@ import com.google.firebase.auth.FirebaseToken;
 @RequestMapping(value = "${api.v1.base-url}/auth", produces = "application/json; charset=utf-8")
 public class AuthController {
 
-	private IdentityManagementService userService;
+	private IdentityService userService;
 
 	@Autowired
-	public void setUserService(IdentityManagementService userService) {
+	public void setUserService(IdentityService userService) {
 		this.userService = userService;
-	}
-
-	@GetMapping("/users")
-	public String generateUser() {
-		String pw_hash = BCrypt.hashpw("ciao", BCrypt.gensalt());
-
-		return pw_hash;
 	}
 
 	@GetMapping(value = "/token")
