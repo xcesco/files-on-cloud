@@ -16,11 +16,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 	scanBasePackages = {"org.abubusoft.foc"})
 @EnableJpaAuditing
 @EnableJpaRepositories("org.abubusoft.foc.repositories")
-public class ServletInitializer extends SpringBootServletInitializer {
+public class WebApplicationStartup extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(ServletInitializer.class);
+		return application.sources(WebApplicationStartup.class);
 	}
 	
 	@PostConstruct
@@ -30,7 +30,7 @@ public class ServletInitializer extends SpringBootServletInitializer {
     }
 
 	public static void main(String[] args) {
-		SpringApplication.run(ServletInitializer.class, args);
+		SpringApplication.run(WebApplicationStartup.class, args);
 	}
 
 }

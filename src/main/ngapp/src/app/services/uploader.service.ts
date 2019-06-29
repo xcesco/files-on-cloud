@@ -11,7 +11,7 @@ import {Observable} from 'rxjs';
 export class UploaderService extends AbstractUserService<Uploader> {
 
   constructor(httpClient: HttpClient) {
-    super(httpClient, 'uploaders');
+    super(httpClient, 'secured/uploaders');
   }
 
   uploadLogo(beanId: number, fileToUpload: File): Observable<boolean> {

@@ -85,14 +85,15 @@ public class CloudFileServiceImpl implements CloudFileService {
 
 	@Override
 	public void deleteAllFiles() {
-		// cancelliamo da db
-		repository.deleteAll();
-
 		// cancelliamo da storage
 		Page<Blob> blobs = storage.get(bucketName).list();
 		for (Blob blob : blobs.iterateAll()) {
 			blob.delete();
 		}
+		
+		// cancelliamo da db
+		repository.deleteAll();
+
 	}
 
 	@Override

@@ -12,5 +12,5 @@ public interface AdminService extends AbstractUserService<Administrator> {
 	List<UploaderSummary> reportCloudFileForAllUploaders(LocalDate validoDal, LocalDate validoAl);
 
 	List<UploaderDetailSummary> reportConsumerForAllUploaders(LocalDate validoDal, LocalDate validoAl);
-	
+		
 }

@@ -18,6 +18,11 @@ import com.google.firebase.auth.UserRecord.UpdateRequest;
 
 public abstract class AbstractUserServiceImpl<R extends UserRepository<U>, U extends User> implements AbstractUserService<U> {
 
+	@Override
+	public void deleteAll() {
+		repository.deleteAll();		
+	}
+
 	protected Logger log=Logger.getLogger(getClass());
 	
 	protected R repository;

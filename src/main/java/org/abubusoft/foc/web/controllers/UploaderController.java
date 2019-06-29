@@ -8,11 +8,13 @@ import javax.validation.Valid;
 import org.abubusoft.foc.business.facades.UploaderFacade;
 import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.UploaderWto;
+import org.abubusoft.foc.web.security.AuthUserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -25,7 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestAPIV1Controller
-@RequestMapping(value="${api.v1.base-url}/uploaders", produces = "application/json; charset=utf-8")
+@Secured({AuthUserRole.ROLE_ADMINISTRATOR, AuthUserRole.ROLE_UPLOADER})
+@RequestMapping(value="${api.v1.base-url}/secured/uploaders", produces = "application/json; charset=utf-8")
 public class UploaderController {
 
 	private UploaderFacade service;

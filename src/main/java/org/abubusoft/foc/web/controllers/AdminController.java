@@ -7,19 +7,23 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+
 import org.abubusoft.foc.business.facades.AdminFacade;
 import org.abubusoft.foc.repositories.model.UploaderDetailSummary;
 import org.abubusoft.foc.repositories.model.UploaderSummary;
 import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.AdminWto;
 import org.abubusoft.foc.web.model.ChangePasswordWto;
+import org.abubusoft.foc.web.security.AuthUserRole;
+import org.abubusoft.foc.web.security.ng.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -34,18 +38,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import org.abubusoft.foc.web.security.AuthUserRole;
+// https://stackoverflow.com/questions/4989063/what-is-the-meaning-and-difference-between-subject-user-and-principal/5025140#5025140
 
-
-@Secured(AuthUserRole.ADMINISTRATOR_ROLE)
 @RestAPIV1Controller
-@RequestMapping(value="${api.v1.base-url}/admins", produces = "application/json; charset=utf-8")
+@Secured(AuthUserRole.ROLE_ADMINISTRATOR)
+//@PreAuthorize("hasAuthority('ADMINISTRATOR') or hasAuthority('CONSUMER')")
+@RequestMapping(value="${api.v1.base-url}/secured/admins", produces = "application/json; charset=utf-8")
 public class AdminController {
 
 	private AdminFacade service;
-	
+	 
 	@GetMapping
-	public ResponseEntity<List<AdminWto>> adminFindAll() {
+	public ResponseEntity<List<AdminWto>> adminFindAll(@AuthenticationPrincipal final JwtUser user) {		
 		return ResponseEntity.ok(service.findAll());
 	}
 

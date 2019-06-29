@@ -1,17 +1,14 @@
-package org.abubusoft.foc;
+package org.abubusoft.foc.web;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
+import org.abubusoft.foc.web.security.ng.JwtUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 
 import com.google.common.collect.Lists;
 
@@ -44,7 +41,8 @@ public class SwaggerConfig {
     			.apiInfo(apiInfo())
     			.pathMapping("/")
                 .apiInfo(ApiInfo.DEFAULT)
-                .forCodeGeneration(true)
+                .forCodeGeneration(true)                
+                .ignoredParameterTypes(JwtUser.class)
     			.securityContexts(Lists.newArrayList(securityContext()))
     			.securitySchemes(Lists.newArrayList(apiKey()))
     			.select()

@@ -20,7 +20,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = ServletInitializer.class)
+@SpringBootTest(classes = WebApplicationStartup.class)
 public abstract class BaseTest {
 	
 	protected Logger logger = LoggerFactory.getLogger(getClass());

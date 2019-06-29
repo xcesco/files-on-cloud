@@ -19,7 +19,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
     @Autowired
-    private JwtServiceImpl jwtTokenUtil;
+    private JwtService jwtService;
 
     @Value("${jwt.header}")
     private String tokenHeader;
@@ -32,7 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         UserDetails userDetails = null;
 
         if(authToken != null){
-            userDetails = jwtTokenUtil.getUserDetails(authToken);
+            userDetails = jwtService.getUserDetails(authToken);
         }
 
         if (userDetails != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -40,9 +40,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // Ricostruisco l userdetails con i dati contenuti nel token
 
             // controllo integrita' token
-            if (jwtTokenUtil.validateToken(authToken, userDetails)) {
+            if (jwtService.validateToken(authToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));                
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }

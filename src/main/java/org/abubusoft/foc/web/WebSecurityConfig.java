@@ -1,6 +1,5 @@
-package org.abubusoft.foc;
+package org.abubusoft.foc.web;
 
-import org.abubusoft.foc.web.AngularResourceResolver;
 import org.abubusoft.foc.web.security.ng.JwtAuthenticationEntryPoint;
 import org.abubusoft.foc.web.security.ng.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled=true)
+@EnableGlobalMethodSecurity(securedEnabled=true, prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
 //	@Override
@@ -85,8 +84,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 	                "/swagger-ui.html",
 	                "/webjars/**")*/.permitAll()
 	    		
-	    		// servizi web	    		       
-	            .antMatchers("/api/v1/**")
+	            .antMatchers("/api/v1/public/**")
+		        .permitAll()
+	                
+	    		// servizi web aperti	    		       
+	            .antMatchers("/api/v1/secured/**")
 	            .authenticated();
     	
 //    	http

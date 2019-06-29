@@ -9,7 +9,7 @@ import {AbstractUserService} from './abstract-user.service';
 export class ConsumerService extends AbstractUserService<Consumer> {
 
   constructor(httpClient: HttpClient) {
-    super(httpClient, 'consumers');
+    super(httpClient, 'secured/consumers');
 
   }
 

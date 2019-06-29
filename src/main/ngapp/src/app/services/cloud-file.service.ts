@@ -13,7 +13,7 @@ export class CloudFileService {
 
   }
 
-  protected baseUrl = 'files/';
+  protected baseUrl = 'secured/files/';
 
   findAll(): Observable<CloudFile[]> {
     console.log('findAll ', environment.API_URL + this.baseUrl);

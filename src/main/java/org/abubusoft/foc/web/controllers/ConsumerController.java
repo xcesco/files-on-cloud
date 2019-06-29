@@ -22,9 +22,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
-@Secured(AuthUserRole.CONSUMER_ROLE)
+
 @RestAPIV1Controller
-@RequestMapping(value="${api.v1.base-url}/consumers", produces = "application/json; charset=utf-8")
+@Secured({AuthUserRole.ROLE_ADMINISTRATOR, AuthUserRole.ROLE_UPLOADER, AuthUserRole.ROLE_CONSUMER})
+@RequestMapping(value="${api.v1.base-url}/secured/consumers", produces = "application/json; charset=utf-8")
 public class ConsumerController {
 
 	private ConsumerFacade service;

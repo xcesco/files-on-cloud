@@ -12,7 +12,7 @@ import {AdminModule} from '../features/admin/admin.module';
 export class AdminService extends AbstractUserService<Administrator> {
 
   constructor(httpClient: HttpClient) {
-    super(httpClient, 'admins');
+    super(httpClient, 'secured/admins');
   }
 
 }

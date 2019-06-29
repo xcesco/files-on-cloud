@@ -3,9 +3,17 @@ package org.abubusoft.foc.business.facades.impl;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.abubusoft.foc.business.services.AdminService;
 import org.abubusoft.foc.business.services.AuthService;
+import org.abubusoft.foc.business.services.CloudFileService;
+import org.abubusoft.foc.business.services.ConsumerService;
+import org.abubusoft.foc.business.services.UploaderService;
 import org.abubusoft.foc.exception.AppRuntimeException;
+import org.abubusoft.foc.repositories.AdministratorsRepository;
+import org.abubusoft.foc.repositories.CloudFileRepository;
+import org.abubusoft.foc.repositories.ConsumersRepository;
 import org.abubusoft.foc.repositories.GenericUserRepository;
+import org.abubusoft.foc.repositories.UploadersRepository;
 import org.abubusoft.foc.repositories.model.User;
 import org.abubusoft.foc.web.security.ng.JwtService;
 import org.abubusoft.foc.web.security.ng.JwtUserFactory;
@@ -31,7 +39,20 @@ public class IdentityServiceImpl implements AuthService {
 
 	@Autowired
 	private GenericUserRepository repository;
-
+	
+	@Autowired
+	private CloudFileService cloudFileService;
+	
+	@Autowired
+	private AdminService adminService;
+	
+	@Autowired
+	private UploaderService uploaderService;
+	
+	@Autowired
+	private ConsumerService consumerService;
+	
+	
 	public void setUserRepository(GenericUserRepository repository) {
 		this.repository = repository;
 	}
@@ -68,7 +89,7 @@ public class IdentityServiceImpl implements AuthService {
 
 		Set<String> uidToDelete = new HashSet<>();
 		ListUsersPage list;
-		try {
+		try {														
 			list = firebase.listUsers(null);
 
 			while (list != null) {
@@ -85,7 +106,15 @@ public class IdentityServiceImpl implements AuthService {
 				firebase.deleteUser(uid);
 			}
 
-			repository.deleteAllInBatch();
+			// cancelliamo tutti fiile
+			cloudFileService.deleteAllFiles();
+			
+			// cancelliamo su db tutti gli utenti
+			adminService.deleteAll();
+			uploaderService.deleteAll();
+			consumerService.deleteAll();
+
+			
 		} catch (Throwable e) {
 			e.printStackTrace();
 			throw AppRuntimeException.create(e);
