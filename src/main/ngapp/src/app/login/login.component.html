@@ -4,18 +4,17 @@
       <div class="card">
         <div class="card-header">Login</div>
         <div class="card-body">
+          <input type="text" class="form-control mb-2" placeholder="Email" #userEmail required autofocus>
+          <input type="password" class="form-control mb-2" placeholder="Password" #userPassword required>
           <div class="row">
-            <div class="col-md-4 text-center">
-              <img src="https://placeimg.com/128/128/nature">
-            </div>
-            <div class="col-md-8">
-
-              <input type="text" class="form-control mb-2" placeholder="Email" #userEmail required autofocus>
-              <input type="password" class="form-control mb-2" placeholder="Password" #userPassword required>
+            <div class="col-md-6 text-center">
               <button (click)="authService.login(userEmail.value, userPassword.value)" class="btn btn-lg btn-primary btn-block mb-1">Login</button>
-
+            </div>
+            <div class="col-md-6 text-center">
+              <button class="btn btn-lg btn-outline-secondary btn-block mb-1">Sign up as consumer</button>
             </div>
           </div>
+
         </div>
       </div>
     </div>
