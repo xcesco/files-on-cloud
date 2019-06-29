@@ -99,10 +99,11 @@ Elenco dei codici fiscali generati da http://www.codicefiscaleonline.com/
  http://pscode.rs/jpa-custom-validation-contraints/
  
  
- # Html sanitazier
+# Html sanitazier
  https://github.com/OWASP/java-html-sanitizer
  
- # Autentication
+# Autentication
  https://www.techiediaries.com/angular-course-firebase-authentication/
  https://github.com/techiediaries/angular-portfolio
+ https://www.baeldung.com/spring-security-method-security
  

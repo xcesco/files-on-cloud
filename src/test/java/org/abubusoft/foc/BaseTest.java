@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.abubusoft.foc.business.services.AdminService;
 import org.abubusoft.foc.business.services.CloudFileService;
 import org.abubusoft.foc.business.services.ConsumerService;
-import org.abubusoft.foc.business.services.IdentityService;
+import org.abubusoft.foc.business.services.AuthService;
 import org.abubusoft.foc.business.services.UploaderService;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -25,10 +25,10 @@ public abstract class BaseTest {
 	
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	
-	protected IdentityService identityManagementService;
+	protected AuthService identityManagementService;
 	
 	@Autowired
-	public void setIdentityManagementService(IdentityService identityManagementService) {
+	public void setIdentityManagementService(AuthService identityManagementService) {
 		this.identityManagementService = identityManagementService;
 	}
 

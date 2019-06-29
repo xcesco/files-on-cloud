@@ -1,18 +1,11 @@
 package org.abubusoft.foc.web.controllers;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.abubusoft.foc.business.services.IdentityService;
-import org.abubusoft.foc.repositories.model.Administrator;
-import org.abubusoft.foc.repositories.model.Uploader;
-import org.abubusoft.foc.repositories.model.User;
+import org.abubusoft.foc.business.services.AuthService;
 import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.TokenWto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,37 +18,21 @@ import com.google.firebase.auth.FirebaseToken;
 @RequestMapping(value = "${api.v1.base-url}/auth", produces = "application/json; charset=utf-8")
 public class AuthController {
 
-	private IdentityService userService;
+	private AuthService authService;
 
 	@Autowired
-	public void setUserService(IdentityService userService) {
-		this.userService = userService;
+	public void setAuthService(AuthService userService) {
+		this.authService = userService;
 	}
 
 	@GetMapping(value = "/token")
 	public ResponseEntity<TokenWto> generateToken(@RequestParam(value = "token", required = true) String token) {
 		FirebaseToken fireToken;
 		try {
+			// verifichiamo con firebase il token che ci arriva e ne generiamo uno di sistema
 			fireToken = FirebaseAuth.getInstance().verifyIdToken(token);
-
-			User user = userService.findByUsername(fireToken.getEmail());
-	
-			Map<String, Object> claims = new HashMap<>();
-			claims.put("username", fireToken.getEmail());
-			claims.put("displayName", user.getDisplayName());
-			claims.put("id", user.getId());
-			claims.put("email", user.getUsername());
 			
-			if (user instanceof Administrator) {
-				claims.put("ROLE", "admin");
-			} else if (user instanceof Uploader) {
-				claims.put("ROLE", "uploader");
-			} else {
-				claims.put("ROLE", "consumer");
-			}
-
-			String accessToken = FirebaseAuth.getInstance().createCustomToken(fireToken.getUid(), claims);
-
+			String accessToken=authService.generateToken(fireToken.getEmail());
 			return ResponseEntity.ok(TokenWto.of(accessToken));
 		} catch (FirebaseAuthException e) {
 			e.printStackTrace();

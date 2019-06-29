@@ -18,10 +18,10 @@ public class JwtUser implements UserDetails {
 	private final String diplayName;
 	private final String email;
 	private boolean enabled;
-	private String id;
+	private long id;
 	private final String username;
 
-	public JwtUser(String id, String username, String displayName, String email, boolean enabled,
+	public JwtUser(long id, String username, String displayName, String email, boolean enabled,
 			Collection<? extends GrantedAuthority> authorities) {
 		this.id = id;
 		this.username = username;
@@ -44,7 +44,7 @@ public class JwtUser implements UserDetails {
 		return email;
 	}
 
-	public String getId() {
+	public long getId() {
 		return id;
 	}
 

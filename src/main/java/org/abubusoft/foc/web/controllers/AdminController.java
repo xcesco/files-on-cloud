@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -33,6 +34,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import org.abubusoft.foc.web.security.AuthUserRole;
+
+
+@Secured(AuthUserRole.ADMINISTRATOR_ROLE)
 @RestAPIV1Controller
 @RequestMapping(value="${api.v1.base-url}/admins", produces = "application/json; charset=utf-8")
 public class AdminController {

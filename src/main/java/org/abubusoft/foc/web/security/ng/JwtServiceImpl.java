@@ -24,6 +24,11 @@ public class JwtServiceImpl implements Serializable, JwtService {
 	static final String CLAIM_KEY_CREATED = "iat";
 	static final String CLAIM_KEY_IS_ENABLED = "isEnabled";
 	static final String CLAIM_KEY_USERNAME = "sub";
+
+	static final String CLAIM_KEY_DISPLAY_NAME = "displayName";
+	static final String CLAIM_KEY_ID = "id";
+	static final String CLAIM_KEY_EMAIL = "email";
+
 	private static final long serialVersionUID = -3301605591108950415L;
 
 	@Value("${jwt.expiration}")
@@ -54,6 +59,13 @@ public class JwtServiceImpl implements Serializable, JwtService {
 				.collect(Collectors.toList());
 		claims.put(CLAIM_KEY_AUTHORITIES, auth);
 		claims.put(CLAIM_KEY_IS_ENABLED, userDetails.isEnabled());
+
+		if (userDetails instanceof JwtUser) {
+			JwtUser jwtUser=(JwtUser)userDetails;
+			claims.put(CLAIM_KEY_DISPLAY_NAME, jwtUser.getDiplayName());
+			claims.put(CLAIM_KEY_ID, jwtUser.getId());
+			claims.put(CLAIM_KEY_EMAIL, jwtUser.getEmail());
+		}
 
 		return generateToken(claims);
 	}
@@ -89,6 +101,9 @@ public class JwtServiceImpl implements Serializable, JwtService {
 		}
 		return expiration;
 	}
+	
+//	(String id, String username, String displayName, String email, boolean enabled,
+//			Collection<? extends GrantedAuthority> authorities) {
 
 	@SuppressWarnings("unchecked")
 	public JwtUser getUserDetails(String token) {
@@ -103,9 +118,16 @@ public class JwtServiceImpl implements Serializable, JwtService {
 						.map(role -> new SimpleGrantedAuthority(role)).collect(Collectors.toList());
 			}
 
-			return new JwtUser("", claims.getSubject(), "", "", (boolean) claims.get(CLAIM_KEY_IS_ENABLED),
+			JwtUser user=new JwtUser(
+					(int)claims.get(CLAIM_KEY_ID),
+					claims.getSubject(), 
+					(String)claims.get(CLAIM_KEY_DISPLAY_NAME), 
+					(String)claims.get(CLAIM_KEY_EMAIL), 
+					(boolean) claims.get(CLAIM_KEY_IS_ENABLED),
 					authorities);
+			return user;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 

@@ -4,7 +4,7 @@ import javax.transaction.Transactional;
 
 import org.abubusoft.foc.BaseTest;
 import org.abubusoft.foc.business.services.CloudFileService;
-import org.abubusoft.foc.business.services.IdentityService;
+import org.abubusoft.foc.business.services.AuthService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuthException;
 public class TestIdentityManagement extends BaseTest {
 
 	@Autowired
-	protected IdentityService service;
+	protected AuthService service;
 
 	@Autowired
 	protected CloudFileService cloudFileService;

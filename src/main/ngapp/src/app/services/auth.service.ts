@@ -7,39 +7,20 @@ import UserCredential = firebase.auth.UserCredential;
 import {ToastrService} from 'ngx-toastr';
 import {HttpClient} from '@angular/common/http';
 import {CloudFile} from '../types/files';
-import {Observable, Subject} from 'rxjs';
+import {Observable} from 'rxjs';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {environment} from '../../environments/environment';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  public userSubject = new Subject<'LOGIN' | 'LOGOUT'>();
-
   private jwtHelper: JwtHelperService = new JwtHelperService();
 
   protected baseUrl = 'auth/';
   user: User;
-
-  public get token(): string {
-    return sessionStorage.getItem(environment.JWT_NAME);
-  }
-
-  public isAuthenticated(): boolean {
-    return !this.jwtHelper.isTokenExpired(this.token);
-  }
-/*
-  login(jwt: string) {
-    sessionStorage.setItem(environment.JWT_NAME, jwt);
-    this.userSubject.next('LOGIN');
-  }
-
-  logout() {
-    sessionStorage.removeItem(environment.JWT_NAME);
-    this.userSubject.next('LOGOUT');
-  }*/
 
   constructor(public  afAuth: AngularFireAuth, public  router: Router, private toastr: ToastrService, protected httpClient: HttpClient) {
     this.afAuth.authState.subscribe(user => {
@@ -51,18 +32,18 @@ export class AuthService {
       }
     });
 
-    this.afAuth.idToken.subscribe(token => {
+    this.afAuth.idToken.subscribe(value => {
       console.log('nuovo token!!!');
 
-      this.getUser(token).subscribe(result => {
-        console.log('-->', result);
-        console.log('-->', this.jwtHelper.decodeToken(result));
+      this.getUser(value).pipe(map(result => result.token)).subscribe(token => {
+        console.log('-->', token);
+        console.log('-->', this.jwtHelper.decodeToken(token));
       });
     });
   }
 
-  getUser(tokenValue: string): Observable<string> {
-    return this.httpClient.get<string>(environment.API_URL + this.baseUrl + 'token', {
+  getUser(tokenValue: string): Observable<{token: string}> {
+    return this.httpClient.get<{token: string}>(environment.API_URL + this.baseUrl + 'token', {
       params: {token: tokenValue}
     });
   }

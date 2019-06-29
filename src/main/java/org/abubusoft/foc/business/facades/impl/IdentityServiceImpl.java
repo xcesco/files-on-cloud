@@ -3,10 +3,12 @@ package org.abubusoft.foc.business.facades.impl;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.abubusoft.foc.business.services.IdentityService;
+import org.abubusoft.foc.business.services.AuthService;
 import org.abubusoft.foc.exception.AppRuntimeException;
 import org.abubusoft.foc.repositories.GenericUserRepository;
 import org.abubusoft.foc.repositories.model.User;
+import org.abubusoft.foc.web.security.ng.JwtService;
+import org.abubusoft.foc.web.security.ng.JwtUserFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -18,7 +20,14 @@ import com.google.firebase.auth.ListUsersPage;
 import com.google.firebase.auth.UserRecord;
 
 @Service
-public class IdentityServiceImpl implements IdentityService {
+public class IdentityServiceImpl implements AuthService {
+	
+	@Autowired
+	private JwtService jwtService;
+
+	public void setJwtService(JwtService jwtService) {
+		this.jwtService = jwtService;
+	}
 
 	@Autowired
 	private GenericUserRepository repository;
@@ -82,5 +91,12 @@ public class IdentityServiceImpl implements IdentityService {
 			throw AppRuntimeException.create(e);
 		}
 
+	}
+
+	@Override
+	public String generateToken(String username) {
+		User user = findByUsername(username);
+		String token=jwtService.generateToken(JwtUserFactory.create(user));
+		return token;
 	}
 }
