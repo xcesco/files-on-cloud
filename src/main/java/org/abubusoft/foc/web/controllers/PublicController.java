@@ -3,6 +3,7 @@ package org.abubusoft.foc.web.controllers;
 import javax.servlet.http.HttpServletRequest;
 
 import org.abubusoft.foc.business.facades.CloudFileFacade;
+import org.abubusoft.foc.business.facades.UploaderFacade;
 import org.abubusoft.foc.repositories.model.CloudFile;
 import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestAPIV1Controller
 @RequestMapping(value="${api.v1.base-url}/public")
-public class DownloadFileController {
+public class PublicController {
+	
+	private UploaderFacade uploaderService;
+
+	@Autowired
+	public void setService(UploaderFacade service) {
+		this.uploaderService = service;
+	}
+
 	
 	protected CloudFileFacade service;
 	
@@ -53,6 +62,21 @@ public class DownloadFileController {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
+	}
+	
+	@GetMapping("/uploaders/{id}/logo")
+	public ResponseEntity<ByteArrayResource> getUploaderLogo(@PathVariable("id") long uploaderId) {
+		byte[] content = uploaderService.getLogoById(uploaderId);
+		ByteArrayResource resource = new ByteArrayResource(content);
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=logo" + uploaderId + ".png");
+		headers.add(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate");
+		headers.add(HttpHeaders.PRAGMA, "no-cache");
+		headers.add(HttpHeaders.EXPIRES, "0");
+
+		return ResponseEntity.ok().headers(headers).contentLength(content.length).contentType(MediaType.IMAGE_PNG)
+				.body(resource);
 	}
 	
 	private String extractIp(HttpServletRequest request) {

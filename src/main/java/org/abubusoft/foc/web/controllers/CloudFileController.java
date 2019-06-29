@@ -13,7 +13,7 @@ import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.CloudFileInfoWto;
 import org.abubusoft.foc.web.model.CloudFileWto;
 import org.abubusoft.foc.web.model.ConsumerWto;
-import org.abubusoft.foc.web.security.AuthUserRole;
+import org.abubusoft.foc.web.security.UserRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.util.Pair;
@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestAPIV1Controller
-@Secured({AuthUserRole.ROLE_ADMINISTRATOR, AuthUserRole.ROLE_UPLOADER})
+@Secured({UserRoles.ROLE_ADMINISTRATOR_VALUE, UserRoles.ROLE_UPLOADER_VALUE})
 @RequestMapping(value="${api.v1.base-url}/secured", produces = "application/json; charset=utf-8")
 public class CloudFileController {
 	protected CloudFileFacade service;

@@ -12,6 +12,7 @@ import {ToastrModule} from 'ngx-toastr';
 import {ChangePasswordDialogComponent} from './components/change-password-dialog/change-password-dialog.component';
 import {ChangePasswordDialogService} from './components/change-password-dialog/change-password-dialog.service';
 import {FileSizePipe} from './pipe/file-size.pipe';
+import {SecurityIsAdministratorDirective} from './directives/security-is-administrator.directive';
 
 
 @NgModule({
@@ -21,7 +22,9 @@ import {FileSizePipe} from './pipe/file-size.pipe';
     DisplayManagedErrorComponent,
     ConfirmationDialogComponent,
     ChangePasswordDialogComponent,
-    FileSizePipe
+    FileSizePipe,
+
+    SecurityIsAdministratorDirective
   ],
   providers: [
     ConfirmationDialogService,
@@ -56,7 +59,9 @@ import {FileSizePipe} from './pipe/file-size.pipe';
     FileSizePipe,
 
     NgbModule,
-    NgbModalModule
+    NgbModalModule,
+
+    SecurityIsAdministratorDirective
   ],
   entryComponents: [ConfirmationDialogComponent, ChangePasswordDialogComponent]
 })

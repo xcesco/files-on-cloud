@@ -14,7 +14,7 @@ import org.abubusoft.foc.repositories.model.UploaderSummary;
 import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.AdminWto;
 import org.abubusoft.foc.web.model.ChangePasswordWto;
-import org.abubusoft.foc.web.security.AuthUserRole;
+import org.abubusoft.foc.web.security.UserRoles;
 import org.abubusoft.foc.web.security.ng.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -41,7 +41,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 // https://stackoverflow.com/questions/4989063/what-is-the-meaning-and-difference-between-subject-user-and-principal/5025140#5025140
 
 @RestAPIV1Controller
-@Secured(AuthUserRole.ROLE_ADMINISTRATOR)
+@Secured(UserRoles.ROLE_ADMINISTRATOR_VALUE)
 //@PreAuthorize("hasAuthority('ADMINISTRATOR') or hasAuthority('CONSUMER')")
 @RequestMapping(value="${api.v1.base-url}/secured/admins", produces = "application/json; charset=utf-8")
 public class AdminController {

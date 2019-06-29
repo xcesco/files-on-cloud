@@ -115,7 +115,7 @@ public class JwtServiceImpl implements Serializable, JwtService {
 			List<SimpleGrantedAuthority> authorities = null;
 			if (claims.get(CLAIM_KEY_AUTHORITIES) != null) {
 				authorities = ((List<String>) claims.get(CLAIM_KEY_AUTHORITIES)).stream()
-						.map(role -> new SimpleGrantedAuthority("ROLE_"+role)).collect(Collectors.toList());
+						.map(role -> new SimpleGrantedAuthority(role)).collect(Collectors.toList());
 			}
 
 			JwtUser user=new JwtUser(

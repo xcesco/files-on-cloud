@@ -1,6 +1,7 @@
 package org.abubusoft.foc.web.security.ng;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -17,36 +18,39 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+	@Autowired
+	private JwtService jwtService;
 
-    @Autowired
-    private JwtService jwtService;
+	@Value("${jwt.header}")
+	private String tokenHeader;
 
-    @Value("${jwt.header}")
-    private String tokenHeader;
+	private static final String BEARER = "Bearer";
 
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+			throws ServletException, IOException {
+		String authToken = Optional.ofNullable(request.getHeader(this.tokenHeader))
+				.map(v -> v.replace(BEARER, "").trim()).orElse(null);
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        String authToken = request.getHeader(this.tokenHeader);
+		UserDetails userDetails = null;
 
-        UserDetails userDetails = null;
+		if (authToken != null) {
+			userDetails = jwtService.getUserDetails(authToken);
+		}
 
-        if(authToken != null){
-            userDetails = jwtService.getUserDetails(authToken);
-        }
+		if (userDetails != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-        if (userDetails != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+			// Ricostruisco l userdetails con i dati contenuti nel token
 
-            // Ricostruisco l userdetails con i dati contenuti nel token
+			// controllo integrita' token
+			if (jwtService.validateToken(authToken, userDetails)) {
+				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+						userDetails, null, userDetails.getAuthorities());
+				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+			}
+		}
 
-            // controllo integrita' token
-            if (jwtService.validateToken(authToken, userDetails)) {
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));                
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
-        }
-
-        chain.doFilter(request, response);
-    }
+		chain.doFilter(request, response);
+	}
 }

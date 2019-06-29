@@ -8,11 +8,8 @@ import javax.validation.Valid;
 import org.abubusoft.foc.business.facades.UploaderFacade;
 import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.UploaderWto;
-import org.abubusoft.foc.web.security.AuthUserRole;
+import org.abubusoft.foc.web.security.UserRoles;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,34 +24,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestAPIV1Controller
-@Secured({AuthUserRole.ROLE_ADMINISTRATOR, AuthUserRole.ROLE_UPLOADER})
+@Secured({UserRoles.ROLE_ADMINISTRATOR_VALUE, UserRoles.ROLE_UPLOADER_VALUE})
 @RequestMapping(value="${api.v1.base-url}/secured/uploaders", produces = "application/json; charset=utf-8")
 public class UploaderController {
 
 	private UploaderFacade service;
 
+	@Autowired
+	public void setService(UploaderFacade service) {
+		this.service = service;
+	}
 
 	// gia presente in consumer
 //	@GetMapping("/consumers/{consumerId}/change-password")
 //	public ResponseEntity<String> consumerGetChangePasswordUrl(@PathVariable("consumerId") long consumerId) {
 //		return ResponseEntity.ok(service.uploaderGetChangePasswordUrlByUsername(null));
 //	}			
-
-
-	@GetMapping("/{id}/logo")
-	public ResponseEntity<ByteArrayResource> getUploaderLogo(@PathVariable("id") long uploaderId) {
-		byte[] content = service.getLogoById(uploaderId);
-		ByteArrayResource resource = new ByteArrayResource(content);
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=logo" + uploaderId + ".png");
-		headers.add(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate");
-		headers.add(HttpHeaders.PRAGMA, "no-cache");
-		headers.add(HttpHeaders.EXPIRES, "0");
-
-		return ResponseEntity.ok().headers(headers).contentLength(content.length).contentType(MediaType.IMAGE_PNG)
-				.body(resource);
-	}
 	
 	@PatchMapping("/{id}/logo")
     public ResponseEntity<Boolean> handleFileUpload(@PathVariable("id") long uploaderId, @RequestParam("file") MultipartFile file) throws IOException {
@@ -63,10 +48,7 @@ public class UploaderController {
         return ResponseEntity.ok(true);
     }
 
-	@Autowired
-	public void setService(UploaderFacade service) {
-		this.service = service;
-	}
+
 	
 	@PostMapping
 	public ResponseEntity<UploaderWto> save(@RequestBody @Valid UploaderWto value) {

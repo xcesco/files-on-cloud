@@ -9,7 +9,7 @@ import org.abubusoft.foc.repositories.model.UploaderDetailSummary;
 import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.ChangePasswordWto;
 import org.abubusoft.foc.web.model.ConsumerWto;
-import org.abubusoft.foc.web.security.AuthUserRole;
+import org.abubusoft.foc.web.security.UserRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @RestAPIV1Controller
-@Secured({AuthUserRole.ROLE_ADMINISTRATOR, AuthUserRole.ROLE_UPLOADER, AuthUserRole.ROLE_CONSUMER})
+@Secured({UserRoles.ROLE_ADMINISTRATOR_VALUE, UserRoles.ROLE_UPLOADER_VALUE, UserRoles.ROLE_CONSUMER_VALUE})
 @RequestMapping(value="${api.v1.base-url}/secured/consumers", produces = "application/json; charset=utf-8")
 public class ConsumerController {
 

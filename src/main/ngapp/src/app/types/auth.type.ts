@@ -1,7 +1,8 @@
-export interface AuthUser {
+export interface JwtUser {
   username: string;
   displayName: string;
   id: number;
+  isEnabled: boolean;
   email: string;
-  role: 'ADMINISTRATOR' | 'UPLOADER' | 'CONSUMER';
+  roles: string[];
 }
