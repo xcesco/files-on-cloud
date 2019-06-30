@@ -12,6 +12,7 @@ import {Location} from '@angular/common';
 })
 export class UserDetailComponent implements OnInit {
 
+  @Input() signupMode = false;
   @Input() type: 'Administrator' | 'Uploader' | 'Consumer' = 'Administrator';
   @Input() user: Administrator | Uploader | Consumer = null;
   @Output() save: EventEmitter<Administrator | Uploader | Consumer> = new EventEmitter();

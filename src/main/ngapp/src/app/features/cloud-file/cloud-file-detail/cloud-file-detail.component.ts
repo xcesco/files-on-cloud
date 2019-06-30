@@ -27,7 +27,6 @@ export class CloudFileDetailComponent implements OnInit {
       email: new FormControl(null, [Validators.email]),
       file: new FormControl(null, [Validators.required]),
       hashtag: new FormControl(null),
-      uploaderId: new FormControl(null, Validators.required),
       username: new FormControl(null, [Validators.email])
     });
   }
@@ -58,11 +57,10 @@ export class CloudFileDetailComponent implements OnInit {
     formData.append('email', this.form.get('email').value);
     formData.append('file', this.file);
     formData.append('hashtag', this.form.get('hashtag').value);
-    formData.append('uploaderId', this.form.get('uploaderId').value);
     formData.append('username', this.form.get('username').value);
 
     console.log(this.form.value, formData);
-    this.service.save(this.form.get('uploaderId').value, formData).subscribe(
+    this.service.save(formData).subscribe(
       (res) => {
         console.log(res);
         this.toastr.info('File correctly uploaded and notified', 'Information');

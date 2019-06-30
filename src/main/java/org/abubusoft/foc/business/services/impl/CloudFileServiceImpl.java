@@ -19,6 +19,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
@@ -145,7 +147,7 @@ public class CloudFileServiceImpl implements CloudFileService {
 
 	@Override
 	public Iterable<CloudFile> findAll() {
-		return repository.findAll();
+		return repository.findAll(Sort.by(Direction.ASC, "viewTime").and(Sort.by(Direction.ASC, "fileName")));
 	}
 
 	@Override

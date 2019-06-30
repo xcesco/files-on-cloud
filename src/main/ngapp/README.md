@@ -37,3 +37,6 @@ https://www.npmjs.com/package/ngx-toastr
 
 Login con firebase
 https://www.techiediaries.com/angular-course-firebase-authentication/
+
+
+https://hatchful.shopify.com/onboarding/select-logo

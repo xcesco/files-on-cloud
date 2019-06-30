@@ -8,10 +8,10 @@
           <input type="password" class="form-control mb-2" placeholder="Password" #userPassword required>
           <div class="row">
             <div class="col-md-6 text-center">
-              <button (click)="authService.login(userEmail.value, userPassword.value)" class="btn btn-lg btn-primary btn-block mb-1">Login</button>
+              <button type="button" ngbAutofocus (click)="login(userEmail.value, userPassword.value)" class="btn btn-lg btn-primary btn-block mb-1">Login</button>
             </div>
             <div class="col-md-6 text-center">
-              <button class="btn btn-lg btn-outline-secondary btn-block mb-1">Sign up as consumer</button>
+              <a [routerLink]="'/signup'" class="btn btn-lg btn-outline-primary btn-block mb-1" ngbTooltip="Sign up as consumer">Signup</a>
             </div>
           </div>
 

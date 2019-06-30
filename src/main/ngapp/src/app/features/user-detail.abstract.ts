@@ -1,15 +1,16 @@
 import {User} from '../types/users';
 import {AbstractUserService} from '../services/abstract-user.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {ToastrService} from 'ngx-toastr';
 import {map} from 'rxjs/operators';
 import {isNotBlank} from '../shared/utils/utils';
 import {HttpErrorResponse} from '@angular/common/http';
+import {Input} from '@angular/core';
 
 export class AbstractUserDetailComponent<E extends User, S extends AbstractUserService<E>> {
 
-  constructor(protected actr: ActivatedRoute, protected service: S, protected location: Location, protected toastr: ToastrService) {
+  constructor(protected actr: ActivatedRoute, protected router: Router, protected service: S, protected location: Location, protected toastr: ToastrService) {
     this.actr.data.pipe(map(data => data.detail)).subscribe((value: E) => {
       console.log('caricato', value);
       this.user = value;
@@ -24,6 +25,8 @@ export class AbstractUserDetailComponent<E extends User, S extends AbstractUserS
     return isNotBlank(this.user.id);
   }
 
+  @Input() signupMode = false;
+
   user: E;
 
   goBack(): void {
@@ -33,14 +36,28 @@ export class AbstractUserDetailComponent<E extends User, S extends AbstractUserS
 
   onSave(user: E) {
     console.log('faccio save', user);
-    this.service.save(user).subscribe(data => {
-      console.log('datao salvoat');
-      this.toastr.success(`User is updated!`, 'System information');
-      this.location.back();
-    }, (error: HttpErrorResponse) => {
-      // this.toastr.success(`User was correctly updated!`, 'User save!');
-      this.toastr.error('Something went wrong during save operation!', 'System information');
-      console.log('errorere', error.error);
-    });
+
+    if (this.signupMode) {
+      this.service.saveForSignup(user).subscribe(data => {
+        console.log('datao salvato');
+        this.toastr.success(`User is registered!`, 'System information');
+        this.router.navigate(['/login']);
+      }, (error: HttpErrorResponse) => {
+        // this.toastr.success(`User was correctly updated!`, 'User save!');
+        this.toastr.error('Something went wrong during save signup!', 'System information');
+      });
+
+    } else {
+      this.service.save(user).subscribe(data => {
+        console.log('datao salvato');
+        this.toastr.success(`User is updated!`, 'System information');
+        this.location.back();
+      }, (error: HttpErrorResponse) => {
+        // this.toastr.success(`User was correctly updated!`, 'User save!');
+        this.toastr.error('Something went wrong during save operation!', 'System information');
+        console.log('errorere', error.error);
+      });
+    }
+
   }
 }

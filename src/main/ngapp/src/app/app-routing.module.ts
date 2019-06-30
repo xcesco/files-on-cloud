@@ -6,6 +6,8 @@ import {UploaderDashboardComponent} from './features/uploader/uploader-dashboard
 import {ConsumerHomeComponent} from './features/consumer/consumer-dashboard/consumer-dashboard.component';
 import {CloudFileDashboardComponent} from './features/cloud-file/cloud-file-dashboard/cloud-file-dashboard.component';
 import {LoginComponent} from './login/login.component';
+import {SignupComponent} from './signup/signup.component';
+import {SignupResolver} from './resolvers/signup-resolver.service';
 
 
 /**
@@ -24,7 +26,10 @@ const routes: Routes = [
     path: 'login', component: LoginComponent
   },
   {
-    path: 'admins', component: AdminDashboardComponent,
+    path: 'signup', component: SignupComponent, resolve: {detail: SignupResolver}
+  },
+  {
+    path: 'administrators', component: AdminDashboardComponent,
     loadChildren: () => import('./features/admin/admin.module').then(mod => mod.AdminModule)
   },
   {

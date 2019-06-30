@@ -42,7 +42,7 @@ public class ConsumerServiceFacadeImpl extends AbstractUserFacadeImpl<ConsumerWt
 		Consumer user = mapper.convertConsumerToDto(value);
 
 		Consumer result = null;
-		if (value.getId() == null) {
+		if (value.getId() == null || value.getId() == 0) {
 			result = service.insertUser(user, value.getPassword());
 		} else {
 			result = service.updateById(user);

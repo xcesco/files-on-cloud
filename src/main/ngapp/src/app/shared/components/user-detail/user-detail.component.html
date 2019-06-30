@@ -13,16 +13,6 @@
     <app-display-managed-error controlName="username">Insert a valid email address</app-display-managed-error>
   </div>
 
-  <!--<div class="form-group">-->
-  <!--<label for="password">Password:</label>-->
-  <!--<input type="password" formControlName="password" class="form-control" id="password"
-  [ngClass]="{'is-invalid': form.get('password').invalid && form.get('password').dirty}">-->
-  <!--<div class="invalid-feedback"-->
-  <!--*ngIf="form.get('password').invalid && form.get('password').dirty">-->
-  <!--Inserire una password.-->
-  <!--</div>-->
-  <!--</div>-->
-
   <div class="form-group" *ngIf="isJustCreated">
     <label for="password">Password:</label>
     <input type="password"
@@ -67,7 +57,7 @@
   </div>
 
   <button type="button" class="m-2 float-right btn btn-lg btn-outline-primary" (click)="goBack()">Cancel</button>
-  <button type="submit" [disabled]="form.invalid" class="m-2 float-right btn btn-lg btn-success">Save</button>
+  <button type="submit" [disabled]="form.invalid" class="m-2 float-right btn btn-lg btn-success">{{signupMode?'Register':'Save'}}</button>
 
 </form>
 

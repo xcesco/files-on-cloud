@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-header d-flex flex-row align-items-center">
     <p class="float-left display-4 p-1">Cloud files</p>
-    <a href="#" class="btn btn-primary ml-auto" routerLink="./create" role="button">New file</a>
+    <a *appSecureIsUploader class="btn btn-primary ml-auto" routerLink="./create" role="button">New file</a>
   </div>
   <div class="card-body">
 
@@ -48,12 +48,15 @@
             <i class="fa fa-paper-plane"></i>
           </button>
 
-          <a class="m-2 btn btn-lg btn-outline-primary float-right" ngbTooltip="Download preview" target="_blank"
-             href="/api/v1/preview-files/{{item.uuid}}"><i
+          <a class="m-2 btn btn-lg btn-outline-primary float-right"
+             *appSecureIsConsumer="false"
+             ngbTooltip="Download preview"
+             target="_blank"
+             href="/api/v1/public/preview-files/{{item.uuid}}"><i
             class="fa fa-cloud-download"></i></a>
 
           <a class="m-2 btn btn-lg btn-outline-primary float-right" ngbTooltip="Download" target="_blank"
-             href="/api/v1/files/{{item.uuid}}"><i
+             href="/api/v1/public/files/{{item.uuid}}"><i
             class="fa fa-download"></i></a>
 
         </td>

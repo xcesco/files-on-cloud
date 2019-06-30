@@ -18,6 +18,6 @@ import {ConsumerTableComponent} from './consumer-table/consumer-table.component'
     ConsumerRoutingModule,
     SharedModule
   ],
-  exports: [ConsumerHomeComponent]
+  exports: [ConsumerHomeComponent, ConsumerDetailComponent]
 })
 export class ConsumerModule { }

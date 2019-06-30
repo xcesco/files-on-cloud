@@ -31,11 +31,17 @@ export class CloudFileService {
   get(uuid: string): Observable<CloudFile> {
     return this.httpClient.get<CloudFile>(environment.API_URL + this.baseUrl + `${uuid}`);
   }
-  save(uploaderId: number, formData: FormData): Observable<boolean> {
-    return this.httpClient.post<boolean>(environment.API_URL +  `uploaders/${uploaderId}/files/`, formData);
+
+  /**
+   * salva un file. Funziona solo per gli uploaders
+   *
+   * @param formData
+   */
+  save(formData: FormData): Observable<boolean> {
+    return this.httpClient.post<boolean>(environment.API_URL + this.baseUrl, formData);
   }
 
   sendNotification(item: CloudFile): Observable<void> {
-    return this.httpClient.get<void>(environment.API_URL +  this.baseUrl + `${item.uuid}/notification/send`);
+    return this.httpClient.get<void>(environment.API_URL + this.baseUrl + `${item.uuid}/notification/send`);
   }
 }

@@ -13,6 +13,7 @@ import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.CloudFileInfoWto;
 import org.abubusoft.foc.web.model.CloudFileWto;
 import org.abubusoft.foc.web.model.ConsumerWto;
+import org.abubusoft.foc.web.security.JwtUser;
 import org.abubusoft.foc.web.security.UserRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -22,6 +23,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,30 +37,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestAPIV1Controller
-@Secured({UserRoles.ROLE_ADMINISTRATOR_VALUE, UserRoles.ROLE_UPLOADER_VALUE})
+//@Secured({UserRoles.ROLE_ADMINISTRATOR_VALUE, UserRoles.ROLE_UPLOADER_VALUE})
 @RequestMapping(value="${api.v1.base-url}/secured", produces = "application/json; charset=utf-8")
 public class CloudFileController {
 	protected CloudFileFacade service;
-	
-	@GetMapping("/preview-files/{fileUUID}")
-	public ResponseEntity<ByteArrayResource> downloadFileForAdmin(
-			@PathVariable(value = "fileUUID") String fileUUID) {
-		Pair<CloudFile, byte[]> file = service.getFile(fileUUID);
-		ByteArrayResource resource = new ByteArrayResource(file.getSecond());
-				
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+file.getFirst().getFileName());
-        headers.add(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate");
-        headers.add(HttpHeaders.PRAGMA, "no-cache");
-        headers.add(HttpHeaders.EXPIRES, "0");
-		
-		 return ResponseEntity.ok()
-		            .headers(headers)		            
-		            .contentLength(file.getFirst().getContentLength())
-		            .contentType(MediaType.valueOf(file.getFirst().getMimeType()))
-		            .body(resource);
-	}
 			
+	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_UPLOADER')")
 	@GetMapping("/files/new")
 	public ResponseEntity<CloudFileWto> fileCreate() {		
 		return ResponseEntity.ok(service.create());
@@ -69,22 +54,26 @@ public class CloudFileController {
 		return ResponseEntity.ok(service.create(uploaderId, consumerId));
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_UPLOADER')")
 	@DeleteMapping("/files/{fileUUID}")
 	public ResponseEntity<Boolean> fileDeleteByUUID(@PathVariable("fileUUID") String fileUUID) {
 		return ResponseEntity.ok(service.deleteByUUID(fileUUID));
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_UPLOADER')")
 	@GetMapping("/files/{fileUUID}/notification/send")
 	public ResponseEntity<Boolean> fileSendNotificationByUUID(@PathVariable("fileUUID") String fileUUID) {
 		return ResponseEntity.ok(service.sendNotificationByUUID(fileUUID));
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_UPLOADER')")
 	@GetMapping("/uploaders/{uploaderId}/consumers/{consumerId}/files/{fileId}")
 	public ResponseEntity<CloudFileInfoWto> fileFindById(@PathVariable(value = "uploaderId") long uploaderId,
 			@PathVariable(value = "consumerId") long consumerId, @PathVariable("fileId") long fileId) {
 		return ResponseEntity.ok(service.findByUploaderAndConsumerAndFile(uploaderId, consumerId, fileId));
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_UPLOADER')")
 	@GetMapping("/consumers/{consumerId}/uploaders/{uploaderId}/files")
 	public ResponseEntity<List<CloudFileWto>> findFiles(
 			@PathVariable(value="consumerId") long consumerId,
@@ -105,6 +94,7 @@ public class CloudFileController {
 		return ResponseEntity.ok(service.findTagsByUploaderAndConsumer(uploaderId, consumerId));
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_UPLOADER')")
 	@GetMapping("/files")
 	public ResponseEntity<List<CloudFileWto>> getFiles() {
 		return ResponseEntity.ok(service.findAll());	
@@ -116,9 +106,11 @@ public class CloudFileController {
 		this.service = service;
 	}
 	
-	@PostMapping(value = "/uploaders/{uploaderId}/files", consumes={MediaType.MULTIPART_FORM_DATA_VALUE})
+	@Secured({UserRoles.ROLE_UPLOADER_VALUE})
+	@PostMapping(value = "/files", consumes={MediaType.MULTIPART_FORM_DATA_VALUE})
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<Boolean> uploadFile(@PathVariable("uploaderId") long uploaderId,
+	public ResponseEntity<Boolean> uploadFile(/*@PathVariable("uploaderId") long uploaderId,*/
+			@AuthenticationPrincipal final JwtUser user,
 			@RequestPart(name="codiceFiscale") String codiceFiscale,
 			@RequestPart(name="email", required=false) String email,
 			@RequestPart(name="displayName", required=false) String displayName,
@@ -146,7 +138,7 @@ public class CloudFileController {
 		CloudFileInfoWto info=new CloudFileInfoWto();
 		info.setConsumer(consumer);
 		info.setTags(hashTagSet);
-		service.save(uploaderId, info, multipartFile);
+		service.save(user.getId(), info, multipartFile);
 		
 		return ResponseEntity.ok(true);
 	}

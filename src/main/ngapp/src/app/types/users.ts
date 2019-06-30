@@ -18,3 +18,15 @@ export interface Consumer extends User {
 export interface ChangePasswordUrl {
   url: string;
 }
+
+export interface Summary {
+  summaryCount: number;
+  uploaderDisplayName: string;
+  uploaderId: number;
+}
+
+export interface DetailedSummary extends Summary {
+  consumerId: number;
+  consumerDisplayName: string;
+}
+

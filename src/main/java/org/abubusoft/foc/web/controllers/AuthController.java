@@ -30,10 +30,11 @@ public class AuthController {
 	public ResponseEntity<TokenWto> generateToken(@RequestParam(value = "token", required = true) String token) {
 		FirebaseToken fireToken;
 		try {
-			// verifichiamo con firebase il token che ci arriva e ne generiamo uno di sistema
+			// verifichiamo con firebase il token che ci arriva e ne generiamo uno di
+			// sistema
 			fireToken = FirebaseAuth.getInstance().verifyIdToken(token);
-			
-			String accessToken=authService.generateToken(fireToken.getEmail());
+
+			String accessToken = authService.generateToken(fireToken.getEmail());
 			return ResponseEntity.ok(TokenWto.of(accessToken));
 		} catch (FirebaseAuthException e) {
 			e.printStackTrace();
@@ -41,15 +42,15 @@ public class AuthController {
 
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
-	
-	
+
 	@GetMapping(value = "/generate-token")
-	public ResponseEntity<TokenWto> generateTestToken(@RequestParam(value = "username", required = true) String username) {
-		
+	public ResponseEntity<TokenWto> generateTestToken(
+			@RequestParam(value = "username", required = true) String username) {
+
 		try {
 			User user = authService.findByUsername(username);
-			String token=authService.generateToken(user.getUsername());
-						
+			String token = authService.generateToken(user.getUsername());
+
 			return ResponseEntity.ok(TokenWto.of(token));
 		} catch (Throwable e) {
 			e.printStackTrace();

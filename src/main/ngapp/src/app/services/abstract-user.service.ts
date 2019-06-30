@@ -1,6 +1,6 @@
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Administrator, ChangePasswordUrl, User} from '../types/users';
+import {ChangePasswordUrl, User} from '../types/users';
 import {environment} from '../../environments/environment';
 import {isNotBlank} from '../shared/utils/utils';
 
@@ -65,5 +65,13 @@ export class AbstractUserService<E extends User> {
   changePasswordUrl(id: number): Observable<ChangePasswordUrl> {
     console.log('changePasswordUrl ', environment.API_URL + this.baseUrl + '/');
     return this.httpClient.get<ChangePasswordUrl>(environment.API_URL + this.baseUrl + `/${id}/change-password`);
+  }
+
+  /**
+   * Temporaneamnte messo qua. Non mi piace granchè.
+   * @param id  id dell'utente
+   */
+  saveForSignup(bean: E): Observable<E> {
+    return this.httpClient.post<E>(environment.API_URL + 'public/consumers/', bean);
   }
 }

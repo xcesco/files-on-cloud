@@ -7,11 +7,13 @@ import javax.validation.Valid;
 
 import org.abubusoft.foc.business.facades.UploaderFacade;
 import org.abubusoft.foc.web.RestAPIV1Controller;
+import org.abubusoft.foc.web.model.ChangePasswordWto;
 import org.abubusoft.foc.web.model.UploaderWto;
 import org.abubusoft.foc.web.security.UserRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -24,7 +26,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestAPIV1Controller
-@Secured({UserRoles.ROLE_ADMINISTRATOR_VALUE, UserRoles.ROLE_UPLOADER_VALUE})
+//@Secured({UserRoles.ROLE_ADMINISTRATOR_VALUE, UserRoles.ROLE_UPLOADER_VALUE})
+@PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_UPLOADER')")
 @RequestMapping(value="${api.v1.base-url}/secured/uploaders", produces = "application/json; charset=utf-8")
 public class UploaderController {
 
@@ -34,21 +37,13 @@ public class UploaderController {
 	public void setService(UploaderFacade service) {
 		this.service = service;
 	}
-
-	// gia presente in consumer
-//	@GetMapping("/consumers/{consumerId}/change-password")
-//	public ResponseEntity<String> consumerGetChangePasswordUrl(@PathVariable("consumerId") long consumerId) {
-//		return ResponseEntity.ok(service.uploaderGetChangePasswordUrlByUsername(null));
-//	}			
 	
-	@PatchMapping("/{id}/logo")
+	@PatchMapping("uploaders/{id}/logo")
     public ResponseEntity<Boolean> handleFileUpload(@PathVariable("id") long uploaderId, @RequestParam("file") MultipartFile file) throws IOException {
 		service.saveLogo(uploaderId, file.getInputStream());
         
         return ResponseEntity.ok(true);
     }
-
-
 	
 	@PostMapping
 	public ResponseEntity<UploaderWto> save(@RequestBody @Valid UploaderWto value) {
@@ -59,6 +54,12 @@ public class UploaderController {
 	public ResponseEntity<UploaderWto> uploaderNew() {		
 		return ResponseEntity.ok(service.create());
 	}
+	
+	@GetMapping("/{id}/change-password")
+	public ResponseEntity<ChangePasswordWto> getChangePasswordUrl(@PathVariable("id") long id) {		
+		return ResponseEntity.ok(service.getChangePasswordUrlById(id));
+	}
+	
 
 	@GetMapping("/{id}")
 	public ResponseEntity<UploaderWto> findById(@PathVariable("id") long id) {

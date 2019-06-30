@@ -12,7 +12,9 @@ import {ToastrModule} from 'ngx-toastr';
 import {ChangePasswordDialogComponent} from './components/change-password-dialog/change-password-dialog.component';
 import {ChangePasswordDialogService} from './components/change-password-dialog/change-password-dialog.service';
 import {FileSizePipe} from './pipe/file-size.pipe';
-import {SecurityIsAdministratorDirective} from './directives/security-is-administrator.directive';
+import {SecureIsAdministratorDirective} from './directives/secure-is-administrator.directive';
+import {SecureIsUploaderDirective} from './directives/secure-is-uploader.directive';
+import {SecureIsConsumerDirective} from './directives/secure-is-consumer.directive';
 
 
 @NgModule({
@@ -24,7 +26,9 @@ import {SecurityIsAdministratorDirective} from './directives/security-is-adminis
     ChangePasswordDialogComponent,
     FileSizePipe,
 
-    SecurityIsAdministratorDirective
+    SecureIsAdministratorDirective,
+    SecureIsUploaderDirective,
+    SecureIsConsumerDirective
   ],
   providers: [
     ConfirmationDialogService,
@@ -61,7 +65,9 @@ import {SecurityIsAdministratorDirective} from './directives/security-is-adminis
     NgbModule,
     NgbModalModule,
 
-    SecurityIsAdministratorDirective
+    SecureIsAdministratorDirective,
+    SecureIsUploaderDirective,
+    SecureIsConsumerDirective
   ],
   entryComponents: [ConfirmationDialogComponent, ChangePasswordDialogComponent]
 })

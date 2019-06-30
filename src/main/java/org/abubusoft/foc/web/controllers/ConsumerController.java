@@ -36,7 +36,7 @@ public class ConsumerController {
 	}
 	
 
-	@GetMapping("new")
+	@GetMapping("/new")
 	public ResponseEntity<ConsumerWto> create() {
 		return ResponseEntity.ok(service.create());
 	}
@@ -83,9 +83,10 @@ public class ConsumerController {
 
 	
 	
-	@GetMapping("/{consumerId}/change-password")
-	public ResponseEntity<ChangePasswordWto> getChangePasswordUrlById(@PathVariable("consumerId") long consumerId) {
+	@GetMapping("/{id}/change-password")
+	public ResponseEntity<ChangePasswordWto> getChangePasswordUrlById(@PathVariable("id") long consumerId) {
 		return ResponseEntity.ok(service.getChangePasswordUrlById(consumerId));
 	}
+		
 
 }

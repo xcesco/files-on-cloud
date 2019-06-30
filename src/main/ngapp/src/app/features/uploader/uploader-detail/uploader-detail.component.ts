@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AbstractUserDetailComponent} from '../../user-detail.abstract';
 import {Uploader} from '../../../types/users';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {ToastrService} from 'ngx-toastr';
 import {UploaderService} from '../../../services/uploader.service';
@@ -20,8 +20,8 @@ export class UploaderDetailComponent extends AbstractUserDetailComponent<Uploade
   private fileToUpload: File;
   private timeStamp = (new Date()).getTime();
 
-  constructor(actr: ActivatedRoute, service: UploaderService, location: Location, toastr: ToastrService) {
-    super(actr, service, location, toastr);
+  constructor(actr: ActivatedRoute, router: Router, service: UploaderService, location: Location, toastr: ToastrService) {
+    super(actr, router, service, location, toastr);
 
     this.form = new FormGroup({
       importFile: new FormControl('', Validators.required)
@@ -40,7 +40,7 @@ export class UploaderDetailComponent extends AbstractUserDetailComponent<Uploade
 
   get logoUrl(): string {
     const id = isNotBlank(this.user.id) ? this.user.id : 0;
-    return `/api/v1/uploaders/${id}/logo?t=` + this.timeStamp;
+    return `/api/v1/public/uploaders/${id}/logo?t=` + this.timeStamp;
   }
 
   uploadLogo() {

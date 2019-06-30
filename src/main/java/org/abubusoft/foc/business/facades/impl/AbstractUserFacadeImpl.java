@@ -21,15 +21,8 @@ public abstract class AbstractUserFacadeImpl<W extends UserWto, S extends Abstra
 	@Value("${app.fill.email}")
 	private String defaultEmail;
 
-	@Value("${app.fill.username}")
-	private String defaultUsername;
-
 	@Value("${app.fill.password}")
 	private String defaultPassword;
-
-	public void setDefaultUsername(String defaultUsername) {
-		this.defaultUsername = defaultUsername;
-	}
 
 	public void setDefaultPassword(String defaultPassword) {
 		this.defaultPassword = defaultPassword;
@@ -61,8 +54,7 @@ public abstract class AbstractUserFacadeImpl<W extends UserWto, S extends Abstra
 
 	protected void prepareData(W result) {
 		if (debug) {
-			result.setEmail(defaultEmail);
-			result.setUsername(defaultUsername);
+			result.setEmail(defaultEmail);			
 			result.setPassword(defaultPassword);
 
 		}

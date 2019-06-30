@@ -12,19 +12,6 @@
     <form [formGroup]="form" novalidate (ngSubmit)="onSave()">
 
       <div class="form-group">
-        <label for="uploaderId">Uploader</label>
-        <input type="text"
-               id="uploaderId"
-               formControlName="uploaderId"
-               class="form-control"
-               placeholder="Es: Mario Rossi"
-               appManagedError
-        >
-        <app-display-managed-error controlName="uploaderId">Select an uploader</app-display-managed-error>
-      </div>
-
-
-      <div class="form-group">
         <label for="codiceFiscale">Codice fiscale:</label>
         <input type="text"
                id="codiceFiscale"

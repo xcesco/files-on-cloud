@@ -65,11 +65,45 @@ public class TestInitialConfiguration extends BaseTest {
 			adminFacade.save(user);
 		}
 
+		for (int i=0; i<5;i++) {
+			createUploader(i);
+		}
+		
+		for (int i=0; i<5;i++) {
+			createConsumer(i);
+		}
+
+		
+
+		{
+			// creazione file
+			CloudFileInfoWto file = new CloudFileInfoWto();
+			cloudFileService.uploadFile(cloudFile, content)
+			// file.set
+
+		}
+
+	}
+
+	private void createConsumer(int index) {
+		{
+			// creazione consumer
+			ConsumerWto user = consumerFacade.create();
+			user.setDisplayName("Mario Consumer "+index);
+			user.setUsername("consumer"+index+"@gmail.com");
+			user.setEmail("uxcesco@gmail.com");
+			user.setPassword("password");
+			user.setCodiceFiscale("NSSMRA80A01L424"+index);
+			user = consumerFacade.save(user);
+		}
+	}
+
+	private void createUploader(int index) throws FileNotFoundException {
 		{
 			// creazione uploader
 			UploaderWto user = uploaderFacade.create();
-			user.setDisplayName("Mario Uploader");
-			user.setUsername("uploader0@gmail.com");
+			user.setDisplayName("Mario Uploader "+index);
+			user.setUsername("uploader"+index+"@gmail.com");
 			user.setEmail("uxcesco@gmail.com");
 			user.setPassword("password");
 			user = uploaderFacade.save(user);
@@ -77,25 +111,6 @@ public class TestInitialConfiguration extends BaseTest {
 			File image = new File("src/test/resources/images/user.png");
 			uploaderFacade.saveLogo(user.getId(), new FileInputStream(image));
 		}
-
-		{
-			// creazione consumer
-			ConsumerWto user = consumerFacade.create();
-			user.setDisplayName("Mario Consumer");
-			user.setUsername("consumer0@gmail.com");
-			user.setEmail("uxcesco@gmail.com");
-			user.setPassword("password");
-			user.setCodiceFiscale("RSSMRA80A01L424F");
-			user = consumerFacade.save(user);
-		}
-
-		{
-			// creazione file
-			CloudFileInfoWto file = new CloudFileInfoWto();
-			// file.set
-
-		}
-
 	}
 
 	@Autowired
@@ -104,18 +119,18 @@ public class TestInitialConfiguration extends BaseTest {
 	@Autowired
 	protected CloudFileService cloudFileService;
 
-	@Rollback(value = false)
-	@Test
-	public void testDeleteAll() throws FirebaseAuthException {
-		service.deleteAllUsers();
+//	@Rollback(value = false)
+//	@Test
+//	public void testDeleteAll() throws FirebaseAuthException {
+//		service.deleteAllUsers();
+//
+//	}
 
-	}
-
-	@Rollback(false)
-	@Test
-	@Transactional
-	public void testDeleteAllFiles() {
-		cloudFileService.deleteAllFiles();
-	}
+//	@Rollback(false)
+//	@Test
+//	@Transactional
+//	public void testDeleteAllFiles() {
+//		cloudFileService.deleteAllFiles();
+//	}
 
 }

@@ -1,7 +1,7 @@
 package org.abubusoft.foc.web;
 
-import org.abubusoft.foc.web.security.ng.JwtAuthenticationEntryPoint;
-import org.abubusoft.foc.web.security.ng.JwtAuthenticationFilter;
+import org.abubusoft.foc.web.security.JwtAuthenticationEntryPoint;
+import org.abubusoft.foc.web.security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled=true, prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer  {
 
 //	@Override
 //	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -33,16 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 				.resourceChain(true)
 				.addResolver(new AngularResourceResolver());
 		//@formatter:on
-		
-		/*
-		 * .addResolver(new PathResourceResolver() {
-		 * 
-		 * @Override protected Resource getResource(String resourcePath, Resource
-		 * location) throws IOException { Resource requestedResource =
-		 * location.createRelative(resourcePath); return requestedResource.exists() &&
-		 * requestedResource.isReadable() ? requestedResource : new
-		 * ClassPathResource("/static/index.html"); } });
-		 */
+			
 	}
 
 	@Bean
@@ -64,6 +55,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 	protected void configure(HttpSecurity http) throws Exception {
 		//@formatter:off
     	http
+    	 	.cors().disable()
+    	 	.csrf().disable()
     		.sessionManagement()
     		.sessionCreationPolicy(SessionCreationPolicy.STATELESS)    		
     		.and()
@@ -71,23 +64,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
     		.exceptionHandling()
     			.authenticationEntryPoint(unauthorizedHandler)
     			.and()
-    		.authorizeRequests()    		
+    		.authorizeRequests()
+    		//	parte angular
     			.antMatchers("/public/**")
     				.permitAll()
     	
     			// configurazione interfaccia swagger
     			.antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**")
-	    		/*.antMatchers("/v2/api-docs",
-	                "/configuration/ui",
-	                "/swagger-resources",
-	                "/configuration/security",
-	                "/swagger-ui.html",
-	                "/webjars/**")*/.permitAll()
+	    		.permitAll()
 	    		
+	    		// servizi WEB public
 	            .antMatchers("/api/v1/public/**")
-		        .permitAll()
+	            .permitAll()         	            		       
 	                
-	    		// servizi web aperti	    		       
+	    		// servizi web secured	    		       
 	            .antMatchers("/api/v1/secured/**")
 	            .authenticated();
     	

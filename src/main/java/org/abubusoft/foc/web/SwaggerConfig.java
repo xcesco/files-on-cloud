@@ -3,7 +3,7 @@ package org.abubusoft.foc.web;
 import java.util.Collections;
 import java.util.List;
 
-import org.abubusoft.foc.web.security.ng.JwtUser;
+import org.abubusoft.foc.web.security.JwtUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -42,7 +42,7 @@ public class SwaggerConfig {
     			.pathMapping("/")
                 .apiInfo(ApiInfo.DEFAULT)
                 .forCodeGeneration(true)                
-                .ignoredParameterTypes(JwtUser.class)
+                .ignoredParameterTypes(JwtUser.class)                
     			.securityContexts(Lists.newArrayList(securityContext()))
     			.securitySchemes(Lists.newArrayList(apiKey()))
     			.select()

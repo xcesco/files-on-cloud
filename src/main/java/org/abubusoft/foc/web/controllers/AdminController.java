@@ -1,6 +1,7 @@
 package org.abubusoft.foc.web.controllers;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,7 @@ import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.AdminWto;
 import org.abubusoft.foc.web.model.ChangePasswordWto;
 import org.abubusoft.foc.web.security.UserRoles;
-import org.abubusoft.foc.web.security.ng.JwtUser;
+import org.abubusoft.foc.web.security.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -23,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.FieldError;
@@ -41,8 +43,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 // https://stackoverflow.com/questions/4989063/what-is-the-meaning-and-difference-between-subject-user-and-principal/5025140#5025140
 
 @RestAPIV1Controller
-@Secured(UserRoles.ROLE_ADMINISTRATOR_VALUE)
-//@PreAuthorize("hasAuthority('ADMINISTRATOR') or hasAuthority('CONSUMER')")
+//@Secured(UserRoles.ROLE_ADMINISTRATOR_VALUE)
+@PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_CONSUMER')")
 @RequestMapping(value="${api.v1.base-url}/secured/admins", produces = "application/json; charset=utf-8")
 public class AdminController {
 
@@ -75,15 +77,19 @@ public class AdminController {
 	
 	@GetMapping("/summary")
 	public ResponseEntity<List<UploaderSummary>> reportCloudFileForAllUploaders(
-			@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "dataDal", required = false) LocalDate dataDal,
-			@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "dataAl", required = false) LocalDate dataAl) {
+			@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "dataDal", required = false) Date dal,
+			@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "dataAl", required = false) Date al) {
 		LocalDate now = LocalDate.now();
-		if (dataDal == null || dataAl == null) {
-			dataDal = now.withDayOfMonth(1);
-			dataAl = now.withDayOfMonth(now.lengthOfMonth());
+		
+		LocalDate validoDal=null;
+		LocalDate validoAl=null;
+		
+		if (dal == null || al == null) {
+			validoDal = now.withDayOfMonth(1);
+			validoAl = now.withDayOfMonth(now.lengthOfMonth());
 		}
 
-		return ResponseEntity.ok(service.reportCloudFileForAllUploaders(dataDal, dataAl));
+		return ResponseEntity.ok(service.reportCloudFileForAllUploaders(validoDal, validoAl));
 	}	
 	
 	@GetMapping("/detailed-summary")

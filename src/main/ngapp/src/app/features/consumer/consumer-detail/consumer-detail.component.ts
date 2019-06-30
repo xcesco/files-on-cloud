@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AbstractUserDetailComponent} from '../../user-detail.abstract';
 import {Consumer} from '../../../types/users';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {ToastrService} from 'ngx-toastr';
 import {ConsumerService} from '../../../services/consumer.service';
@@ -13,8 +13,8 @@ import {ConsumerService} from '../../../services/consumer.service';
 })
 export class ConsumerDetailComponent extends AbstractUserDetailComponent<Consumer, ConsumerService> implements OnInit {
 
-  constructor(actr: ActivatedRoute, service: ConsumerService, location: Location, toastr: ToastrService) {
-    super(actr, service, location, toastr);
+  constructor(actr: ActivatedRoute, router: Router, service: ConsumerService, location: Location, toastr: ToastrService) {
+    super(actr, router, service, location, toastr);
   }
 
   ngOnInit(): void {

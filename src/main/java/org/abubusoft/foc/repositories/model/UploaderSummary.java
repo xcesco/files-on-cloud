@@ -6,6 +6,6 @@ public interface UploaderSummary {
 	
 	String getUploaderDisplayName();
 	
-	long getFileCount();
+	long getSummaryCount();
 
 }

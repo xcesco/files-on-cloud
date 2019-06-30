@@ -1,4 +1,4 @@
-package org.abubusoft.foc.web.security.ng;
+package org.abubusoft.foc.web.security;
 
 import java.util.Arrays;
 import java.util.List;

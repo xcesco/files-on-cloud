@@ -5,12 +5,14 @@ import {AdminDetailComponent} from './admin-detail/admin-detail.component';
 import {SharedModule} from '../../shared/shared.module';
 import {AdminTableComponent} from './admin-table/admin-table.component';
 import {AdminRoutingModule} from './admin-routing.module';
+import { AdminReportComponent } from './admin-report/admin-report.component';
 
 @NgModule({
   declarations: [
     AdminDetailComponent,
     AdminTableComponent,
-    AdminDashboardComponent
+    AdminDashboardComponent,
+    AdminReportComponent
   ],
   imports: [
     CommonModule,
