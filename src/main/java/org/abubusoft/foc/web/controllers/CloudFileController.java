@@ -1,13 +1,10 @@
 package org.abubusoft.foc.web.controllers;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.abubusoft.foc.business.facades.CloudFileFacade;
-import org.abubusoft.foc.repositories.model.CloudFile;
 import org.abubusoft.foc.repositories.model.CloudFileTag;
 import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.CloudFileInfoWto;
@@ -16,16 +13,12 @@ import org.abubusoft.foc.web.model.ConsumerWto;
 import org.abubusoft.foc.web.security.JwtUser;
 import org.abubusoft.foc.web.security.UserRoles;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.data.util.Pair;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -109,7 +102,7 @@ public class CloudFileController {
 	@Secured({UserRoles.ROLE_UPLOADER_VALUE})
 	@PostMapping(value = "/files", consumes={MediaType.MULTIPART_FORM_DATA_VALUE})
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<Boolean> uploadFile(/*@PathVariable("uploaderId") long uploaderId,*/
+	public ResponseEntity<Boolean> uploadFile(
 			@AuthenticationPrincipal final JwtUser user,
 			@RequestPart(name="codiceFiscale") String codiceFiscale,
 			@RequestPart(name="email", required=false) String email,
@@ -122,23 +115,8 @@ public class CloudFileController {
 		consumer.setDisplayName(displayName);
 		consumer.setEmail(email);
 		consumer.setUsername(username);
-		
-		Set<String> hashTagSet=null;
-		if (StringUtils.hasText(hashtag)) {
-			hashTagSet=new HashSet<>();			
-			List<String> tagValues = Arrays.asList(hashtag.split(","));
 			
-			for (String item: tagValues) {
-				if (StringUtils.hasText(item)) {
-					hashTagSet.add(item);
-				}
-			}	
-		}		
-		
-		CloudFileInfoWto info=new CloudFileInfoWto();
-		info.setConsumer(consumer);
-		info.setTags(hashTagSet);
-		service.save(user.getId(), info, multipartFile);
+		service.save(user.getId(), consumer, hashtag, multipartFile);
 		
 		return ResponseEntity.ok(true);
 	}

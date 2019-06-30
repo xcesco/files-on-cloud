@@ -1,4 +1,4 @@
-<header>
+<header *appSecureIsAuthenticated>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a [routerLink]="''" class="navbar-brand d-flex align-items-center">
       <img src="assets/logo_main.png" width="64" height="64"/>&nbsp;
@@ -14,9 +14,9 @@
          [ngClass]="{ 'show': navbarOpen }">
 
       <ul class="navbar-nav mr-auto">
-                <li class="nav-item" routerLinkActive="active">
-                  <a class="nav-link" routerLinkActive="app-selected-link" [routerLink]="'/login'">Login</a>
-                </li>
+        <!--                <li class="nav-item" routerLinkActive="active">-->
+        <!--                  <a class="nav-link" routerLinkActive="app-selected-link" [routerLink]="'/login'">Login</a>-->
+        <!--                </li>-->
         <li class="nav-item" routerLinkActive="active" *appSecureIsAdministrator>
           <a class="nav-link" routerLinkActive="app-selected-link" [routerLink]="'/administrators/list'">Administrators</a>
         </li>
@@ -34,18 +34,10 @@
         </li>
       </ul>
 
-      <div class="float-right align-content-lg-center row" *ngIf="logged">
-        <div class="col-2">
-          <i class="fa fa-2x fa-user-circle" style="color: white;"></i>
-        </div>
-        <div class="col-8">
-          <p style="color: white;" ngbTooltip="{{user.roles[0].replace('ROLE_','')}}"> {{user.displayName}}</p>
-        </div>
-        <div class="col-2">
-          <a [routerLink]="''" (click)="authService.logout()" style="color: white;">
-            <i class="fa fa-2x fa-sign-out"></i>
-          </a>
-        </div>
+      <div class="align-content-lg-center" *ngIf="logged">
+        <button type="button" class="btn btn-outline-light align-content-lg-center m-1" (click)="gotoDetail()"><i class="fa fa-user-circle"></i>&nbsp;{{user.displayName}}</button>
+
+        <button type="button" class="btn btn-outline-light align-content-lg-center m-1" (click)="authService.logout()"><i class="fa fa-sign-out"></i>&nbsp;Logout</button>
       </div>
 
 

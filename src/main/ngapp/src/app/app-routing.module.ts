@@ -44,7 +44,7 @@ const routes: Routes = [
     path: 'files', component: CloudFileDashboardComponent,
     loadChildren: () => import('./features/cloud-file/cloud-file.module').then(mod => mod.CloudFileModule)
   },
-  {path: '', pathMatch: 'full', component: HomeComponent},
+  {path: '', pathMatch: 'full', redirectTo: 'login'},
   {path: '**', component: HomeComponent}
 ];
 

@@ -4,9 +4,11 @@ import {ConfirmationDialogService} from '../../../shared/components/confirmation
 import {ChangePasswordDialogService} from '../../../shared/components/change-password-dialog/change-password-dialog.service';
 import {AdminService} from '../../../services/admin.service';
 import {ToastrService} from 'ngx-toastr';
-import {DetailedSummary} from '../../../types/users';
+import {AdminReportItem} from '../../../types/users';
 import {map} from 'rxjs/operators';
 import {NgbCalendar, NgbDate, NgbDateAdapter, NgbDateNativeAdapter} from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
+import {Moment} from 'moment';
 
 @Component({
   selector: 'app-admin-report',
@@ -15,25 +17,41 @@ import {NgbCalendar, NgbDate, NgbDateAdapter, NgbDateNativeAdapter} from '@ng-bo
   providers: [{provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}]
 })
 export class AdminReportComponent implements OnInit {
-  list: DetailedSummary[] = null;
+  list: AdminReportItem[] = null;
 
+  hoveredDate: NgbDate = null;
+  fromDate: NgbDate = null;
+  toDate: NgbDate = null;
 
-  hoveredDate: NgbDate;
+  start: Moment;
+  end: Moment;
 
-  fromDate: NgbDate;
-  toDate: NgbDate;
-
+  /**
+   * https://ng-bootstrap.github.io/#/components/datepicker/overview
+   *
+   * @param calendar
+   * @param actr
+   * @param confirmationDialogService
+   * @param changePasswordDialogService
+   * @param adminService
+   * @param toastr
+   */
   constructor(private calendar: NgbCalendar, private actr: ActivatedRoute, private confirmationDialogService: ConfirmationDialogService,
               private changePasswordDialogService: ChangePasswordDialogService,
               private adminService: AdminService, private toastr: ToastrService) {
-    this.actr.data.pipe(map(data => data.list)).subscribe((value: DetailedSummary[]) => {
+    this.start = moment().subtract(1, 'month').startOf('month');
+    this.end = moment().subtract(1, 'month').endOf('month');
+
+    this.fromDate = NgbDate.from({year: this.start.year(), month: this.start.month() + 1, day: 1});
+    this.toDate = NgbDate.from({year: this.end.year(), month: this.end.month() + 1, day: this.end.daysInMonth()});
+    this.actr.data.pipe(map(data => data.list)).subscribe((value: AdminReportItem[]) => {
       // console.log('caricato', value);
       this.list = value;
     });
   }
 
   ngOnInit() {
-    console.log('componentns --');
+
   }
 
   onDateSelection(date: NgbDate) {
@@ -60,9 +78,13 @@ export class AdminReportComponent implements OnInit {
   }
 
   report() {
-    this.adminService.getSummary(new Date(this.fromDate.year, this.fromDate.month, this.fromDate.day),
-      new Date(this.toDate.year, this.toDate.month, this.toDate.day)).subscribe(result => {
-      this.list = result;
-    });
+    if (this.fromDate === null || this.toDate === null) {
+      this.toastr.error('Please select a valid date range', 'Unable to run report');
+    } else {
+      this.adminService.getReport(new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day),
+        new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day)).subscribe(result => {
+        this.list = result;
+      });
+    }
   }
 }

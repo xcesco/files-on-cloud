@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.abubusoft.foc.business.facades.AdminFacade;
+import org.abubusoft.foc.repositories.model.AdminReportItem;
 import org.abubusoft.foc.repositories.model.UploaderDetailSummary;
 import org.abubusoft.foc.repositories.model.UploaderSummary;
 import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.AdminWto;
 import org.abubusoft.foc.web.model.ChangePasswordWto;
-import org.abubusoft.foc.web.security.UserRoles;
 import org.abubusoft.foc.web.security.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,7 +23,6 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.util.StringUtils;
@@ -75,6 +74,7 @@ public class AdminController {
 		return ResponseEntity.ok(service.getChangePasswordUrlById(id));
 	}
 	
+	/*
 	@GetMapping("/summary")
 	public ResponseEntity<List<UploaderSummary>> reportCloudFileForAllUploaders(
 			@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "dataDal", required = false) Date dal,
@@ -90,19 +90,19 @@ public class AdminController {
 		}
 
 		return ResponseEntity.ok(service.reportCloudFileForAllUploaders(validoDal, validoAl));
-	}	
+	}	*/
 	
-	@GetMapping("/detailed-summary")
-	public ResponseEntity<List<UploaderDetailSummary>> reportConsumerForAllUploaderset(
+	@GetMapping("/report")
+	public ResponseEntity<List<AdminReportItem>> reportConsumerForAllUploaderset(
 			@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "dataDal", required = false) LocalDate dataDal,
 			@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "dataAl", required = false) LocalDate dataAl) {
 		LocalDate now = LocalDate.now();
 		if (dataDal == null || dataAl == null) {
-			dataDal = now.withDayOfMonth(1);
-			dataAl = now.withDayOfMonth(now.lengthOfMonth());
+			dataDal = now.minusMonths(1).withDayOfMonth(1);
+			dataAl = now.minusMonths(1).withDayOfMonth(now.minusMonths(1).lengthOfMonth());
 		}
 		
-		return ResponseEntity.ok(service.reportConsumerForAllUploaders(dataDal, dataAl));
+		return ResponseEntity.ok(service.report(dataDal, dataAl));
 
 	}
 	
@@ -140,7 +140,6 @@ public class AdminController {
         
         return ResponseEntity.ok(ip);
 	}
-
 
 	private String extractIp(HttpServletRequest request) {
 		String ip = request.getHeader("X-Forwarded-For");  

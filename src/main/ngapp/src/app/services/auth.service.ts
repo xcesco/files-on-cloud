@@ -45,9 +45,9 @@ export class AuthService {
           if (this.hasRoleAdministrator()) {
             this.router.navigate(['administrators']);
           } else if (this.hasRoleUploader()) {
-            this.router.navigate(['uploaders']);
-          } else if (this.hasRoleConsumer()) {
             this.router.navigate(['consumers']);
+          } else if (this.hasRoleConsumer()) {
+            this.router.navigate(['uploaders']);
           }
         });
       } else {

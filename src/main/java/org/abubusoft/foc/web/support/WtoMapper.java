@@ -1,6 +1,9 @@
 package org.abubusoft.foc.web.support;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import org.abubusoft.foc.repositories.model.Administrator;
 import org.abubusoft.foc.repositories.model.CloudFile;
@@ -56,32 +59,35 @@ public interface WtoMapper {
 		return result;
     }
 	
+	
 	/**
 	 * Non tiene conto del view ip/time e dell'uploader e consumer
+	 * @param consumer 
+	 * @param uploader 
 	 * @param value
 	 * @param file
 	 * @return
 	 */
-	default CloudFile convertToFileDto(CloudFileInfoWto value, MultipartFile file) {
+	default CloudFile convertToFileDto(Uploader uploader, Consumer consumer, LocalDateTime creationTime, Set<String> tags, String fileName, String contentType, long fileSize) {
 		CloudFile result=new CloudFile();
 		
-		result.setCreatedDateTime(value.getCreationTime());
+		result.setConsumer(consumer);
+		result.setUploader(uploader);
+		
+		result.setCreatedDateTime(creationTime);
 		result.setNotified(false);
 		
 		result.setViewIp(null);
 		result.setViewTime(null);
 		
-		if (value.getTags()!=null) {
-			result.getTags().addAll(value.getTags());
+		if (tags!=null) {
+			result.getTags().addAll(tags);
 		}
 		
-		result.setFileName(file.getOriginalFilename());			
-		result.setMimeType(file.getContentType());
-		result.setContentLength(file.getSize());
-		
-		result.setConsumer(null);
-		result.setUploader(null);
-		
+		result.setFileName(fileName);			
+		result.setMimeType(contentType);
+		result.setContentLength(fileSize);
+					
 		return result;
     }
 	 

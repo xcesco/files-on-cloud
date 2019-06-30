@@ -30,3 +30,10 @@ export interface DetailedSummary extends Summary {
   consumerDisplayName: string;
 }
 
+export interface AdminReportItem {
+  consumerCount: number;
+  fileCount: number;
+  uploaderDisplayName: number;
+  uploaderId: number;
+}
+

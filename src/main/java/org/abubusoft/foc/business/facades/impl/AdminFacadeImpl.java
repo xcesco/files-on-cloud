@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.abubusoft.foc.business.facades.AdminFacade;
 import org.abubusoft.foc.business.services.AdminService;
+import org.abubusoft.foc.repositories.model.AdminReportItem;
 import org.abubusoft.foc.repositories.model.Administrator;
 import org.abubusoft.foc.repositories.model.UploaderDetailSummary;
 import org.abubusoft.foc.repositories.model.UploaderSummary;
@@ -64,8 +65,8 @@ public class AdminFacadeImpl extends AbstractUserFacadeImpl<AdminWto, AdminServi
 	}
 
 	@Override
-	public List<UploaderDetailSummary> reportConsumerForAllUploaders(LocalDate validoDal, LocalDate validoAl) {
-		return service.reportConsumerForAllUploaders(validoDal, validoAl);
+	public List<AdminReportItem> report(LocalDate validoDal, LocalDate validoAl) {
+		return service.report(validoDal, validoAl);
 	}
 	
 

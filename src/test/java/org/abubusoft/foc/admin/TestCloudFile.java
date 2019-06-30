@@ -17,6 +17,7 @@ import org.abubusoft.foc.BaseTest;
 import org.abubusoft.foc.business.services.CloudFileService;
 import org.abubusoft.foc.business.services.ConsumerService;
 import org.abubusoft.foc.business.services.UploaderService;
+import org.abubusoft.foc.repositories.model.AdminReportItem;
 import org.abubusoft.foc.repositories.model.CloudFile;
 import org.abubusoft.foc.repositories.model.CloudFileTag;
 import org.abubusoft.foc.repositories.model.Consumer;
@@ -154,8 +155,8 @@ public class TestCloudFile extends BaseTest {
 		}
 		
 		{
-			List<UploaderDetailSummary> summary = adminService.reportConsumerForAllUploaders(LocalDate.of(2019, 1, 1), LocalDate.of(2019, 12, 31));
-			for (UploaderDetailSummary item : summary) {
+			List<AdminReportItem> summary = adminService.report(LocalDate.of(2019, 1, 1), LocalDate.of(2019, 12, 31));
+			for (AdminReportItem item : summary) {
 				logger.info(objMapper.writeValueAsString(item));
 			}
 		}

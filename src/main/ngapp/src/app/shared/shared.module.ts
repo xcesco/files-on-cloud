@@ -15,6 +15,7 @@ import {FileSizePipe} from './pipe/file-size.pipe';
 import {SecureIsAdministratorDirective} from './directives/secure-is-administrator.directive';
 import {SecureIsUploaderDirective} from './directives/secure-is-uploader.directive';
 import {SecureIsConsumerDirective} from './directives/secure-is-consumer.directive';
+import {SecureIsAuthenticatedDirective} from './directives/secure-is-authenticated.directive';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import {SecureIsConsumerDirective} from './directives/secure-is-consumer.directi
 
     SecureIsAdministratorDirective,
     SecureIsUploaderDirective,
-    SecureIsConsumerDirective
+    SecureIsConsumerDirective,
+    SecureIsAuthenticatedDirective
   ],
   providers: [
     ConfirmationDialogService,
@@ -67,7 +69,8 @@ import {SecureIsConsumerDirective} from './directives/secure-is-consumer.directi
 
     SecureIsAdministratorDirective,
     SecureIsUploaderDirective,
-    SecureIsConsumerDirective
+    SecureIsConsumerDirective,
+    SecureIsAuthenticatedDirective
   ],
   entryComponents: [ConfirmationDialogComponent, ChangePasswordDialogComponent]
 })

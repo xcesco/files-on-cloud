@@ -5,54 +5,44 @@
   </div>
   <div class="card-body">
 
-    <ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden">
-    </ngb-datepicker>
+    <ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden"></ngb-datepicker>
 
     <button type="button" (click)="report()" class="btn btn-primary ml-auto">Run report</button>
 
     <ng-template #t let-date let-focused="focused">
-  <span class="custom-day"
-        [class.focused]="focused"
-        [class.range]="isRange(date)"
-        [class.faded]="isHovered(date) || isInside(date)"
-        (mouseenter)="hoveredDate = date"
-        (mouseleave)="hoveredDate = null">
-    {{ date.day }}
-  </span>
+      <span class="custom-day"
+            [class.focused]="focused"
+            [class.range]="isRange(date)"
+            [class.faded]="isHovered(date) || isInside(date)"
+            (mouseenter)="hoveredDate = date"
+            (mouseleave)="hoveredDate = null">
+        {{ date.day }}
+      </span>
     </ng-template>
 
     <hr>
 
-    <pre>From: {{ fromDate | json }} </pre>
-    <pre>To: {{ toDate | json }} </pre>
+<!--    <pre>From: {{ start | json }} </pre>-->
+<!--    <pre>To: {{ end | json }} </pre>-->
+
+<!--    <pre>From: {{ fromDate | json }} </pre>-->
+<!--    <pre>To: {{ toDate | json }} </pre>-->
 
     <table class="table table-bordered table-hover">
       <thead>
       <tr>
         <th scope="col">#</th>
         <th scope="col">Uploader</th>
-        <th scope="col">Consumer</th>
-        <th scope="col">Shared files count</th>
-        <th scope="col"></th>
+        <th scope="col">Consumer count</th>
+        <th scope="col">Uploaderd files count</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let item of list; index as i" class="align-content-md-center">
         <th scope="row">{{ i + 1 }}</th>
         <td>{{ item.uploaderDisplayName }}</td>
-        <td>{{ item.consumerDisplayName }}</td>
-        <td>{{ item.summaryCount }}</td>
-        <td>
-          <!--          <a href="#" class="m-2 btn btn-lg btn-outline-primary float-left" [routerLink]="item.id"-->
-          <!--             ngbTooltip="Edit"><i class="fa fa-edit"></i></a>-->
-
-          <!--          <button (click)="onChangePassword(item)" type="button"-->
-          <!--                  ngbTooltip="Change password"     class="m-2 btn btn-lg btn-outline-primary float-left"><i class="fa fa-key"></i></button>-->
-
-
-          <!--          <button (click)="onDelete(item)" type="button" ngbTooltip="Delete" class="m-2 btn btn-lg btn-outline-primary float-right"><i-->
-          <!--            class="fa fa-trash"></i></button>-->
-        </td>
+        <td>{{ item.consumerCount }}</td>
+        <td>{{ item.fileCount }}</td>
       </tr>
       </tbody>
     </table>
