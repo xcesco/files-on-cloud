@@ -128,6 +128,7 @@ public class CloudFileFacadeImpl implements CloudFileFacade {
 	public void updateViewStatus(String ip, CloudFile file) {
 		file.setViewIp(ip);
 		file.setViewTime(LocalDateTime.now());
+		file.setViewed(true);
 		
 		cloudFileService.save(file);
 		

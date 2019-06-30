@@ -9,11 +9,11 @@ import {CloudFile} from '../types/files';
 })
 export class CloudFileService {
 
+  protected baseUrl = 'secured/files/';
+
   constructor(protected httpClient: HttpClient) {
 
   }
-
-  protected baseUrl = 'secured/files/';
 
   findAll(): Observable<CloudFile[]> {
     console.log('findAll ', environment.API_URL + this.baseUrl);
@@ -43,5 +43,9 @@ export class CloudFileService {
 
   sendNotification(item: CloudFile): Observable<void> {
     return this.httpClient.get<void>(environment.API_URL + this.baseUrl + `${item.uuid}/notification/send`);
+  }
+
+  findByUploaderAndConsumer(uploaderId: any, consumerId: any): Observable<CloudFile[]> {
+    return this.httpClient.get<CloudFile[]>(environment.API_URL + `secured/uploaders/${uploaderId}/consumers/${consumerId}/files`);
   }
 }

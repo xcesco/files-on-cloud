@@ -53,11 +53,11 @@
     <label for="displayName">Display name:</label>
     <input type="text" formControlName="displayName" placeholder="Es: Mario Rossi" class="form-control"
            id="displayName" appManagedError>
-    <app-display-managed-error controlName="email">Insert a valid display name.</app-display-managed-error>
+    <app-display-managed-error controlName="displayName">Insert a valid display name.</app-display-managed-error>
   </div>
 
   <button type="button" class="m-2 float-right btn btn-lg btn-outline-primary" (click)="goBack()">Cancel</button>
-  <button type="submit" [disabled]="form.invalid" class="m-2 float-right btn btn-lg btn-success">{{signupMode?'Register':'Save'}}</button>
+  <button type="submit" [disabled]="form.invalid" class="m-2 float-right btn btn-lg btn-success"><i *ngIf="loading" class="fa fa-spinner fa-spin"></i>&nbsp;{{signupMode?'Register':'Save'}}</button>
 
 </form>
 

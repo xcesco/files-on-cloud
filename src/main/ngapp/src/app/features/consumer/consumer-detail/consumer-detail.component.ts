@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {ToastrService} from 'ngx-toastr';
 import {ConsumerService} from '../../../services/consumer.service';
+import {AuthService} from '../../../services/auth.service';
 
 @Component({
   selector: 'app-consumer-detail',
@@ -13,8 +14,8 @@ import {ConsumerService} from '../../../services/consumer.service';
 })
 export class ConsumerDetailComponent extends AbstractUserDetailComponent<Consumer, ConsumerService> implements OnInit {
 
-  constructor(actr: ActivatedRoute, router: Router, service: ConsumerService, location: Location, toastr: ToastrService) {
-    super(actr, router, service, location, toastr);
+  constructor(authService: AuthService, actr: ActivatedRoute, router: Router, service: ConsumerService, location: Location, toastr: ToastrService) {
+    super(authService, actr, router, service, location, toastr);
   }
 
   ngOnInit(): void {

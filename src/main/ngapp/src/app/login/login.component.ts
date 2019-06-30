@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthProvider} from '@firebaseui/ng-bootstrap';
 import {AuthService} from '../services/auth.service';
 
 @Component({
@@ -9,7 +8,9 @@ import {AuthService} from '../services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  providers = AuthProvider;
+  loginWithError = false;
+  loading = false;
+
 
   constructor(private  authService: AuthService) {
   }
@@ -26,6 +27,15 @@ export class LoginComponent implements OnInit {
   }
 
   login(username: string, password: string) {
-    this.authService.login(username, password);
+    this.loading = true;
+    this.loginWithError = false;
+    this.authService.login(username, password).then(result => {
+      if (!result) {
+        this.loginWithError = true;
+      } else {
+        this.loginWithError = false;
+      }
+    }).finally(() =>
+      this.loading = false);
   }
 }

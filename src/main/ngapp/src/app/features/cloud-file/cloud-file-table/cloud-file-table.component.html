@@ -1,7 +1,9 @@
 <div class="card">
   <div class="card-header d-flex flex-row align-items-center">
+    <div *appSecureIsConsumer class="img"><img alt="logo" class="img-fluid" style="width: 64px;" src="{{getLogoUrl()}}"></div>
     <p class="float-left display-4 p-1">Cloud files</p>
-    <a *appSecureIsUploader class="btn btn-primary ml-auto" routerLink="./create" role="button">New file</a>
+    <a class="btn btn-primary ml-auto" *appSecureIsUploader routerLink="./create" role="button">New file</a>
+    <button class="btn btn-primary ml-auto" *appSecureIsConsumer (click)="goBack()" role="button">Indietro</button>
   </div>
   <div class="card-body">
 
@@ -9,10 +11,11 @@
       <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Uploader</th>
-        <th scope="col">Consumer</th>
+        <th scope="col" *appSecureIsConsumer="false">Uploader</th>
+        <th scope="col" *appSecureIsConsumer="false">Consumer</th>
         <th scope="col">File</th>
         <th scope="col">Size</th>
+        <th scope="col">Creation time</th>
         <th scope="col">Viewed</th>
         <th scope="col"></th>
       </tr>
@@ -20,31 +23,37 @@
       <tbody>
       <tr *ngFor="let item of list; index as i" class="align-content-md-center">
         <th scope="row">{{ i + 1 }}</th>
-        <td>
+        <td *appSecureIsConsumer="false">
           <a class="nav-link" routerLink="/uploaders/{{item.uploader.id}}">{{item.uploader.displayName}}</a>
         </td>
-        <td>
+        <td *appSecureIsConsumer="false">
           <a class="nav-link" routerLink="/consumers/{{item.consumer.id}}">{{item.consumer.displayName}}</a>
         <td>
           <p>{{item.fileName}}</p>
           <span *ngFor="let tag of item.tags" class="badge badge-pill badge-primary m-1">{{tag}}</span></td>
         <td><i class="float-right">{{item.contentLength | fileSize}}</i></td>
         <td>
+          {{item.creationTime | date: 'dd/MMM/yyyy hh:mm:ss' }}
+        </td>
+        <td>
           <i class="fa fa-2x" [ngClass]="{ 'fa-check-circle': isViewed(item)}"
              ngbTooltip="Viewed from {{ item.viewIp}} on {{ item.viewTime | date: 'dd/MMM/yyyy hh:mm:ss' }}"></i></td>
         <td>
           <button type="button"
-                  [disabled]="!isViewed(item)"
+                  class="m-2 btn btn-lg btn-outline-primary float-right"
                   ngbTooltip="Delete"
+                  [disabled]="!isViewed(item)"
                   (click)="onDelete(item)"
-                  class="m-2 btn btn-lg btn-outline-primary float-right">
+                  *appSecureIsUploader
+          >
             <i class="fa fa-trash"></i>
           </button>
 
           <button type="button"
+                  class="m-2 btn btn-lg btn-outline-primary float-right"
                   ngbTooltip="Send notification, again"
                   (click)="onSendNotification(item)"
-                  class="m-2 btn btn-lg btn-outline-primary float-right">
+                  *appSecureIsConsumer="false">
             <i class="fa fa-paper-plane"></i>
           </button>
 
@@ -55,9 +64,14 @@
              href="/api/v1/public/preview-files/{{item.uuid}}"><i
             class="fa fa-cloud-download"></i></a>
 
-          <a class="m-2 btn btn-lg btn-outline-primary float-right" ngbTooltip="Download" target="_blank"
-             href="/api/v1/public/files/{{item.uuid}}"><i
-            class="fa fa-download"></i></a>
+          <a class="m-2 btn btn-lg btn-outline-primary float-right"
+             ngbTooltip="Download"
+             target="_blank"
+             (click)="onDownload(item.uuid)"
+             href="/api/v1/public/files/{{item.uuid}}"
+             *appSecureIsConsumer>
+            <i class="fa fa-download"></i>
+          </a>
 
         </td>
       </tr>

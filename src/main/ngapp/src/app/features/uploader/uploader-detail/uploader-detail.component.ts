@@ -7,6 +7,7 @@ import {ToastrService} from 'ngx-toastr';
 import {UploaderService} from '../../../services/uploader.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {isBlank, isNotBlank} from '../../../shared/utils/utils';
+import {AuthService} from '../../../services/auth.service';
 
 @Component({
   selector: 'app-uploader-detail',
@@ -20,8 +21,8 @@ export class UploaderDetailComponent extends AbstractUserDetailComponent<Uploade
   private fileToUpload: File;
   private timeStamp = (new Date()).getTime();
 
-  constructor(actr: ActivatedRoute, router: Router, service: UploaderService, location: Location, toastr: ToastrService) {
-    super(actr, router, service, location, toastr);
+  constructor(authService: AuthService, actr: ActivatedRoute, router: Router, service: UploaderService, location: Location, toastr: ToastrService) {
+    super(authService, actr, router, service, location, toastr);
 
     this.form = new FormGroup({
       importFile: new FormControl('', Validators.required)

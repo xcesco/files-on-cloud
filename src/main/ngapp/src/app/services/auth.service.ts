@@ -98,9 +98,6 @@ export class AuthService {
       this.toastr.error('Invalid credential', 'Login failed');
       return false;
     }
-    // console.log('autenticato', user);
-    // this.router.navigate(['admins/list']);
-
   }
 
   async logout() {
@@ -129,5 +126,15 @@ export class AuthService {
 
   isAuthenticated() {
     return this.user !== null;
+  }
+
+  /**
+   * Per evitare di rifare reload della pagina o refresh del token , quando cambia il diplay emuliamo cambio utente
+   * @param displayName
+   */
+  notifyDisplayUpdate(displayName: string) {
+    const temp = {...this.user};
+    temp.displayName = displayName;
+    this.userLoggedSubject.next(temp);
   }
 }

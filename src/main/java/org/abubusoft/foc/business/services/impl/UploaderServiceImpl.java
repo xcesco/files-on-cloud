@@ -4,7 +4,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -12,8 +11,6 @@ import javax.imageio.ImageIO;
 import org.abubusoft.foc.business.services.UploaderService;
 import org.abubusoft.foc.repositories.UploadersRepository;
 import org.abubusoft.foc.repositories.model.Uploader;
-import org.abubusoft.foc.repositories.model.UploaderDetailSummary;
-import org.abubusoft.foc.repositories.model.UploaderSummary;
 import org.springframework.stereotype.Service;
 
 @Service

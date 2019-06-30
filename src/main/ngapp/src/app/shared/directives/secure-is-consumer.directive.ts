@@ -14,7 +14,7 @@ export class SecureIsConsumerDirective implements OnInit, OnDestroy {
 
   private hasView = false;
 
-  constructor(private templateRef: TemplateRef<any>, private viewContainer: ViewContainerRef, public renderer: Renderer2, private authService: AuthService) {
+  constructor(private templateRef: TemplateRef<any>, private viewContainer: ViewContainerRef, private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -35,7 +35,7 @@ export class SecureIsConsumerDirective implements OnInit, OnDestroy {
     }
 
     const tagValue = this.appSecureIsConsumer === 'true';
-    const role = this.authService.hasRoleAdministrator();
+    const role = this.authService.hasRoleConsumer();
 
     if (role === tagValue && !this.hasView) {
       this.viewContainer.createEmbeddedView(this.templateRef);

@@ -1,7 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400);
+
 .card {
   border-radius: 16px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.19), 0 3px 3px rgba(0, 0, 0, 0.23);
   margin-top: 48px;
   margin-bottom: 48px;
+}
+
+header {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.19), 0 3px 3px rgba(0, 0, 0, 0.23);
+}
+
+body {
+  background-color: #334B71;
+  font-family: 'Roboto', sans-serif !important;
+  font-size: 1em;
 }

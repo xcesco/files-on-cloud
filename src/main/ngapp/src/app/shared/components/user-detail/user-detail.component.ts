@@ -4,6 +4,7 @@ import {Administrator, Consumer, Uploader} from '../../../types/users';
 import {ActivatedRoute} from '@angular/router';
 import {isNotBlank} from '../../utils/utils';
 import {Location} from '@angular/common';
+import {AuthService} from '../../../services/auth.service';
 
 @Component({
   selector: 'app-user-detail',
@@ -18,12 +19,13 @@ export class UserDetailComponent implements OnInit {
   @Output() save: EventEmitter<Administrator | Uploader | Consumer> = new EventEmitter();
 
   form: FormGroup = null;
+  loading = false;
 
   get isConsumer(): boolean {
     return this.type === 'Consumer';
   }
 
-  constructor(private actr: ActivatedRoute, private location: Location) {
+  constructor(private actr: ActivatedRoute, private location: Location, private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -80,8 +82,11 @@ export class UserDetailComponent implements OnInit {
       return;
     }
 
+    // oramai è avviato
+    this.loading = true;
     console.log('VALIDO!!', this.form);
     console.log('this.form.value = ', this.form.value);
+
     // this.save.emit(this.form.value);
     this.save.emit(this.form.value as Administrator);
 

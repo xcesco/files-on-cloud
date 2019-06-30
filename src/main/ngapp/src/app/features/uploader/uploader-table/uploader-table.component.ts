@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Uploader} from '../../../types/users';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ConfirmationDialogService} from '../../../shared/components/confirmation-dialog/confirmation-dialog.service';
 import {ChangePasswordDialogService} from '../../../shared/components/change-password-dialog/change-password-dialog.service';
 import {UploaderService} from '../../../services/uploader.service';
 import {AbstractUserTableComponent} from '../../user-table.abstract';
 import {ToastrService} from 'ngx-toastr';
+import {AuthService} from '../../../services/auth.service';
 
 @Component({
   selector: 'app-uploader-table',
@@ -14,7 +15,7 @@ import {ToastrService} from 'ngx-toastr';
 })
 export class UploaderTableComponent extends AbstractUserTableComponent<Uploader, UploaderService> implements OnInit {
 
-  constructor(actr: ActivatedRoute, confirmationDialogService: ConfirmationDialogService,
+  constructor(public authService: AuthService, private router: Router, actr: ActivatedRoute, confirmationDialogService: ConfirmationDialogService,
               changePasswordDialogService: ChangePasswordDialogService,
               service: UploaderService, toastr: ToastrService) {
     super(actr, confirmationDialogService,
@@ -27,6 +28,15 @@ export class UploaderTableComponent extends AbstractUserTableComponent<Uploader,
   }
 
   getLogoUrl(id: number): string {
-    return `/api/v1/public/uploaders/${id}/logo`;//?t=` + (new Date()).getTime();
+    return `/api/v1/public/uploaders/${id}/logo`;
+  }
+
+  onGotoFiles(user: Uploader) {
+    this.router.navigate(['files'], {
+      queryParams: {
+        consumerId: this.authService.user.id,
+        uploaderId: user.id
+      }
+    });
   }
 }

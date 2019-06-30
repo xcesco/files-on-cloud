@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UploaderServiceFacadeImpl extends AbstractUserFacadeImpl<UploaderWto, UploaderService> implements UploaderFacade {
-
-	
 	
 	@Override
 	public UploaderWto save(UploaderWto value) {
@@ -35,6 +33,7 @@ public class UploaderServiceFacadeImpl extends AbstractUserFacadeImpl<UploaderWt
 
 	@Override
 	public List<UploaderWto> findAll() {
+		logger.debug("findAll");		
 		return mapper.convertUploaderListToDto(service.findAll());
 	}
 
@@ -57,7 +56,7 @@ public class UploaderServiceFacadeImpl extends AbstractUserFacadeImpl<UploaderWt
 	
 	private Resource loadDefaultLogo() throws IOException {
 	    ClassPathResource resource = new ClassPathResource("images/user.png");
-	    log.info(resource.getFile().getAbsoluteFile().toString());
+	    logger.info(resource.getFile().getAbsoluteFile().toString());
 	    return resource;
 	}
 
@@ -70,6 +69,12 @@ public class UploaderServiceFacadeImpl extends AbstractUserFacadeImpl<UploaderWt
 		}
 
 		return null;
+	}
+	
+	@Override
+	public List<UploaderWto> findByConsumer(long consumerId) {	
+		logger.debug("findByConsumer "+consumerId);
+		return mapper.convertUploaderListToDto(service.findByConsumer(consumerId));		
 	}
 
 	@Override

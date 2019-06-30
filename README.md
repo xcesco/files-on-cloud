@@ -106,4 +106,7 @@ Elenco dei codici fiscali generati da http://www.codicefiscaleonline.com/
  https://www.techiediaries.com/angular-course-firebase-authentication/
  https://github.com/techiediaries/angular-portfolio
  https://www.baeldung.com/spring-security-method-security
- 
+
+
+# Generazione avatar
+https://getavataaars.com/ 

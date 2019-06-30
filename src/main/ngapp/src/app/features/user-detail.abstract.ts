@@ -7,10 +7,11 @@ import {map} from 'rxjs/operators';
 import {isNotBlank} from '../shared/utils/utils';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Input} from '@angular/core';
+import {AuthService} from '../services/auth.service';
 
 export class AbstractUserDetailComponent<E extends User, S extends AbstractUserService<E>> {
 
-  constructor(protected actr: ActivatedRoute, protected router: Router, protected service: S, protected location: Location, protected toastr: ToastrService) {
+  constructor(protected authService: AuthService, protected actr: ActivatedRoute, protected router: Router, protected service: S, protected location: Location, protected toastr: ToastrService) {
     this.actr.data.pipe(map(data => data.detail)).subscribe((value: E) => {
       console.log('caricato', value);
       this.user = value;
@@ -49,9 +50,14 @@ export class AbstractUserDetailComponent<E extends User, S extends AbstractUserS
 
     } else {
       this.service.save(user).subscribe(data => {
-        console.log('datao salvato');
+        if (this.authService.user.id === user.id) {
+          console.log('Ricarico dati utente');
+          this.authService.notifyDisplayUpdate(user.displayName);
+        }
+
         this.toastr.success(`User is updated!`, 'System information');
         this.location.back();
+
       }, (error: HttpErrorResponse) => {
         // this.toastr.success(`User was correctly updated!`, 'User save!');
         this.toastr.error('Something went wrong during save operation!', 'System information');

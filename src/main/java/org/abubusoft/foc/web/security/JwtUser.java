@@ -78,4 +78,16 @@ public class JwtUser implements UserDetails {
 		return enabled;
 	}
 
+	public boolean isAdministrator() {
+		return authorities.stream().filter(item -> item.getAuthority().equals(UserRoles.ROLE_ADMINISTRATOR_VALUE)).findFirst().isPresent();		
+	}
+	
+	public boolean isUploader() {
+		return authorities.stream().filter(item -> item.getAuthority().equals(UserRoles.ROLE_UPLOADER_VALUE)).findFirst().isPresent();
+	}
+	
+	public boolean isConsumer() {
+		return authorities.stream().filter(item -> item.getAuthority().equals(UserRoles.ROLE_CONSUMER_VALUE)).findFirst().isPresent();
+	}
+
 }

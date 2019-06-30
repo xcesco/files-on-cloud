@@ -1,14 +1,24 @@
 <div class="container pt-3" *appSecureIsAuthenticated="false">
   <div class="row justify-content-sm-center">
-    <div class="col-sm-10 col-md-6">
-      <div class="card">
-        <div class="card-header"><img class="m-auto" src="assets/logo_main.png"></div>
+    <div>
+      <div class="card" style="width: 20rem;">
+        <div class="card-header">
+          <img class="card-img-top" src="assets/logo_name_256.png" alt="Files on cloud logo">
+        </div>
         <div class="card-body">
+          <h5 class="card-title">Login</h5>
           <input type="text" class="form-control mb-2" placeholder="Email" #userEmail required autofocus>
           <input type="password" class="form-control mb-2" placeholder="Password" #userPassword required>
+          <div class="alert alert-danger" role="alert" *ngIf="loginWithError">
+            Invalid credential.
+          </div>
+          <hr>
           <div class="row">
             <div class="col-md-6 text-center">
-              <button type="button" ngbAutofocus (click)="login(userEmail.value, userPassword.value)" class="btn btn-lg btn-primary btn-block mb-1">Login</button>
+              <button type="button" ngbAutofocus (click)="login(userEmail.value, userPassword.value)" class="btn btn-lg btn-primary btn-block mb-1">
+                <i *ngIf="loading" class="fa fa-spinner fa-spin"></i>
+                Login
+              </button>
             </div>
             <div class="col-md-6 text-center">
               <a [routerLink]="'/signup'" class="btn btn-lg btn-outline-primary btn-block mb-1" ngbTooltip="Sign up as consumer">Signup</a>

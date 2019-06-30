@@ -60,6 +60,8 @@ public class CloudFile extends AbstractEntity {
 	@Column(insertable=true, updatable=false)
 	protected String uuid;
 
+	protected boolean viewed;
+	
 	protected String viewIp;
 
 	@JsonDeserialize(using = LocalDateTimeDeserializer.class)  
@@ -110,6 +112,10 @@ public class CloudFile extends AbstractEntity {
 		return notified;
 	}
 
+	public boolean isViewed() {
+		return viewed;
+	}
+
 	public void setConsumer(Consumer consumer) {
 		this.consumer = consumer;
 	}
@@ -144,6 +150,10 @@ public class CloudFile extends AbstractEntity {
 
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+	}
+
+	public void setViewed(boolean viewed) {
+		this.viewed = viewed;
 	}
 
 	public void setViewIp(String viewIp) {

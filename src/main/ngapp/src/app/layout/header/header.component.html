@@ -35,7 +35,8 @@
       </ul>
 
       <div class="align-content-lg-center" *ngIf="logged">
-        <button type="button" class="btn btn-outline-light align-content-lg-center m-1" (click)="gotoDetail()"><i class="fa fa-user-circle"></i>&nbsp;{{user.displayName}}</button>
+        <button type="button" class="btn btn-outline-light align-content-lg-center m-1" ngbTooltip="{{user.roles[0].replace('ROLE_','')}}" (click)="gotoDetail()"><i
+          class="fa fa-user-circle"></i>&nbsp;{{user.displayName}}</button>
 
         <button type="button" class="btn btn-outline-light align-content-lg-center m-1" (click)="authService.logout()"><i class="fa fa-sign-out"></i>&nbsp;Logout</button>
       </div>

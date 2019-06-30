@@ -64,18 +64,17 @@ public class IdentityServiceImpl implements AuthService {
 
 	@Override
 	public void deleteByUsername(String username) {
-		FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-
 		UserRecord user;
 		try {
+			FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 			user = firebaseAuth.getUserByEmail(username);
-			firebaseAuth.deleteUser(user.getUid());
-
-			repository.deleteByUsername(username);
+			firebaseAuth.deleteUser(user.getUid());			
 		} catch (FirebaseAuthException e) {
 			e.printStackTrace();
 			throw (AppRuntimeException.create(e));
 		}
+		
+		repository.deleteByUsername(username);
 
 	}
 

@@ -15,14 +15,16 @@ public interface CloudFileRepository extends PagingAndSortingRepository<CloudFil
 	@Query("SELECT DISTINCT t as tag FROM CloudFile f JOIN f.consumer c JOIN f.uploader u JOIN f.tags t WHERE c.id=:consumerId AND u.id=:uploaderId")
 	List<CloudFileTag> findTagsByUploaderAndConsumer(long uploaderId, long consumerId);	
 	
-	@Query("SELECT f FROM CloudFile f JOIN f.consumer c JOIN f.uploader u JOIN f.tags t WHERE u.id=:uploaderId AND c.id=:consumerId ORDER BY f.createdDateTime")
-	List<CloudFile> findByConsumer(long uploaderId, long consumerId);
-	
+//	@Query("SELECT f FROM CloudFile f JOIN f.consumer c JOIN f.uploader u JOIN f.tags t WHERE u.id=:uploaderId AND c.id=:consumerId ORDER BY f.createdDateTime")
+//	List<CloudFile> findByConsumer(long uploaderId, long consumerId);
+//	
      
-	@Query("SELECT f FROM CloudFile f JOIN f.consumer c JOIN f.uploader u WHERE c.id=:consumerId and u.id=:uploaderId ORDER BY f.viewTime, f.createdDateTime ")		
+	//
+	@Query("SELECT f FROM CloudFile f JOIN f.consumer c JOIN f.uploader u WHERE c.id=:consumerId and u.id=:uploaderId ORDER BY f.viewed DESC, f.createdDateTime DESC ")		
 	List<CloudFile> findByUploaderAndConsumer(long uploaderId, long consumerId);
 
-	@Query("SELECT f FROM CloudFile f JOIN f.consumer c JOIN f.uploader u JOIN f.tags t WHERE u.id=:uploaderId AND c.id=:consumerId AND t IN :tags ORDER BY f.createdDateTime")
+	//
+	@Query("SELECT f FROM CloudFile f JOIN f.consumer c JOIN f.uploader u JOIN f.tags t WHERE u.id=:uploaderId AND c.id=:consumerId AND t IN :tags ORDER BY f.viewed DESC, f.createdDateTime DESC")
 	List<CloudFile> findByUploaderAndConsumerAndTags(long uploaderId, long consumerId, Set<String> tags);
 
 	@Query("SELECT f FROM CloudFile f JOIN f.consumer c JOIN f.uploader u WHERE f.id=:fileId AND u.id=:uploaderId AND c.id=:consumerId")

@@ -74,6 +74,9 @@ public abstract class AbstractUserServiceImpl<R extends UserRepository<U>, U ext
 			UpdateRequest request = new UpdateRequest(userAuth.getUid());
 			request.setDisplayName(user.getDisplayName());
 
+			user.setCreatedDateTime(foundUser.get().getCreatedDateTime());
+			user.setModifiedDateTime(foundUser.get().getModifiedDateTime());
+			
 			firebaseAuth.updateUser(request);
 
 			return repository.save(user);

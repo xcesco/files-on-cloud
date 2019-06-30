@@ -1,11 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {Location} from '@angular/common';
 import {ConfirmationDialogService} from '../../../shared/components/confirmation-dialog/confirmation-dialog.service';
 import {ToastrService} from 'ngx-toastr';
 import {CloudFileService} from '../../../services/cloud-file.service';
 import {map} from 'rxjs/operators';
+
 import {CloudFile} from '../../../types/files';
 import {isNotBlank} from '../../../shared/utils/utils';
+import {AuthService} from '../../../services/auth.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-cloud-file-table',
@@ -16,10 +20,22 @@ export class CloudFileTableComponent implements OnInit {
 
   list: CloudFile[] = null;
 
+  uploaderId: any;
+  consumerId: any;
+
   constructor(private actr: ActivatedRoute,
               private confirmationDialogService: ConfirmationDialogService,
+              private location: Location,
+              private authService: AuthService,
               private service: CloudFileService,
               private toastr: ToastrService) {
+    this.actr.queryParams.subscribe(params => {
+      console.log('sss', params);
+      this.uploaderId = params.uploaderId;
+      this.consumerId = params.consumerId;
+    });
+
+
     this.actr.data.pipe(map(data => data.list)).subscribe((value: CloudFile[]) => {
       console.log('caricato', value);
       this.list = value;
@@ -31,8 +47,28 @@ export class CloudFileTableComponent implements OnInit {
     console.log('componentns --');
   }
 
+  getLogoUrl(): string {
+    return `/api/v1/public/uploaders/${this.uploaderId}/logo`;
+  }
+
   isViewed(item: CloudFile): boolean {
     return isNotBlank(item.viewIp);
+  }
+
+  refresh(): void {
+    this.load().subscribe(value => {
+      this.list = value;
+    });
+  }
+
+  private load(): Observable<CloudFile[]> {
+    console.log('reload');
+    if (this.authService.hasRoleConsumer()) {
+      // se consumer, deve per forza avere uploader e consumer (
+      return this.service.findByUploaderAndConsumer(this.uploaderId, this.consumerId);
+    } else {
+      return this.service.findAll();
+    }
   }
 
   onDelete(item: CloudFile) {
@@ -59,5 +95,16 @@ export class CloudFileTableComponent implements OnInit {
 
       })
       .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
+  }
+
+  goBack(): void {
+    console.log('go back');
+    this.location.back();
+  }
+
+  onDownload(uuid: string) {
+    setTimeout(() => {
+      this.refresh();
+    }, 3000);
   }
 }

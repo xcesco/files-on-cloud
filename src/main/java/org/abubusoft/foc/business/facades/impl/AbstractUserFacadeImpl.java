@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 public abstract class AbstractUserFacadeImpl<W extends UserWto, S extends AbstractUserService<?>>
 		implements AbstractUserFacade<W> {
 
-	protected Logger log = Logger.getLogger(getClass());
+	protected Logger logger = Logger.getLogger(getClass());
 
 	protected WtoMapper mapper = WtoMapper.INSTANCE;
 

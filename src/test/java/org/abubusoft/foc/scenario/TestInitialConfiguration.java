@@ -19,7 +19,6 @@ import org.abubusoft.foc.business.services.AuthService;
 import org.abubusoft.foc.business.services.CloudFileService;
 import org.abubusoft.foc.repositories.support.MimeTypeUtils;
 import org.abubusoft.foc.web.model.AdminWto;
-import org.abubusoft.foc.web.model.CloudFileInfoWto;
 import org.abubusoft.foc.web.model.ConsumerWto;
 import org.abubusoft.foc.web.model.UploaderWto;
 import org.junit.Test;
@@ -129,7 +128,7 @@ public class TestInitialConfiguration extends BaseTest {
 		user.setPassword("password");
 		user = uploaderFacade.save(user);
 
-		File image = new File("src/test/resources/images/user.png");
+		File image = new File("src/test/resources/avatars/avatar"+index+".png");
 		uploaderFacade.saveLogo(user.getId(), new FileInputStream(image));
 
 		return user;

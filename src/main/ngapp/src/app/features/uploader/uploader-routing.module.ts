@@ -6,12 +6,6 @@ import {UploaderTableComponent} from './uploader-table/uploader-table.component'
 import {UploaderListResolver} from '../../resolvers/uploader-list-resolver.service';
 import {UploaderCreateResolver} from '../../resolvers/uploader-create-resolver.service';
 import {UploaderReadResolver} from '../../resolvers/uploader-read-resolver.service';
-import {ConsumerListResolver} from '../../resolvers/consumer-list-resolver.service';
-import {ConsumerHomeComponent} from '../consumer/consumer-dashboard/consumer-dashboard.component';
-import {ConsumerCreateResolver} from '../../resolvers/consumer-create-resolver.service';
-import {ConsumerReadResolver} from '../../resolvers/consumer-read-resolver.service';
-import {ConsumerTableComponent} from '../consumer/consumer-table/consumer-table.component';
-import {ConsumerDetailComponent} from '../consumer/consumer-detail/consumer-detail.component';
 import {UploaderDashboardComponent} from './uploader-dashboard/uploader-dashboard.component';
 
 const routes: Routes = [

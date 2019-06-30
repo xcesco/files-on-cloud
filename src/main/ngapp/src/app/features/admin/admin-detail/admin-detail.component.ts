@@ -5,6 +5,7 @@ import {AdminService} from '../../../services/admin.service';
 import {Location} from '@angular/common';
 import {ToastrService} from 'ngx-toastr';
 import {AbstractUserDetailComponent} from '../../user-detail.abstract';
+import {AuthService} from '../../../services/auth.service';
 
 @Component({
   selector: 'app-admins-detail',
@@ -13,8 +14,8 @@ import {AbstractUserDetailComponent} from '../../user-detail.abstract';
 })
 export class AdminDetailComponent extends AbstractUserDetailComponent<Administrator, AdminService> implements OnInit {
 
-  constructor(actr: ActivatedRoute, router: Router, service: AdminService, location: Location, toastr: ToastrService) {
-    super(actr, router, service, location, toastr);
+  constructor(authService: AuthService, actr: ActivatedRoute, router: Router, service: AdminService, location: Location, toastr: ToastrService) {
+    super(authService, actr, router, service, location, toastr);
   }
 
   ngOnInit(): void {

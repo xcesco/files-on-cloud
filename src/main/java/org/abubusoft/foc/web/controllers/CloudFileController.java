@@ -29,15 +29,17 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestAPIV1Controller
 //@Secured({UserRoles.ROLE_ADMINISTRATOR_VALUE, UserRoles.ROLE_UPLOADER_VALUE})
-@RequestMapping(value="${api.v1.base-url}/secured", produces = "application/json; charset=utf-8")
+@RequestMapping(value = "${api.v1.base-url}/secured", produces = "application/json; charset=utf-8")
 public class CloudFileController {
 	protected CloudFileFacade service;
-			
+
 	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_UPLOADER')")
 	@GetMapping("/files/new")
-	public ResponseEntity<CloudFileWto> fileCreate() {		
+	public ResponseEntity<CloudFileWto> fileCreate() {
 		return ResponseEntity.ok(service.create());
 	}
 
@@ -46,19 +48,19 @@ public class CloudFileController {
 			@PathVariable(value = "consumerId") long consumerId) {
 		return ResponseEntity.ok(service.create(uploaderId, consumerId));
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_UPLOADER')")
 	@DeleteMapping("/files/{fileUUID}")
 	public ResponseEntity<Boolean> fileDeleteByUUID(@PathVariable("fileUUID") String fileUUID) {
 		return ResponseEntity.ok(service.deleteByUUID(fileUUID));
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_UPLOADER')")
 	@GetMapping("/files/{fileUUID}/notification/send")
 	public ResponseEntity<Boolean> fileSendNotificationByUUID(@PathVariable("fileUUID") String fileUUID) {
 		return ResponseEntity.ok(service.sendNotificationByUUID(fileUUID));
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_UPLOADER')")
 	@GetMapping("/uploaders/{uploaderId}/consumers/{consumerId}/files/{fileId}")
 	public ResponseEntity<CloudFileInfoWto> fileFindById(@PathVariable(value = "uploaderId") long uploaderId,
@@ -66,60 +68,69 @@ public class CloudFileController {
 		return ResponseEntity.ok(service.findByUploaderAndConsumerAndFile(uploaderId, consumerId, fileId));
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_UPLOADER')")
-	@GetMapping("/consumers/{consumerId}/uploaders/{uploaderId}/files")
+	//--ok
+	@GetMapping("/uploaders/{uploaderId}/consumers/{consumerId}/files")
 	public ResponseEntity<List<CloudFileWto>> findFiles(
-			@PathVariable(value="consumerId") long consumerId,
-			@PathVariable(value="uploaderId") long uploaderId, 
-			@RequestParam(value="tags") Set<String> tags) {
+			@PathVariable(value = "consumerId") long consumerId,
+			@PathVariable(value = "uploaderId") long uploaderId, 
+			@RequestParam(value = "tags", required = false) Set<String> tags, @AuthenticationPrincipal final JwtUser user) {
+		
+		if (user.isConsumer() && user.getId()!=consumerId) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+		
+		if (user.isUploader() && user.getId()!=uploaderId) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+		
 		return ResponseEntity.ok(service.findByConsumerAndUploader(consumerId, uploaderId, tags));
 	}
 
+/*	//
 	@GetMapping("/uploaders/{uploaderId}/consumers/{consumerId}/files")
 	public ResponseEntity<List<CloudFileWto>> findFilesByUploaderAndConsumer(
 			@PathVariable(value = "uploaderId") long uploaderId, @PathVariable(value = "consumerId") long consumerId) {
 		return ResponseEntity.ok(service.findByUploaderAndConsumer(uploaderId, consumerId));
-	}
-	
+	}*/
+
 	@GetMapping("/uploaders/{uploaderId}/consumers/{consumerId}/tags")
 	public ResponseEntity<List<CloudFileTag>> findTagsByUploaderAndConsumer(
 			@PathVariable(value = "uploaderId") long uploaderId, @PathVariable(value = "consumerId") long consumerId) {
 		return ResponseEntity.ok(service.findTagsByUploaderAndConsumer(uploaderId, consumerId));
 	}
-	
-	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_UPLOADER')")
+
+	@ApiOperation(notes = "Se utilizzato da consumer, necessita del consumerId e dell'uploaderId. Admin e Uploader non sono limitati.", value = "")
+	// @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_UPLOADER')")
 	@GetMapping("/files")
 	public ResponseEntity<List<CloudFileWto>> getFiles() {
-		return ResponseEntity.ok(service.findAll());	
+		return ResponseEntity.ok(service.findAll());
 
 	}
-	
+
 	@Autowired
 	public void setService(CloudFileFacade service) {
 		this.service = service;
 	}
-	
-	@Secured({UserRoles.ROLE_UPLOADER_VALUE})
-	@PostMapping(value = "/files", consumes={MediaType.MULTIPART_FORM_DATA_VALUE})
+
+	@Secured({ UserRoles.ROLE_UPLOADER_VALUE })
+	@PostMapping(value = "/files", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<Boolean> uploadFile(
-			@AuthenticationPrincipal final JwtUser user,
-			@RequestPart(name="codiceFiscale") String codiceFiscale,
-			@RequestPart(name="email", required=false) String email,
-			@RequestPart(name="displayName", required=false) String displayName,
-			@RequestPart(name="hashtag", required=false) String hashtag,
-			@RequestPart(name="username", required=false) String username,
-			@RequestPart(name="file") MultipartFile multipartFile) throws IOException {
-		ConsumerWto consumer=new ConsumerWto();
+	public ResponseEntity<Boolean> uploadFile(@AuthenticationPrincipal final JwtUser user,
+			@RequestPart(name = "codiceFiscale") String codiceFiscale,
+			@RequestPart(name = "email", required = false) String email,
+			@RequestPart(name = "displayName", required = false) String displayName,
+			@RequestPart(name = "hashtag", required = false) String hashtag,
+			@RequestPart(name = "username", required = false) String username,
+			@RequestPart(name = "file") MultipartFile multipartFile) throws IOException {
+		ConsumerWto consumer = new ConsumerWto();
 		consumer.setCodiceFiscale(codiceFiscale);
 		consumer.setDisplayName(displayName);
 		consumer.setEmail(email);
 		consumer.setUsername(username);
-			
+
 		service.save(user.getId(), consumer, hashtag, multipartFile);
-		
+
 		return ResponseEntity.ok(true);
 	}
-
 
 }
