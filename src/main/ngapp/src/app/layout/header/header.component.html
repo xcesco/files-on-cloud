@@ -23,13 +23,13 @@
         <li class="nav-item" routerLinkActive="active" *appSecureIsAdministrator>
           <a class="nav-link" routerLinkActive="app-selected-link" [routerLink]="'/administrators/report'">Report</a>
         </li>
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLinkActive="app-selected-link" [routerLink]="'/uploaders'">Uploader</a>
+        <li class="nav-item" routerLinkActive="active" *appSecureIsAdministrator>
+          <a class="nav-link" routerLinkActive="app-selected-link" [routerLink]="'/uploaders'">Uploaders</a>
         </li>
-        <li class="nav-item" routerLinkActive="active">
+        <li class="nav-item" routerLinkActive="active" *appSecureIsAdministrator>
           <a class="nav-link" routerLinkActive="app-selected-link" [routerLink]="'/consumers'">Consumers</a>
         </li>
-        <li class="nav-item" routerLinkActive="active">
+        <li class="nav-item" routerLinkActive="active" *appSecureIsAdministrator>
           <a class="nav-link" routerLinkActive="app-selected-link" [routerLink]="'/files'">Files</a>
         </li>
       </ul>

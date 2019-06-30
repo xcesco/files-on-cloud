@@ -21,6 +21,11 @@ export class UploaderTableComponent extends AbstractUserTableComponent<Uploader,
     super(actr, confirmationDialogService,
       changePasswordDialogService,
       service, toastr);
+
+    // se è un consumer ed un solo uploader, allora va direttamente.
+    if (authService.hasRoleConsumer() && this.list.length === 1) {
+      this.onGotoFiles(this.list[0]);
+    }
   }
 
   ngOnInit() {

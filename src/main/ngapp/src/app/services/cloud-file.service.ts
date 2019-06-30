@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
-import {CloudFile} from '../types/files';
+import {CloudFile, CloudFileTag} from '../types/files';
 
 @Injectable({
   providedIn: 'root'
@@ -47,5 +47,9 @@ export class CloudFileService {
 
   findByUploaderAndConsumer(uploaderId: any, consumerId: any): Observable<CloudFile[]> {
     return this.httpClient.get<CloudFile[]>(environment.API_URL + `secured/uploaders/${uploaderId}/consumers/${consumerId}/files`);
+  }
+
+  findAllTags(uploaderId: number, consumerId: number): Observable<CloudFileTag[]> {
+    return this.httpClient.get<CloudFileTag[]>(environment.API_URL + `secured/uploaders/${uploaderId}/consumers/${consumerId}/tags`);
   }
 }

@@ -1,9 +1,11 @@
 package org.abubusoft.foc.business.services.impl;
 
 import java.io.InputStream;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -61,10 +63,10 @@ public class CloudFileServiceImpl implements CloudFileService {
 
 	@Override
 	public CloudFile uploadFile(CloudFile cloudFile, InputStream content) {
-				// recuperiamo interamente il consumer o lo creiamo nel caso in cui non ci sia
+		// recuperiamo interamente il consumer o lo creiamo nel caso in cui non ci sia
 		// il codice fiscale
-		
-		//String mimeType = MimeTypeUtils.getFromFileName(cloudFile.getFileName());
+
+		// String mimeType = MimeTypeUtils.getFromFileName(cloudFile.getFileName());
 
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("YYYY-MM-dd-HHmmssSSS-");
 		DateTime dt = DateTime.now(DateTimeZone.UTC);
@@ -73,6 +75,7 @@ public class CloudFileServiceImpl implements CloudFileService {
 
 		BlobId blobId = BlobId.of(bucketName, storageFileName);
 		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(cloudFile.getMimeType()).build();
+		@SuppressWarnings("deprecation")
 		BlobInfo blob = storage.create(blobInfo, content);
 		logger.debug(String.format("File salvato su storage %s,%s", blobId.getBucket(), blobId.getName()));
 
@@ -80,7 +83,7 @@ public class CloudFileServiceImpl implements CloudFileService {
 
 		cloudFile.setUuid(UUID.randomUUID().toString());
 		cloudFile.setStorageName(blobName);
-		
+
 		return repository.save(cloudFile);
 
 	}
@@ -92,7 +95,7 @@ public class CloudFileServiceImpl implements CloudFileService {
 		for (Blob blob : blobs.iterateAll()) {
 			blob.delete();
 		}
-		
+
 		// cancelliamo da db
 		repository.deleteAll();
 
@@ -112,18 +115,19 @@ public class CloudFileServiceImpl implements CloudFileService {
 	@Override
 	public List<CloudFile> findByUploaderAndConsumer(long uploaderId, long consumerId) {
 		return repository.findByUploaderAndConsumer(uploaderId, consumerId);
-	}	
+	}
 
 	@Override
 	public List<CloudFileTag> findTagsByUploaderAndConsumer(long uploaderId, long consumerId) {
-		return repository.findTagsByUploaderAndConsumer(uploaderId, consumerId);
+		return repository.findTagsByUploaderAndConsumer(uploaderId, consumerId).stream()
+				.sorted(Comparator.comparing(CloudFileTag::getTag)).collect(Collectors.toList());
 	}
 
 	@Override
 	public boolean deleteById(long id) {
 		repository.deleteById(id);
-		
-		return true;	
+
+		return true;
 	}
 
 	@Override
@@ -138,7 +142,7 @@ public class CloudFileServiceImpl implements CloudFileService {
 
 	@Override
 	public List<CloudFile> findByConsumerAndUploaderAndTags(long consumerId, long uploaderId, Set<String> tags) {
-		if (tags==null || tags.size()==0) {
+		if (tags == null || tags.size() == 0) {
 			return repository.findByUploaderAndConsumer(uploaderId, consumerId);
 		} else {
 			return repository.findByUploaderAndConsumerAndTags(uploaderId, consumerId, tags);
@@ -147,19 +151,18 @@ public class CloudFileServiceImpl implements CloudFileService {
 
 	@Override
 	public Iterable<CloudFile> findAll() {
-		return repository.findAll(Sort.by(Direction.DESC, "viewed").and(Sort.by(Direction.DESC, "createdDateTime")));
+		return repository.findAll(Sort.by(Direction.ASC, "viewed").and(Sort.by(Direction.DESC, "createdDateTime")));
 	}
 
 	@Override
 	public boolean deleteByUUID(String fileUUID) {
 		CloudFile file = repository.findByUuid(fileUUID);
-		
+
 		BlobId blobId = BlobId.of(bucketName, file.getStorageName());
 		storage.delete(blobId);
-		
+
 		repository.deleteById(file.getId());
-		
-		
+
 		return true;
 	}
 

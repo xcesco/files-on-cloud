@@ -24,3 +24,7 @@ export interface CloudFileData {
   file: any;
   hashtag;
 }
+
+export interface CloudFileTag {
+  tag: string;
+}

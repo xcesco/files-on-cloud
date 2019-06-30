@@ -1,43 +1,55 @@
 <div class="card">
   <div class="card-header d-flex flex-row align-items-center">
-    <div *appSecureIsConsumer class="img"><img alt="logo" class="img-fluid" style="width: 64px;" src="{{getLogoUrl()}}"></div>
-    <p class="float-left display-4 p-1">Cloud files</p>
+    <div *appSecureIsConsumer class="img  mr-1"><img alt="logo" class="img-fluid" style="width: 64px;" src="{{getLogoUrl()}}"></div>
+    <div class="float-left display-4 p-1">Cloud files</div>
     <a class="btn btn-primary ml-auto" *appSecureIsUploader routerLink="./create" role="button">New file</a>
     <button class="btn btn-primary ml-auto" *appSecureIsConsumer (click)="goBack()" role="button">Indietro</button>
   </div>
   <div class="card-body">
 
-    <table class="table table-bordered table-hover">
+    <div class="row">
+      <div class="col-auto">
+        <div *ngFor="let item of tags" class="bg-transparent badge badge-pill m-1 p-3" (click)="filterInvert(item.tag)"
+                [ngClass]="{badgePrimary: filterContaings(item.tag), badgeLight: !filterContaings(item.tag)}">{{item.tag}}</div>
+      </div>
+      <div class="col-auto">
+        <form class="form-check-inline">
+          <div class="form-check-inline" *ngFor="let item of tags; index as i">
+            <label for="{{'c'+i}}">{{item.tag}}</label>
+            <input type="checkbox" class="form-control" id="{{'c'+i}}">
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+    <table class="table table-hover">
       <thead>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col" *appSecureIsConsumer="false">Uploader</th>
-        <th scope="col" *appSecureIsConsumer="false">Consumer</th>
+        <th scope="col" class="d-none d-xl-table-cell">#</th>
+        <th scope="col" class="d-none d-xl-table-cell" *appSecureIsConsumer="false">Uploader</th>
+        <th scope="col" class="d-none d-xl-table-cell" *appSecureIsConsumer="false">Consumer</th>
         <th scope="col">File</th>
-        <th scope="col">Size</th>
-        <th scope="col">Creation time</th>
-        <th scope="col">Viewed</th>
+        <th scope="col" class="d-none d-xl-table-cell">Size</th>
+        <th scope="col" class="d-none d-xl-table-cell">Create at</th>
+        <th scope="col" class="d-none d-xl-table-cell">Viewed at</th>
         <th scope="col"></th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let item of list; index as i" class="align-content-md-center">
-        <th scope="row">{{ i + 1 }}</th>
-        <td *appSecureIsConsumer="false">
+        <th scope="row" class="d-none d-xl-table-cell">{{ i + 1 }}</th>
+        <td *appSecureIsConsumer="false" class="d-none d-xl-table-cell">
           <a class="nav-link" routerLink="/uploaders/{{item.uploader.id}}">{{item.uploader.displayName}}</a>
         </td>
-        <td *appSecureIsConsumer="false">
+        <td *appSecureIsConsumer="false" class="d-none d-xl-table-cell">
           <a class="nav-link" routerLink="/consumers/{{item.consumer.id}}">{{item.consumer.displayName}}</a>
         <td>
           <p>{{item.fileName}}</p>
-          <span *ngFor="let tag of item.tags" class="badge badge-pill badge-primary m-1">{{tag}}</span></td>
-        <td><i class="float-right">{{item.contentLength | fileSize}}</i></td>
-        <td>
-          {{item.creationTime | date: 'dd/MMM/yyyy hh:mm:ss' }}
-        </td>
-        <td>
-          <i class="fa fa-2x" [ngClass]="{ 'fa-check-circle': isViewed(item)}"
-             ngbTooltip="Viewed from {{ item.viewIp}} on {{ item.viewTime | date: 'dd/MMM/yyyy hh:mm:ss' }}"></i></td>
+          <span *ngFor="let tag of item.tags" class="badge badge-pill badge-primary m-1 p-3">{{tag}}</span></td>
+        <td class="d-none d-xl-table-cell">{{item.contentLength | fileSize}}</td>
+        <td class="d-none d-xl-table-cell">{{item.creationTime | date: 'dd/MM/yyyy hh:mm' }}</td>
+        <td class="d-none d-xl-table-cell">{{ item.viewTime | date: 'dd/MM/yyyy hh:mm' }}</td>
         <td>
           <button type="button"
                   class="m-2 btn btn-lg btn-outline-primary float-right"

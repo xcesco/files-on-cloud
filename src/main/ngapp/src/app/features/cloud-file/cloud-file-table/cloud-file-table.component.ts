@@ -6,7 +6,7 @@ import {ToastrService} from 'ngx-toastr';
 import {CloudFileService} from '../../../services/cloud-file.service';
 import {map} from 'rxjs/operators';
 
-import {CloudFile} from '../../../types/files';
+import {CloudFile, CloudFileTag} from '../../../types/files';
 import {isNotBlank} from '../../../shared/utils/utils';
 import {AuthService} from '../../../services/auth.service';
 import {Observable} from 'rxjs';
@@ -19,6 +19,8 @@ import {Observable} from 'rxjs';
 export class CloudFileTableComponent implements OnInit {
 
   list: CloudFile[] = null;
+  tags: CloudFileTag[] = null;
+  filterTags: string[] = [];
 
   uploaderId: any;
   consumerId: any;
@@ -41,7 +43,38 @@ export class CloudFileTableComponent implements OnInit {
       this.list = value;
     });
 
+    if (this.authService.hasRoleConsumer()) {
+      this.service.findAllTags(this.uploaderId, this.consumerId).subscribe(items => {
+        this.tags = items;
+      });
+    }
+
   }
+
+  filterInvert(msg: string) {
+    const index: number = this.filterTags.indexOf(msg);
+    if (index !== -1) {
+      this.filterTags.splice(index, 1);
+    } else {
+      this.filterTags.push(msg);
+    }
+  }
+
+  filterAdd(msg: string) {
+    this.filterTags.push(msg);
+  }
+
+  filterRemove(msg: string) {
+    const index: number = this.filterTags.indexOf(msg);
+    if (index !== -1) {
+      this.filterTags.splice(index, 1);
+    }
+  }
+
+  filterContaings(msg: string) {
+    return this.filterTags.indexOf(msg) !== -1;
+  }
+
 
   ngOnInit() {
     console.log('componentns --');
@@ -56,6 +89,12 @@ export class CloudFileTableComponent implements OnInit {
   }
 
   refresh(): void {
+    if (this.authService.hasRoleConsumer()) {
+      this.service.findAllTags(this.uploaderId, this.consumerId).subscribe(items => {
+        this.tags = items;
+      });
+    }
+
     this.load().subscribe(value => {
       this.list = value;
     });
