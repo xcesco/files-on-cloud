@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-header">
     <div class="display-4 p-1">Administrators</div>
-    <a class="btn btn-primary ml-auto" routerLink="./create" role="button">New admin</a>
+    <a class="btn btn-primary ml-auto" [routerLink]="'/administrators/create'" role="button">New admin</a>
   </div>
   <div class="card-body">
 
@@ -22,7 +22,7 @@
         <td>{{ item.displayName }}</td>
         <td class="d-none d-xl-table-cell">{{ item.email }}</td>
         <td>
-          <a href="#" class="m-2 btn btn-lg btn-outline-primary" [routerLink]="item.id"
+          <a href="#" class="m-2 btn btn-lg btn-outline-primary" [routerLink]="'/administrators/'+item.id"
              ngbTooltip="Edit"><i class="fa fa-edit"></i></a>
 
           <button (click)="onChangePassword(item)" type="button"
@@ -35,6 +35,8 @@
       </tr>
       </tbody>
     </table>
+    <div class="text-center text-muted mb-5" *ngIf="0===list.length">No element found</div>
+
   </div>
 </div>
 

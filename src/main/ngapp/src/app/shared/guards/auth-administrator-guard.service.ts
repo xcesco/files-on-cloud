@@ -6,7 +6,7 @@ import {ROUTE_LOGIN} from '../../app-routing.costant';
 
 
 @Injectable()
-export class AuthGuard implements CanActivate, CanActivateChild {
+export class AuthAdministratorGuard implements CanActivate, CanActivateChild {
 
   constructor(private authService: AuthService, private router: Router) {
   }
@@ -24,7 +24,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
                        state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> {
 
     // console.log('dsdsdsd');
-    if (this.authService.isAuthenticated()) {
+    if (this.authService.isAuthenticated() && this.authService.hasRoleAdministrator()) {
       return true;
     }
 

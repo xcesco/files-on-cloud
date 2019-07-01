@@ -22,6 +22,7 @@ export class AdminReportComponent implements OnInit {
   hoveredDate: NgbDate = null;
   fromDate: NgbDate = null;
   toDate: NgbDate = null;
+  loading = false;
 
   start: Moment;
   end: Moment;
@@ -44,9 +45,11 @@ export class AdminReportComponent implements OnInit {
 
     this.fromDate = NgbDate.from({year: this.start.year(), month: this.start.month() + 1, day: 1});
     this.toDate = NgbDate.from({year: this.end.year(), month: this.end.month() + 1, day: this.end.daysInMonth()});
+    this.loading = true;
     this.actr.data.pipe(map(data => data.list)).subscribe((value: AdminReportItem[]) => {
       // console.log('caricato', value);
       this.list = value;
+      this.loading = false;
     });
   }
 
@@ -81,9 +84,11 @@ export class AdminReportComponent implements OnInit {
     if (this.fromDate === null || this.toDate === null) {
       this.toastr.error('Please select a valid date range', 'Unable to run report');
     } else {
+      this.loading = true;
       this.adminService.getReport(new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day),
         new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day)).subscribe(result => {
         this.list = result;
+        this.loading = false;
       });
     }
   }

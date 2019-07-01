@@ -50,9 +50,23 @@ public class SendMailServiceImpl implements SendMailService {
 				msg.addRecipient(Message.RecipientType.TO,
 						new InternetAddress(consumer.getEmail(), consumer.getDisplayName()));
 				msg.setSubject("There's a new file for you on cloud file!");
+				
+				String site="https://programmazione-web-238419.appspot.com/";
+				//formatter:off
+				String message=
+				"Hello,\n"+
+				"Follow this link to download file that "+uploader.getDisplayName()+" share with you:\n"+
+				"\n"+
+				site+"api/v1/files/"+file.getUuid()+"\n"+
+				"\n"+
+				"Visit us on.\n"+
+				site+"\n"+
+				"\n"+
+				"Thanks,\n"+
+				"Your Files-On-Cloud team\n";
+				//formatter:on
 				msg.setText(sanitizer
-						.sanitize("Uploader "+uploader.getDisplayName() + " prepared a file for " + consumer.getDisplayName()+" link "+
-								"https://programmazione-web-238419.appspot.com/api/v1/files/"+file.getUuid()+".\n\nPlease visit https://programmazione-web-238419.appspot.com/"));
+						.sanitize(message));
 				Transport.send(msg);
 			} catch (AddressException e) {
 				e.printStackTrace();

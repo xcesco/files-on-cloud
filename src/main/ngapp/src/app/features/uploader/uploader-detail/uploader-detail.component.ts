@@ -17,7 +17,8 @@ import {AuthService} from '../../../services/auth.service';
 export class UploaderDetailComponent extends AbstractUserDetailComponent<Uploader, UploaderService> implements OnInit {
   private form: FormGroup;
 
-  labelUpload: ElementRef;
+  labelImage: ElementRef;
+  loadingImage = false;
   private fileToUpload: File;
   private timeStamp = (new Date()).getTime();
 
@@ -32,10 +33,10 @@ export class UploaderDetailComponent extends AbstractUserDetailComponent<Uploade
   ngOnInit(): void {
   }
 
-  @ViewChild('labelImport', {static: false})
+  @ViewChild('labelImage', {static: false})
   set labelImport(v: ElementRef) {
     setTimeout(() => {
-      this.labelUpload = v;
+      this.labelImage = v;
     }, 0);
   }
 
@@ -46,12 +47,18 @@ export class UploaderDetailComponent extends AbstractUserDetailComponent<Uploade
 
   uploadLogo() {
     console.log('avvio', this.fileToUpload);
+    this.loadingImage = true;
 
     this.service.uploadLogo(this.user.id, this.fileToUpload).subscribe(() => {
         console.log('uploaded!!!');
         this.timeStamp = (new Date()).getTime();
+
+        this.labelImage.nativeElement.innerText = 'Choose a file (max. 1 MByte)';
+        this.fileToUpload = null;
       },
-      (err) => console.log(err));
+      (err) => console.log(err), () => {
+        this.loadingImage = false;
+      });
   }
 
   get disableUpload(): boolean {
@@ -59,7 +66,7 @@ export class UploaderDetailComponent extends AbstractUserDetailComponent<Uploade
   }
 
   onFileChange(files: FileList) {
-    this.labelUpload.nativeElement.innerText = files.item(0).name;
+    this.labelImage.nativeElement.innerText = files.item(0).name;
     this.fileToUpload = files.item(0);
   }
 

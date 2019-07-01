@@ -8,18 +8,8 @@ import {CloudFileDashboardComponent} from './features/cloud-file/cloud-file-dash
 import {LoginComponent} from './login/login.component';
 import {SignupComponent} from './signup/signup.component';
 import {SignupResolver} from './resolvers/signup-resolver.service';
+import {AuthAdministratorGuard} from './shared/guards/auth-administrator-guard.service';
 
-
-/**
- * path: ROUTE_FESTIVITA, canActivate: [AuthGuard], component: FestivitaHomeComponent,
- data: {
-            tipoRegola: TipoRegola.chiuso_per_festivita
-        },
- resolve: {
-            webConfig: ReadRegolaWebConfigService
-        },
- * @type {({path: string; component: LoginComponent} | {path: string; component: AdminDashboardComponent; loadChildren: () => Promise<any>} | {path: string; component: UploaderDashboardComponent; loadChildren: () => Promise<any>} | {path: string; component: ConsumerHomeComponent; loadChildren: () => Promise<any>} | {path: string; component: CloudFileDashboardComponent; loadChildren: () => Promise<any>} | {path: string; pathMatch: string; component: HomeComponent} | {path: string; component: HomeComponent})[]}
- */
 
 const routes: Routes = [
   {
@@ -29,7 +19,7 @@ const routes: Routes = [
     path: 'signup', component: SignupComponent, resolve: {detail: SignupResolver}
   },
   {
-    path: 'administrators', component: AdminDashboardComponent,
+    path: 'administrators', component: AdminDashboardComponent, canActivate: [AuthAdministratorGuard], canActivateChild: [AuthAdministratorGuard] ,
     loadChildren: () => import('./features/admin/admin.module').then(mod => mod.AdminModule)
   },
   {

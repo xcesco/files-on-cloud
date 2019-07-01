@@ -41,7 +41,7 @@ export class UserDetailComponent implements OnInit {
         displayName: new FormControl(detail.displayName, [Validators.required]),
         codiceFiscale: new FormControl((detail as Consumer).codiceFiscale, [Validators.required]),
         email: new FormControl(detail.email, [Validators.required, Validators.email]),
-        password: new FormControl(detail.password, [Validators.required]),
+        password: new FormControl(detail.password, [Validators.required, Validators.minLength(8)]),
         username: new FormControl(detail.username, [Validators.required, Validators.email])
       });
     } else {

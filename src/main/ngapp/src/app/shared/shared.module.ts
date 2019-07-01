@@ -19,6 +19,8 @@ import {SecureIsAuthenticatedDirective} from './directives/secure-is-authenticat
 import {SecureIsAdministratorOrConsumerDirective} from './directives/secure-is-administrator-or-consumer.directive';
 import {SecureIsAdministratorOrUploaderDirective} from './directives/secure-is-administrator-or-uploader.directive';
 import {SecureIsUploaderOrConsumerDirective} from './directives/secure-is-uploader-or-consumer.directive';
+import {AuthGuard} from './guards/auth-guard.service';
+import {AuthAdministratorGuard} from './guards/auth-administrator-guard.service';
 
 
 @NgModule({
@@ -40,7 +42,10 @@ import {SecureIsUploaderOrConsumerDirective} from './directives/secure-is-upload
   ],
   providers: [
     ConfirmationDialogService,
-    ChangePasswordDialogService
+    ChangePasswordDialogService,
+
+    AuthGuard,
+    AuthAdministratorGuard
   ],
   imports: [
     CommonModule,

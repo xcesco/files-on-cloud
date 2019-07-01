@@ -11,6 +11,7 @@ import org.abubusoft.foc.web.model.ChangePasswordWto;
 import org.abubusoft.foc.web.model.UploaderWto;
 import org.abubusoft.foc.web.security.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,8 +38,8 @@ public class UploaderController {
 		this.service = service;
 	}
 
-	@PatchMapping("uploaders/{id}/logo")
-	public ResponseEntity<Boolean> handleFileUpload(@PathVariable("id") long uploaderId,
+	@PatchMapping(value="/{id}/logo", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	public ResponseEntity<Boolean> uploaderSaveLogo(@PathVariable("id") long uploaderId,
 			@RequestParam("file") MultipartFile file) throws IOException {
 		service.saveLogo(uploaderId, file.getInputStream());
 

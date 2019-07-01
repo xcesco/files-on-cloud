@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.abubusoft.foc.business.facades.UploaderFacade;
 import org.abubusoft.foc.business.services.UploaderService;
 import org.abubusoft.foc.repositories.model.Uploader;
+import org.abubusoft.foc.repositories.model.User;
 import org.abubusoft.foc.web.model.UploaderWto;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.ClassPathResource;
@@ -25,6 +26,9 @@ public class UploaderServiceFacadeImpl extends AbstractUserFacadeImpl<UploaderWt
 		if (user.getId() == null) {
 			result = service.insertUser(user, value.getPassword());
 		} else {
+			// workaround per il logo
+			 Uploader oldUser=service.findById(user.getId()).get();
+			 user.setImage(oldUser.getImage());
 			result = service.updateById(user);
 		}
 

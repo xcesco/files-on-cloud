@@ -6,7 +6,10 @@
     <button class="btn btn-primary ml-1" *appSecureIsUploaderOrConsumer (click)="goBack()" role="button" >Indietro</button>
   </div>
   <div class="card-body">
-
+    <div class="custom-control custom-checkbox">
+      <input type="checkbox" class="custom-control-input" id="customCheck1">
+      <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
+    </div>
     <div class="row">
       <div class="col-auto">
         <div *ngFor="let item of tags" class="bg-transparent badge badge-pill m-1 p-3" (click)="filterInvert(item.tag)"
@@ -89,6 +92,7 @@
       </tr>
       </tbody>
     </table>
+    <div class="text-center text-muted mb-5" *ngIf="0===list.length">No element found</div>
   </div>
 </div>
 

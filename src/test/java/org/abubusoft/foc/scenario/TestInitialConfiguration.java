@@ -56,6 +56,22 @@ public class TestInitialConfiguration extends BaseTest {
 		this.uploaderFacade = uploaderFacade;
 	}
 
+	/**
+	 * Scenario:
+	 * Tutti gli account hanno pwd=password
+	 *     Viene creato uno user admin0@gmail.com.
+	 *     
+	 *     Vengono creati n uploader<n>@gmail.com.
+	 *     Vengono creati n consumer<n>@gmail.com.
+	 *     
+	 *     Il consumer 0 e l'uploader 0 non hanno alcun file.
+	 *     Il consumer 1 e l'uploader 1 hanno 1 file.
+	 *     
+	 *     Gli altri utenti vengono creati con alcuni file gia' inseriti.
+	 *     
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	@Rollback(false)
 	@Test
 	@Transactional
@@ -77,24 +93,36 @@ public class TestInitialConfiguration extends BaseTest {
 			adminFacade.save(user);
 		}
 
-		for (int i = 0; i < 5; i++) {
+		// creiamo gli uploader ed i consumer
+		for (int i = 0; i < 3; i++) {
 			uploaders.add(createUploader(i));
 		}
 
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 3; i++) {
 			consumers.add(createConsumer(i));
 		}
-
+		
+		{
+			File image = new File("src/test/resources/images/wallhaven0.jpg");
+			cloudFileFacade.save(uploaders.get(1).getId(), LocalDateTime.now(), consumers.get(1),
+					"wallpaper0", image.getName(),
+					MimeTypeUtils.getFromFileName(image.getName()), image.length(),
+					new FileInputStream(image));
+		}
+		
+		
+		
+        // creiamo gli altri file
 		{
 			long f = 1;
 			long imageCounter = -1;
 
-			for (int u = 0; u < uploaders.size(); u++) {
-				for (int c = 0; c < consumers.size(); c++) {
+			for (int u = 2; u < uploaders.size(); u++) {
+				for (int c = 2; c < consumers.size(); c++) {
 					for (int i = 0; i < f; i++) {
 						imageCounter = (imageCounter + 1) % 3;
 						File image = new File("src/test/resources/images/wallhaven" + imageCounter + ".jpg");
-						cloudFileFacade.save((long) uploaders.get(u).getId(), LocalDateTime.now(), consumers.get(c),
+						cloudFileFacade.save(uploaders.get(u).getId(), LocalDateTime.now(), consumers.get(c),
 								"wallpaper, image"+imageCounter+", nice", image.getName(),
 								MimeTypeUtils.getFromFileName(image.getName()), image.length(),
 								new FileInputStream(image));

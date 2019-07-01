@@ -5,6 +5,7 @@ import org.abubusoft.foc.web.security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -56,10 +57,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 		//@formatter:off
     	http
     	 	.cors().disable()
-    	 	.csrf().disable()
+    	 	.csrf().disable()    	 	
     		.sessionManagement()
     		.sessionCreationPolicy(SessionCreationPolicy.STATELESS)    		
-    		.and()
+    		.and()    		
     		.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class)
     		.exceptionHandling()
     			.authenticationEntryPoint(unauthorizedHandler)
@@ -77,8 +78,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 	            .antMatchers("/api/v1/public/**")
 	            .permitAll()         	            		       
 	                
-	    		// servizi web secured	    		       
-	            .antMatchers("/api/v1/secured/**")
+	    		// servizi web secured	    	
+	            
+	            .antMatchers("/api/v1/secured/**") 
+	            
 	            .authenticated();
     	
 //    	http

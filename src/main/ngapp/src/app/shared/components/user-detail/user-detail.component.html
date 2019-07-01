@@ -1,7 +1,7 @@
 <form [formGroup]="form" novalidate (ngSubmit)="onSave()">
 
   <div class="form-group">
-    <label for="username">Username:</label>
+    <label for="username">Username *:</label>
     <input type="username"
            id="username"
            formControlName="username"
@@ -14,18 +14,18 @@
   </div>
 
   <div class="form-group" *ngIf="isJustCreated">
-    <label for="password">Password:</label>
+    <label for="password">Password *:</label>
     <input type="password"
            id="password"
            formControlName="password"
            class="form-control"
            appManagedError
     >
-    <app-display-managed-error controlName="password">Insert a password</app-display-managed-error>
+    <app-display-managed-error controlName="password">Insert a password (min. 8 chars)</app-display-managed-error>
   </div>
 
   <div class="form-group">
-    <label for="email">Email:</label>
+    <label for="email">Email *:</label>
     <input type="email"
            id="email"
            formControlName="email"
@@ -37,7 +37,7 @@
   </div>
 
   <div class="form-group" *ngIf="isConsumer">
-    <label for="displayName">Codice fiscale:</label>
+    <label for="displayName">Codice fiscale *:</label>
     <input type="text"
            id="codiceFiscale"
            formControlName="codiceFiscale"
@@ -50,7 +50,7 @@
   </div>
 
   <div class="form-group">
-    <label for="displayName">Display name:</label>
+    <label for="displayName">Display name *:</label>
     <input type="text" formControlName="displayName" placeholder="Es: Mario Rossi" class="form-control"
            id="displayName" appManagedError>
     <app-display-managed-error controlName="displayName">Insert a valid display name.</app-display-managed-error>
