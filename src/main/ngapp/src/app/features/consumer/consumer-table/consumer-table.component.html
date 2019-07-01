@@ -1,7 +1,7 @@
 <div class="card">
-  <div class="card-header d-flex flex-row align-items-center">
-    <div class="float-left display-4 p-1">Consumers</div>
-    <a href="#" class="btn btn-primary ml-auto" routerLink="./create" role="button">New consumer</a>
+  <div class="card-header">
+    <div class="display-4 p-1">Consumers</div>
+    <a class="btn btn-primary ml-auto" routerLink="./create" role="button">New consumer</a>
   </div>
   <div class="card-body">
 
@@ -30,6 +30,14 @@
           <button (click)="onChangePassword(item)" type="button"
                   ngbTooltip="Change password"     class="m-2 btn btn-lg btn-outline-primary float-left"><i class="fa fa-key"></i></button>
 
+          <button
+            type="button"
+            class="m-2 btn btn-lg btn-outline-primary"
+            ngbTooltip="Goto files"
+            *appSecureIsUploader
+            (click)="onGotoFiles(item)">
+            <i class="fa fa-file"></i>
+          </button>
 
           <button (click)="onDelete(item)" type="button" ngbTooltip="Delete" class="m-2 btn btn-lg btn-outline-primary float-right"><i
             class="fa fa-trash"></i></button>

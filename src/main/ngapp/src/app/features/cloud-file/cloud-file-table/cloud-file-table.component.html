@@ -1,9 +1,9 @@
 <div class="card">
-  <div class="card-header d-flex flex-row align-items-center">
-    <div *appSecureIsConsumer class="img  mr-1"><img alt="logo" class="img-fluid" style="width: 64px;" src="{{getLogoUrl()}}"></div>
-    <div class="float-left display-4 p-1">Cloud files</div>
-    <a class="btn btn-primary ml-auto" *appSecureIsUploader routerLink="./create" role="button">New file</a>
-    <button class="btn btn-primary ml-auto" *appSecureIsConsumer (click)="goBack()" role="button">Indietro</button>
+  <div class="card-header">
+    <div class="img  mr-1" *appSecureIsConsumer><img alt="logo" class="img-fluid" style="width: 64px;" src="{{getLogoUrl()}}"></div>
+    <div class="display-4 p-1">Cloud files</div>
+    <a class="btn btn-primary ml-auto" routerLink="./create" role="button" *appSecureIsUploader>New file</a>
+    <button class="btn btn-primary ml-1" *appSecureIsUploaderOrConsumer (click)="goBack()" role="button" >Indietro</button>
   </div>
   <div class="card-body">
 
@@ -27,8 +27,8 @@
       <thead>
       <tr>
         <th scope="col" class="d-none d-xl-table-cell">#</th>
-        <th scope="col" class="d-none d-xl-table-cell" *appSecureIsConsumer="false">Uploader</th>
-        <th scope="col" class="d-none d-xl-table-cell" *appSecureIsConsumer="false">Consumer</th>
+        <th scope="col" class="d-none d-xl-table-cell" *appSecureIsAdministratorOrConsumer>Uploader</th>
+        <th scope="col" class="d-none d-xl-table-cell" *appSecureIsAdministratorOrUploader>Consumer</th>
         <th scope="col">File</th>
         <th scope="col" class="d-none d-xl-table-cell">Size</th>
         <th scope="col" class="d-none d-xl-table-cell">Create at</th>
@@ -39,10 +39,10 @@
       <tbody>
       <tr *ngFor="let item of list; index as i" class="align-content-md-center">
         <th scope="row" class="d-none d-xl-table-cell">{{ i + 1 }}</th>
-        <td *appSecureIsConsumer="false" class="d-none d-xl-table-cell">
+        <td *appSecureIsAdministratorOrConsumer class="d-none d-xl-table-cell">
           <a class="nav-link" routerLink="/uploaders/{{item.uploader.id}}">{{item.uploader.displayName}}</a>
         </td>
-        <td *appSecureIsConsumer="false" class="d-none d-xl-table-cell">
+        <td *appSecureIsAdministratorOrUploader class="d-none d-xl-table-cell">
           <a class="nav-link" routerLink="/consumers/{{item.consumer.id}}">{{item.consumer.displayName}}</a>
         <td>
           <p>{{item.fileName}}</p>

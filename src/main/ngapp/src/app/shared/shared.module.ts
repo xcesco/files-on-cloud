@@ -16,6 +16,9 @@ import {SecureIsAdministratorDirective} from './directives/secure-is-administrat
 import {SecureIsUploaderDirective} from './directives/secure-is-uploader.directive';
 import {SecureIsConsumerDirective} from './directives/secure-is-consumer.directive';
 import {SecureIsAuthenticatedDirective} from './directives/secure-is-authenticated.directive';
+import {SecureIsAdministratorOrConsumerDirective} from './directives/secure-is-administrator-or-consumer.directive';
+import {SecureIsAdministratorOrUploaderDirective} from './directives/secure-is-administrator-or-uploader.directive';
+import {SecureIsUploaderOrConsumerDirective} from './directives/secure-is-uploader-or-consumer.directive';
 
 
 @NgModule({
@@ -30,7 +33,10 @@ import {SecureIsAuthenticatedDirective} from './directives/secure-is-authenticat
     SecureIsAdministratorDirective,
     SecureIsUploaderDirective,
     SecureIsConsumerDirective,
-    SecureIsAuthenticatedDirective
+    SecureIsAuthenticatedDirective,
+    SecureIsAdministratorOrConsumerDirective,
+    SecureIsAdministratorOrUploaderDirective,
+    SecureIsUploaderOrConsumerDirective
   ],
   providers: [
     ConfirmationDialogService,
@@ -70,7 +76,10 @@ import {SecureIsAuthenticatedDirective} from './directives/secure-is-authenticat
     SecureIsAdministratorDirective,
     SecureIsUploaderDirective,
     SecureIsConsumerDirective,
-    SecureIsAuthenticatedDirective
+    SecureIsAuthenticatedDirective,
+    SecureIsAdministratorOrConsumerDirective,
+    SecureIsAdministratorOrUploaderDirective,
+    SecureIsUploaderOrConsumerDirective
   ],
   entryComponents: [ConfirmationDialogComponent, ChangePasswordDialogComponent]
 })

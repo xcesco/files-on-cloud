@@ -16,7 +16,7 @@ export class CloudFileListResolver implements Resolve<CloudFile[]> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<CloudFile[]> {
     console.log('recupera elenco', route.queryParams);
 
-    if (this.authService.hasRoleConsumer()) {
+    if (this.authService.hasRoleConsumer() || this.authService.hasRoleUploader()) {
       // se consumer, deve per forza avere uploader e consumer (
       return this.service.findByUploaderAndConsumer(route.queryParams.uploaderId, route.queryParams.consumerId);
     } else {

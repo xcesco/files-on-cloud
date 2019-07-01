@@ -61,7 +61,8 @@ public class CloudFileController {
 		return ResponseEntity.ok(service.sendNotificationByUUID(fileUUID));
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_UPLOADER')")
+	// -- ok
+	//@PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_UPLOADER')")
 	@GetMapping("/uploaders/{uploaderId}/consumers/{consumerId}/files/{fileId}")
 	public ResponseEntity<CloudFileInfoWto> fileFindById(@PathVariable(value = "uploaderId") long uploaderId,
 			@PathVariable(value = "consumerId") long consumerId, @PathVariable("fileId") long fileId) {
