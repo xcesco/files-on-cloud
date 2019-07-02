@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.abubusoft.foc.repositories.model.AdminReportItem;
-import org.abubusoft.foc.repositories.model.UploaderSummary;
 import org.abubusoft.foc.web.model.AdminWto;
 
 public interface AdminFacade extends AbstractUserFacade<AdminWto> {

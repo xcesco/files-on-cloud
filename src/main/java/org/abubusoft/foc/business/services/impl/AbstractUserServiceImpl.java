@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.abubusoft.foc.business.services.AbstractUserService;
+import org.abubusoft.foc.business.services.SendMailService;
 import org.abubusoft.foc.exception.AppNotFoundEntityException;
 import org.abubusoft.foc.exception.AppRuntimeException;
 import org.abubusoft.foc.repositories.UserRepository;
@@ -31,6 +32,14 @@ public abstract class AbstractUserServiceImpl<R extends UserRepository<U>, U ext
 	protected R repository;
 	
 	protected UserRepository<User> userRepository;
+	
+	
+	protected SendMailService sendMailService;
+
+	@Autowired
+	public void setSendMailService(SendMailService sendMailService) {
+		this.sendMailService = sendMailService;
+	}
 
 	@Autowired
 	public void setRepository(R repository) {
@@ -52,10 +61,12 @@ public abstract class AbstractUserServiceImpl<R extends UserRepository<U>, U ext
 		try {
 			firebaseAuth.createUser(request);			
 			
-			user.setCreatedDateTime(LocalDateTime.now());
+			//user.setCreatedDateTime(LocalDateTime.now());
+			//user.setCreatedDateTime(LocalDateTime.now());
 			return repository.save(user);
 		} catch (Throwable e) {
 			e.printStackTrace();
+			sendMailService.sendError(e);
 			throw (AppRuntimeException.create(e));
 		}
 
@@ -78,14 +89,15 @@ public abstract class AbstractUserServiceImpl<R extends UserRepository<U>, U ext
 			UpdateRequest request = new UpdateRequest(userAuth.getUid());
 			request.setDisplayName(user.getDisplayName());
 
-			user.setCreatedDateTime(foundUser.get().getCreatedDateTime());
-			user.setModifiedDateTime(LocalDateTime.now());
+			//user.setCreatedDateTime(foundUser.get().getCreatedDateTime());
+			//user.setModifiedDateTime(LocalDateTime.now());
 			
 			firebaseAuth.updateUser(request);
 
 			return repository.save(user);
 		} catch (FirebaseAuthException e) {
 			e.printStackTrace();
+			sendMailService.sendError(e);
 			throw (AppRuntimeException.create(e));
 		}
 	}
@@ -101,11 +113,13 @@ public abstract class AbstractUserServiceImpl<R extends UserRepository<U>, U ext
 
 			firebaseAuth.updateUser(request);
 			
-			user.setModifiedDateTime(LocalDateTime.now());
+			//user.setModifiedDateTime(LocalDateTime.now());
+			//user.setModifiedDateTime(LocalDateTime.now());
 
 			return repository.save(user);
 		} catch (FirebaseAuthException e) {
 			e.printStackTrace();
+			sendMailService.sendError(e);
 			throw (AppRuntimeException.create(e));
 		}
 	}
@@ -159,6 +173,7 @@ public abstract class AbstractUserServiceImpl<R extends UserRepository<U>, U ext
 				repository.deleteById(user.get().getId());
 				return true;
 			} catch (FirebaseAuthException e) {
+				sendMailService.sendError(e);
 				e.printStackTrace();
 				throw (AppRuntimeException.create(e));
 			}

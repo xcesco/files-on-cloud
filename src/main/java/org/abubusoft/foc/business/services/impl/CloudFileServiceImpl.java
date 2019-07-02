@@ -63,7 +63,7 @@ public class CloudFileServiceImpl implements CloudFileService {
 	private Storage storage;
 
 	@Override
-	public CloudFile uploadFile(CloudFile cloudFile, InputStream content) {
+	public CloudFile insertFile(CloudFile cloudFile, InputStream content) {
 		// String mimeType = MimeTypeUtils.getFromFileName(cloudFile.getFileName());
 
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("YYYY-MM-dd-HHmmssSSS-");
@@ -81,7 +81,8 @@ public class CloudFileServiceImpl implements CloudFileService {
 
 		cloudFile.setUuid(UUID.randomUUID().toString());
 		cloudFile.setStorageName(blobName);
-		cloudFile.setCreatedDateTime(LocalDateTime.now());
+		//cloudFile.setCreatedDateTime(LocalDateTime.now());
+		//cloudFile.setCreatedDateTime(LocalDateTime.now());
 
 		return repository.save(cloudFile);
 
@@ -136,6 +137,7 @@ public class CloudFileServiceImpl implements CloudFileService {
 
 	@Override
 	public CloudFile save(CloudFile file) {
+		//file.setModifiedDateTime(LocalDateTime.now());
 		return repository.save(file);
 	}
 

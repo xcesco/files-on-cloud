@@ -64,6 +64,7 @@ public abstract class BaseTest {
 	@Before
 	public void setup() throws IOException {
 		TimeZone.setDefault(TimeZone.getTimeZone("Europe/Rome"));
+		//TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 		if (FirebaseApp.getApps().isEmpty()) {
 			FirebaseOptions options;
 

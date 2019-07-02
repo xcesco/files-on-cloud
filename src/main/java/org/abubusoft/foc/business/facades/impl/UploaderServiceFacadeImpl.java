@@ -30,7 +30,7 @@ public class UploaderServiceFacadeImpl extends AbstractUserFacadeImpl<UploaderWt
 				result = service.insertUser(user, value.getPassword());
 			} catch (IOException e) {
 				e.printStackTrace();
-				AppRuntimeException.create(e);
+				throw AppRuntimeException.create(e);
 			}
 		} else {
 			// workaround per il logo

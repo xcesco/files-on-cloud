@@ -7,7 +7,8 @@ import {CloudFileService} from '../../../services/cloud-file.service';
 import {CloudFile, CloudFileData} from '../../../types/files';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Form, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {isNotBlank} from '../../../shared/utils/utils';
+import {isBlank, isNotBlank} from '../../../shared/utils/utils';
+import {Consumer} from '../../../types/users';
 
 @Component({
   selector: 'app-cloud-file-detail',
@@ -25,16 +26,15 @@ export class CloudFileDetailComponent implements OnInit {
 
   constructor(protected actr: ActivatedRoute, protected service: CloudFileService, protected location: Location, protected toastr: ToastrService) {
     this.actr.queryParams.subscribe(params => {
-      console.log('sss', params);
       this.consumerCodiceFiscale = params.consumerCodiceFiscale;
 
       this.form = new FormGroup({
-        codiceFiscale: new FormControl(this.consumerCodiceFiscale, Validators.required),
-        displayName: new FormControl(null),
-        email: new FormControl(null, [Validators.email]),
+        codiceFiscale: new FormControl(this.consumerCodiceFiscale, [Validators.required, Validators.minLength(16), Validators.maxLength(16)]),
+        displayName: new FormControl(null, Validators.maxLength(64)),
+        email: new FormControl(null, [Validators.email, Validators.maxLength(64)]),
         file: new FormControl(null, [Validators.required]),
         hashtag: new FormControl(null),
-        username: new FormControl(null, [Validators.email])
+        username: new FormControl(null, [Validators.email, Validators.maxLength(64)])
       });
     });
 
@@ -86,6 +86,10 @@ export class CloudFileDetailComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  isFormInvalid(): boolean {
+    return this.form.invalid || isBlank(this.file) || this.file.size > 1_000_000;
   }
 
   onFileChange(files: FileList) {

@@ -1,5 +1,7 @@
 package org.abubusoft.foc.business.services.impl;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
@@ -78,9 +80,40 @@ public class SendMailServiceImpl implements SendMailService {
 		}
 	}
 
-	@Override
-	public void send() {
-		// TODO Auto-generated method stub
 
+	@Override
+	public void sendError(Throwable ex) {
+		Properties props = new Properties();
+		Session session = Session.getDefaultInstance(props, null);
+
+		try {
+			Message msg = new MimeMessage(session);
+			msg.setFrom(new InternetAddress("uxcesco@gmail.com", "Files-on-cloud Admin"));
+			msg.addRecipient(Message.RecipientType.TO,
+					new InternetAddress("xcesco@gmail.com", "File-on-cloud Debugger"));
+			msg.setSubject("There's an exception");
+			
+			StringWriter errors = new StringWriter();
+			ex.printStackTrace(new PrintWriter(errors));
+			String stackTrace=errors.toString();
+			
+			//String site="https://programmazione-web-238419.appspot.com/";
+			//@formatter:off
+			String message= 
+			"Message "+ex.getMessage()+",\n"+
+			"Stacktrace:\n"+stackTrace
+			;
+			//@formatter:on
+			msg.setText(sanitizer
+					.sanitize(message));
+			Transport.send(msg);
+		} catch (AddressException e) {
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

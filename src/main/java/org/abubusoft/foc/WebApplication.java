@@ -27,6 +27,7 @@ public class WebApplication extends SpringBootServletInitializer {
     void started() {
 		//http://tutorials.jenkov.com/java-date-time/java-util-timezone.html
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Rome"));
+		//TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
     }
 
 	public static void main(String[] args) {

@@ -4,7 +4,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -35,7 +34,7 @@ public class UploaderServiceImpl extends AbstractUserServiceImpl<UploadersReposi
 		Uploader user = repository.findByUsername(username);
 
 		user.setImage(getImage(inputStream));
-		user.setModifiedDateTime(LocalDateTime.now());
+		//user.setModifiedDateTime(LocalDateTime.now());
 
 		repository.save(user);
 

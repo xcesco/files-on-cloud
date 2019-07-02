@@ -20,7 +20,7 @@
                placeholder="Es: RSSRSS80A01L424G"
                appManagedError
         >
-        <app-display-managed-error controlName="codiceFiscale">Insert a valid codice fiscale</app-display-managed-error>
+        <app-display-managed-error controlName="codiceFiscale">Insert a valid codice fiscale (16 chars)</app-display-managed-error>
       </div>
 
 
@@ -33,7 +33,7 @@
                placeholder="Es: Mario Rossi"
                appManagedError
         >
-        <app-display-managed-error controlName="displayName">Insert a valid codice fiscale</app-display-managed-error>
+        <app-display-managed-error controlName="displayName">Insert a valid display name (max 64 chars)</app-display-managed-error>
       </div>
 
       <div class="form-group">
@@ -45,7 +45,7 @@
                placeholder="Es: test@gmail.com"
                appManagedError
         >
-        <app-display-managed-error controlName="username">Insert a email</app-display-managed-error>
+        <app-display-managed-error controlName="email">Insert a valid email (max 64 chars)</app-display-managed-error>
       </div>
 
       <div class="form-group">
@@ -57,7 +57,7 @@
                placeholder="Es: test@gmail.com"
                appManagedError
         >
-        <app-display-managed-error controlName="username">Insert a valid username</app-display-managed-error>
+        <app-display-managed-error controlName="username">Insert a valid username (max 64 chars)</app-display-managed-error>
       </div>
 
       <div class="form-group">
@@ -69,7 +69,7 @@
                placeholder="Es: tag1, tag2, tag3"
                appManagedError
         >
-        <app-display-managed-error controlName="username">Insert tag list</app-display-managed-error>
+        <app-display-managed-error controlName="hashtag">Insert tag list</app-display-managed-error>
       </div>
 
 
@@ -78,17 +78,19 @@
       </div>
       <div class="custom-file">
         <input type="file"
+               appManagedError
                id="importFile"
                formControlName="file"
                class="custom-file-input"
                (change)="onFileChange($event.target.files)">
         <label class="custom-file-label" #labelImport for="importFile"><i class="fa fa-search"></i> Choose a file
-          (max. 2 MByte)</label>
+          (max. 1 MByte)</label>
       </div>
+      <app-display-managed-error controlName="file">Insert a file (max 1 MB)</app-display-managed-error>
 
 
       <button type="button" class="m-2 float-right btn btn-lg btn-outline-primary" (click)="goBack()">Cancel</button>
-      <button type="submit" [disabled]="form.invalid" class="m-2 float-right btn btn-lg btn-success"><i
+      <button type="submit" [disabled]="isFormInvalid()" class="m-2 float-right btn btn-lg btn-success"><i
         *ngIf="true===loading" class="fa fa-spinner fa-spin"></i>&nbsp;Save
       </button>
 

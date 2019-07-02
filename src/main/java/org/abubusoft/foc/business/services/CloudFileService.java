@@ -26,7 +26,7 @@ public interface CloudFileService {
 
 	Pair<CloudFile, byte[]> getFile(String fileUuid);
 
-	CloudFile uploadFile(CloudFile cloudFile, InputStream content);
+	CloudFile insertFile(CloudFile cloudFile, InputStream content);
 
 	Iterable<CloudFile> findAll();
 

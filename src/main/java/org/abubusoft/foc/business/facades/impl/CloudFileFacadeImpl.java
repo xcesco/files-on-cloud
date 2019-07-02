@@ -3,6 +3,7 @@ package org.abubusoft.foc.business.facades.impl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -198,7 +199,7 @@ public class CloudFileFacadeImpl implements CloudFileFacade {
 		}
 		
 		CloudFile cloudFile = mapper.convertToFileDto(uploader, consumer, creationTime, hashTagSet,fileName, fileMediaType, fileSize);
-		cloudFile=cloudFileService.uploadFile(cloudFile, fileContent);		
+		cloudFile=cloudFileService.insertFile(cloudFile, fileContent);		
 		
 		logger.info("Invio email");
 		sendMailService.send(uploader, consumer, cloudFile);

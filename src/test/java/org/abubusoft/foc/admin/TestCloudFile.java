@@ -310,7 +310,7 @@ public class TestCloudFile extends BaseTest {
 		cloudFile.setMimeType(MimeTypeUtils.getFromFileName(file.getName()));
 		cloudFile.setTags(tags);
 
-		return cloudFileService.uploadFile(cloudFile, new FileInputStream(file));
+		return cloudFileService.insertFile(cloudFile, new FileInputStream(file));
 	}	
 
 }

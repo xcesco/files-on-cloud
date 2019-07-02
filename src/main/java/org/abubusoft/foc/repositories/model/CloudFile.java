@@ -16,12 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.abubusoft.foc.web.support.LocalDateTimeDeserializer;
-import org.abubusoft.foc.web.support.LocalDateTimeSerializer;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 /**
  * @author xcesco
  *
@@ -50,7 +44,6 @@ public class CloudFile extends AbstractEntity {
 	@ElementCollection
 	@CollectionTable(name = "foc_file_tags", joinColumns = @JoinColumn(name = "file_id"))	
 	@Column(name = "tag") 
-	//@Convert(converter = LinkedHashSetConverter.class)
 	protected Set<String> tags = new LinkedHashSet<>();
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -63,10 +56,17 @@ public class CloudFile extends AbstractEntity {
 	protected boolean viewed;
 	
 	protected String viewIp;
-
-	@JsonDeserialize(using = LocalDateTimeDeserializer.class)  
-	@JsonSerialize(using = LocalDateTimeSerializer.class)  
+ 
 	protected LocalDateTime viewTime;
+
+
+	public LocalDateTime getViewTime() {
+		return viewTime;
+	}
+
+	public void setViewTime(LocalDateTime viewTime) {
+		this.viewTime = viewTime;
+	}
 
 	public Consumer getConsumer() {
 		return consumer;
@@ -102,10 +102,6 @@ public class CloudFile extends AbstractEntity {
 
 	public String getViewIp() {
 		return viewIp;
-	}
-
-	public LocalDateTime getViewTime() {
-		return viewTime;
 	}
 
 	public boolean isNotified() {
@@ -158,10 +154,6 @@ public class CloudFile extends AbstractEntity {
 
 	public void setViewIp(String viewIp) {
 		this.viewIp = viewIp;
-	}
-
-	public void setViewTime(LocalDateTime viewTime) {
-		this.viewTime = viewTime;
 	}
 
 }
