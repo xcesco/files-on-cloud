@@ -2,6 +2,7 @@ package org.abubusoft.foc.repositories.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,7 +33,7 @@ public abstract class AbstractEntity {
 	}
 	
 	@CreatedDate()
-	//@Column(insertable=true, updatable=false)
+	@Column(updatable=false)
 	protected LocalDateTime createdDateTime;
 	
 

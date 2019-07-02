@@ -61,8 +61,9 @@ public abstract class AbstractUserServiceImpl<R extends UserRepository<U>, U ext
 		try {
 			firebaseAuth.createUser(request);			
 			
-			//user.setCreatedDateTime(LocalDateTime.now());
-			//user.setCreatedDateTime(LocalDateTime.now());
+			LocalDateTime now = LocalDateTime.now();
+			user.setCreatedDateTime(now);
+			user.setCreatedDateTime(now);
 			return repository.save(user);
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -89,32 +90,10 @@ public abstract class AbstractUserServiceImpl<R extends UserRepository<U>, U ext
 			UpdateRequest request = new UpdateRequest(userAuth.getUid());
 			request.setDisplayName(user.getDisplayName());
 
-			//user.setCreatedDateTime(foundUser.get().getCreatedDateTime());
-			//user.setModifiedDateTime(LocalDateTime.now());
+			user.setCreatedDateTime(foundUser.get().getCreatedDateTime());
+			user.setModifiedDateTime(LocalDateTime.now());
 			
 			firebaseAuth.updateUser(request);
-
-			return repository.save(user);
-		} catch (FirebaseAuthException e) {
-			e.printStackTrace();
-			sendMailService.sendError(e);
-			throw (AppRuntimeException.create(e));
-		}
-	}
-
-	@Override
-	public U updateByUsername(U user) {
-		try {
-			FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-
-			UserRecord userAuth = firebaseAuth.getUserByEmail(user.getUsername());
-			UpdateRequest request = new UpdateRequest(userAuth.getUid());
-			request.setDisplayName(user.getDisplayName());
-
-			firebaseAuth.updateUser(request);
-			
-			//user.setModifiedDateTime(LocalDateTime.now());
-			//user.setModifiedDateTime(LocalDateTime.now());
 
 			return repository.save(user);
 		} catch (FirebaseAuthException e) {

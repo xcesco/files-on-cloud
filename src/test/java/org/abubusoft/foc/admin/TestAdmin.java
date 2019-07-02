@@ -47,7 +47,7 @@ public class TestAdmin extends BaseTest {
 		Administrator user = createUser();		
 		user.setDisplayName(display);
 		
-		service.updateByUsername(user);
+		service.updateById(user);
 		
 		Administrator user1 = service.findByUsername(user.getUsername());
 		

@@ -59,7 +59,7 @@ public class TestUploader extends BaseTest {
 		Uploader user = createUser();		
 		user.setDisplayName(display);
 		
-		service.updateByUsername(user);
+		service.updateById(user);
 		
 		Uploader user1 = service.findByUsername(user.getUsername());
 		

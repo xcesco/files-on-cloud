@@ -48,7 +48,7 @@ public class TestConsumer extends BaseTest {
 		Consumer user = createUser();		
 		user.setDisplayName(display);
 		
-		service.updateByUsername(user);
+		service.updateById(user);
 		
 		Consumer user1 = service.findByUsername(user.getUsername());
 		
