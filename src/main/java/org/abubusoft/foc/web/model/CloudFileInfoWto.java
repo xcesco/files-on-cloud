@@ -16,7 +16,7 @@ public class CloudFileInfoWto {
 	protected ConsumerWto consumer;
 
 	// @ApiModelProperty(required = true, dataType = "org.joda.time.LocalDate")
-	@JsonFormat(timezone="Europe/Rome")
+	//@JsonFormat(timezone="Europe/Rome")
 	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	protected LocalDateTime creationTime;

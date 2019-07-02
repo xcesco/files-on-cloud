@@ -1,6 +1,7 @@
 package org.abubusoft.foc;
 
 import java.io.IOException;
+import java.util.TimeZone;
 
 import org.abubusoft.foc.business.services.AdminService;
 import org.abubusoft.foc.business.services.CloudFileService;
@@ -62,6 +63,7 @@ public abstract class BaseTest {
 
 	@Before
 	public void setup() throws IOException {
+		TimeZone.setDefault(TimeZone.getTimeZone("Europe/Rome"));
 		if (FirebaseApp.getApps().isEmpty()) {
 			FirebaseOptions options;
 
