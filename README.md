@@ -1,4 +1,4 @@
-![logo][logo]
+![logo](https://github.com/xcesco/files-on-cloud/blob/master/docs/imgs/logo_256.png)
 
 
 di Francesco Benincasa
