@@ -8,10 +8,11 @@ import {isNotBlank} from '../shared/utils/utils';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Input} from '@angular/core';
 import {AuthService} from '../services/auth.service';
+import {NotificationService} from '../services/notification.service';
 
 export class AbstractUserDetailComponent<E extends User, S extends AbstractUserService<E>> {
 
-  constructor(protected authService: AuthService, protected actr: ActivatedRoute, protected router: Router, protected service: S, protected location: Location, protected toastr: ToastrService) {
+  constructor(protected notificationService: NotificationService, protected authService: AuthService, protected actr: ActivatedRoute, protected router: Router, protected service: S, protected location: Location, protected toastr: ToastrService) {
     this.actr.data.pipe(map(data => data.detail)).subscribe((value: E) => {
       console.log('caricato', value);
       this.user = value;
@@ -45,7 +46,9 @@ export class AbstractUserDetailComponent<E extends User, S extends AbstractUserS
         this.router.navigate(['/login']);
       }, (error: HttpErrorResponse) => {
         // this.toastr.success(`User was correctly updated!`, 'User save!');
-        this.toastr.error('Something went wrong during save signup!', 'System information');
+        this.toastr.error('Something went wrong during signup!', 'System information');
+      }, () => {
+        this.notificationService.notifyOperation({status: 'STOP'});
       });
 
     } else {
@@ -57,11 +60,10 @@ export class AbstractUserDetailComponent<E extends User, S extends AbstractUserS
 
         this.toastr.success(`User is updated!`, 'System information');
         this.location.back();
-
       }, (error: HttpErrorResponse) => {
-        // this.toastr.success(`User was correctly updated!`, 'User save!');
-        this.toastr.error('Something went wrong during save operation!', 'System information');
+        this.toastr.error('An error occurred!', 'System information');
         console.log('errorere', error.error);
+        this.notificationService.notifyOperation({status: 'STOP'});
       });
     }
 

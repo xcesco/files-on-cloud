@@ -5,11 +5,12 @@ import java.time.LocalDateTime;
 import org.abubusoft.foc.web.support.LocalDateTimeDeserializer;
 import org.abubusoft.foc.web.support.LocalDateTimeSerializer;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class CloudFileWto extends CloudFileInfoWto {
-	
+
 	protected long contentLength;
 
 	protected String fileName;
@@ -24,6 +25,7 @@ public class CloudFileWto extends CloudFileInfoWto {
 
 	protected String viewIp;
 
+	@JsonFormat(timezone = "Europe/Rome")
 	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	protected LocalDateTime viewTime;

@@ -21,6 +21,7 @@ import {SecureIsAdministratorOrUploaderDirective} from './directives/secure-is-a
 import {SecureIsUploaderOrConsumerDirective} from './directives/secure-is-uploader-or-consumer.directive';
 import {AuthGuard} from './guards/auth-guard.service';
 import {AuthAdministratorGuard} from './guards/auth-administrator-guard.service';
+import {AuthService} from '../services/auth.service';
 
 
 @NgModule({
@@ -45,7 +46,9 @@ import {AuthAdministratorGuard} from './guards/auth-administrator-guard.service'
     ChangePasswordDialogService,
 
     AuthGuard,
-    AuthAdministratorGuard
+    AuthAdministratorGuard,
+
+    AuthService
   ],
   imports: [
     CommonModule,

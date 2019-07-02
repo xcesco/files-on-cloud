@@ -9,6 +9,8 @@ import org.abubusoft.foc.repositories.UserRepository;
 import org.abubusoft.foc.repositories.model.User;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -137,7 +139,7 @@ public abstract class AbstractUserServiceImpl<R extends UserRepository<U>, U ext
 
 	@Override
 	public Iterable<U> findAll() {
-		return repository.findAll();
+		return repository.findAll(Sort.by(Direction.ASC, "displayName"));
 	}
 
 	@Override

@@ -147,12 +147,12 @@ public class TestCloudFile extends BaseTest {
 
 		assertEquals(result.size(), 3);
 
-		{
-			List<UploaderSummary> summary = adminService.reportCloudFileForAllUploaders(LocalDate.of(2019, 1, 1), LocalDate.of(2019, 12, 31));
-			for (UploaderSummary item : summary) {
-				logger.info(objMapper.writeValueAsString(item));
-			}
-		}
+//		{
+//			List<UploaderSummary> summary = adminService.reportCloudFileForAllUploaders(LocalDate.of(2019, 1, 1), LocalDate.of(2019, 12, 31));
+//			for (UploaderSummary item : summary) {
+//				logger.info(objMapper.writeValueAsString(item));
+//			}
+//		}
 		
 		{
 			List<AdminReportItem> summary = adminService.report(LocalDate.of(2019, 1, 1), LocalDate.of(2019, 12, 31));

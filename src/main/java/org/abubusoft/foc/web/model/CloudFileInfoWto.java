@@ -7,6 +7,7 @@ import java.util.Set;
 import org.abubusoft.foc.web.support.LocalDateTimeDeserializer;
 import org.abubusoft.foc.web.support.LocalDateTimeSerializer;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -15,6 +16,7 @@ public class CloudFileInfoWto {
 	protected ConsumerWto consumer;
 
 	// @ApiModelProperty(required = true, dataType = "org.joda.time.LocalDate")
+	@JsonFormat(timezone="Europe/Rome")
 	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	protected LocalDateTime creationTime;

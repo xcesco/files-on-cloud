@@ -1,43 +1,49 @@
 <div class="card">
-  <div class="card-header">
+  <div class="card-header d-flex flex-wrap align-items-center">
     <div class="display-4 p-1">Report</div>
   </div>
   <div class="card-body">
 
     <div class="row">
 
-      <div class="col-lg-12 col-md-12">
-        <div class="row">
-          <ngb-datepicker class="m-auto" #dp (select)="onDateSelection($event)" [displayMonths]="3"
-                          [dayTemplate]="t" outsideDays="hidden"></ngb-datepicker>
+      <form class="form-inline m-2" [formGroup]="form" novalidate (ngSubmit)="onSave()">
+        <div class="form-group m-2">
+          <div class="input-group">
+            <input formControlName="dataDal" class="form-control" placeholder="yyyy-mm-dd" (click)="d1.toggle()"
+                   name="dp1" ngbDatepicker #d1="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary fa fa-calendar" (click)="d1.toggle()" type="button"></button>
+            </div>
+          </div>
         </div>
-        <div class="row my-3">
-          <button type="button" (click)="report()" class="btn btn-lg btn-primary m-auto"><i *ngIf="loading"
-                                                                                            class="fa fa-spinner fa-spin"></i>
-            Run report
+
+        <div class="form-group m-2">
+          <div class="input-group">
+            <input formControlName="dataAl" class="form-control" placeholder="yyyy-mm-dd" (click)="d2.toggle()"
+                   name="dp2" ngbDatepicker #d2="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary fa fa-calendar" (click)="d2.toggle()" type="button"></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group m-2">
+          <button [disabled]="!isValidForm()" type="submit" class="btn btn-primary m-auto"><i
+            *ngIf="loading"
+            class="fa fa-spinner fa-spin"></i>
+            Report
           </button>
-
-          <ng-template #t let-date let-focused="focused">
-      <span class="custom-day"
-            [class.focused]="focused"
-            [class.range]="isRange(date)"
-            [class.faded]="isHovered(date) || isInside(date)"
-            (mouseenter)="hoveredDate = date"
-            (mouseleave)="hoveredDate = null">
-        {{ date.day }}
-      </span>
-          </ng-template>
-
         </div>
-      </div>
+      </form>
+
       <div class="col-lg-12 col-md-12">
         <table class="table table-hover">
-          <thead>
+          <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
             <th scope="col">Uploader</th>
-            <th scope="col">Consumer count</th>
-            <th scope="col">Uploaderd files count</th>
+            <th scope="col"># Consumers</th>
+            <th scope="col"># Files</th>
           </tr>
           </thead>
           <tbody>

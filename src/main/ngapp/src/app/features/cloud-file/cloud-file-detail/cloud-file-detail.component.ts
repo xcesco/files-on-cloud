@@ -7,6 +7,7 @@ import {CloudFileService} from '../../../services/cloud-file.service';
 import {CloudFile, CloudFileData} from '../../../types/files';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Form, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {isNotBlank} from '../../../shared/utils/utils';
 
 @Component({
   selector: 'app-cloud-file-detail',
@@ -18,17 +19,26 @@ export class CloudFileDetailComponent implements OnInit {
   form: FormGroup;
   detail: CloudFile;
   labelUpload: ElementRef;
+  loading = false;
   file: File;
+  private consumerCodiceFiscale: string;
 
   constructor(protected actr: ActivatedRoute, protected service: CloudFileService, protected location: Location, protected toastr: ToastrService) {
-    this.form = new FormGroup({
-      codiceFiscale: new FormControl(null, Validators.required),
-      displayName: new FormControl(null),
-      email: new FormControl(null, [Validators.email]),
-      file: new FormControl(null, [Validators.required]),
-      hashtag: new FormControl(null),
-      username: new FormControl(null, [Validators.email])
+    this.actr.queryParams.subscribe(params => {
+      console.log('sss', params);
+      this.consumerCodiceFiscale = params.consumerCodiceFiscale;
+
+      this.form = new FormGroup({
+        codiceFiscale: new FormControl(this.consumerCodiceFiscale, Validators.required),
+        displayName: new FormControl(null),
+        email: new FormControl(null, [Validators.email]),
+        file: new FormControl(null, [Validators.required]),
+        hashtag: new FormControl(null),
+        username: new FormControl(null, [Validators.email])
+      });
     });
+
+
   }
 
   ngOnInit() {
@@ -50,42 +60,32 @@ export class CloudFileDetailComponent implements OnInit {
   onSave() {
     console.log('faccio save');
 
-
     const formData = new FormData();
     formData.append('codiceFiscale', this.form.get('codiceFiscale').value);
     formData.append('displayName', this.form.get('displayName').value);
     formData.append('email', this.form.get('email').value);
     formData.append('file', this.file);
-    formData.append('hashtag', this.form.get('hashtag').value);
+    if (isNotBlank(this.form.get('hashtag').value)) {
+      formData.append('hashtag', this.form.get('hashtag').value);
+    }
     formData.append('username', this.form.get('username').value);
 
+
+    this.loading = true;
     console.log(this.form.value, formData);
     this.service.save(formData).subscribe(
       (res) => {
         console.log(res);
         this.toastr.info('File correctly uploaded and notified', 'Information');
+        this.loading = false;
         this.goBack();
       },
       (err) => {
         console.log(err);
-        this.toastr.error('Something went wrong!', 'Information');
+        this.toastr.error('Something went wrong!', 'Error');
+        this.loading = false;
       }
     );
-    /*this.service.save()
-    this.httpClient.post<any>(this.SERVER_URL, formData).subscribe(
-      (res) => console.log(res),
-      (err) => console.log(err)
-    );*/
-
-    /*  this.service.save(user).subscribe(data => {
-        console.log('datao salvoat');
-        this.toastr.success(`User is updated!`, 'System information');
-        this.location.back();
-      }, (error: HttpErrorResponse) => {
-        // this.toastr.success(`User was correctly updated!`, 'User save!');
-        this.toastr.error('Something went wrong during save operation!', 'System information');
-        console.log('errorere', error.error);
-      });*/
   }
 
   onFileChange(files: FileList) {

@@ -52,7 +52,7 @@ public class SendMailServiceImpl implements SendMailService {
 				msg.setSubject("There's a new file for you on cloud file!");
 				
 				String site="https://programmazione-web-238419.appspot.com/";
-				//formatter:off
+				//@formatter:off
 				String message=
 				"Hello,\n"+
 				"Follow this link to download file that "+uploader.getDisplayName()+" share with you:\n"+
@@ -64,7 +64,7 @@ public class SendMailServiceImpl implements SendMailService {
 				"\n"+
 				"Thanks,\n"+
 				"Your Files-On-Cloud team\n";
-				//formatter:on
+				//@formatter:on
 				msg.setText(sanitizer
 						.sanitize(message));
 				Transport.send(msg);

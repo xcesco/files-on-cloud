@@ -1,7 +1,6 @@
 package org.abubusoft.foc.web.controllers;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,8 +10,6 @@ import javax.validation.Valid;
 
 import org.abubusoft.foc.business.facades.AdminFacade;
 import org.abubusoft.foc.repositories.model.AdminReportItem;
-import org.abubusoft.foc.repositories.model.UploaderDetailSummary;
-import org.abubusoft.foc.repositories.model.UploaderSummary;
 import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.AdminWto;
 import org.abubusoft.foc.web.model.ChangePasswordWto;
@@ -73,25 +70,7 @@ public class AdminController {
 	public ResponseEntity<ChangePasswordWto> getChangePasswordUrl(@PathVariable("id") long id) {		
 		return ResponseEntity.ok(service.getChangePasswordUrlById(id));
 	}
-	
-	/*
-	@GetMapping("/summary")
-	public ResponseEntity<List<UploaderSummary>> reportCloudFileForAllUploaders(
-			@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "dataDal", required = false) Date dal,
-			@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "dataAl", required = false) Date al) {
-		LocalDate now = LocalDate.now();
 		
-		LocalDate validoDal=null;
-		LocalDate validoAl=null;
-		
-		if (dal == null || al == null) {
-			validoDal = now.withDayOfMonth(1);
-			validoAl = now.withDayOfMonth(now.lengthOfMonth());
-		}
-
-		return ResponseEntity.ok(service.reportCloudFileForAllUploaders(validoDal, validoAl));
-	}	*/
-	
 	@GetMapping("/report")
 	public ResponseEntity<List<AdminReportItem>> reportConsumerForAllUploaderset(
 			@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "dataDal", required = false) LocalDate dataDal,
@@ -99,7 +78,7 @@ public class AdminController {
 		LocalDate now = LocalDate.now();
 		if (dataDal == null || dataAl == null) {
 			dataDal = now.minusMonths(1).withDayOfMonth(1);
-			dataAl = now.minusMonths(1).withDayOfMonth(now.minusMonths(1).lengthOfMonth());
+			dataAl = now;
 		}
 		
 		return ResponseEntity.ok(service.report(dataDal, dataAl));

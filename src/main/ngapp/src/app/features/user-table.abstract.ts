@@ -16,7 +16,12 @@ export class AbstractUserTableComponent<E extends User, S extends AbstractUserSe
     this.actr.data.pipe(map(data => data.list)).subscribe((value: E[]) => {
       console.log('caricato', value);
       this.list = value;
+      this.onListLoaded(this.list);
     });
+  }
+
+  onListLoaded(list: E[]) {
+      console.log('faccio vecchio');
   }
 
   onDelete(user: E) {

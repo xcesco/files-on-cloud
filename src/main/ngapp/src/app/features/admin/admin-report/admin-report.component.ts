@@ -1,14 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ConfirmationDialogService} from '../../../shared/components/confirmation-dialog/confirmation-dialog.service';
 import {ChangePasswordDialogService} from '../../../shared/components/change-password-dialog/change-password-dialog.service';
 import {AdminService} from '../../../services/admin.service';
 import {ToastrService} from 'ngx-toastr';
-import {AdminReportItem} from '../../../types/users';
+import {Administrator, AdminReportItem, Consumer, Uploader} from '../../../types/users';
 import {map} from 'rxjs/operators';
 import {NgbCalendar, NgbDate, NgbDateAdapter, NgbDateNativeAdapter} from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import {Moment} from 'moment';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {isNotBlank} from '../../../shared/utils/utils';
 
 @Component({
   selector: 'app-admin-report',
@@ -19,32 +21,20 @@ import {Moment} from 'moment';
 export class AdminReportComponent implements OnInit {
   list: AdminReportItem[] = null;
 
-  hoveredDate: NgbDate = null;
-  fromDate: NgbDate = null;
-  toDate: NgbDate = null;
   loading = false;
 
-  start: Moment;
-  end: Moment;
+  form: FormGroup = null;
 
   /**
    * https://ng-bootstrap.github.io/#/components/datepicker/overview
    *
-   * @param calendar
-   * @param actr
-   * @param confirmationDialogService
-   * @param changePasswordDialogService
-   * @param adminService
-   * @param toastr
    */
   constructor(private calendar: NgbCalendar, private actr: ActivatedRoute, private confirmationDialogService: ConfirmationDialogService,
               private changePasswordDialogService: ChangePasswordDialogService,
               private adminService: AdminService, private toastr: ToastrService) {
-    this.start = moment().subtract(1, 'month').startOf('month');
-    this.end = moment().subtract(1, 'month').endOf('month');
+    // dp.navigateTo({year: 2013, month: 2})
+    this.createForm();
 
-    this.fromDate = NgbDate.from({year: this.start.year(), month: this.start.month() + 1, day: 1});
-    this.toDate = NgbDate.from({year: this.end.year(), month: this.end.month() + 1, day: this.end.daysInMonth()});
     this.loading = true;
     this.actr.data.pipe(map(data => data.list)).subscribe((value: AdminReportItem[]) => {
       // console.log('caricato', value);
@@ -53,43 +43,43 @@ export class AdminReportComponent implements OnInit {
     });
   }
 
+  createForm() {
+    const oggi = moment(new Date());
+    const inizioMesePrecendente = moment(new Date()).subtract(1, 'month').startOf('month');
+
+    this.form = new FormGroup({
+      dataDal: new FormControl(inizioMesePrecendente.toDate(), [Validators.required]),
+      dataAl: new FormControl(oggi.toDate(), [Validators.required])
+    });
+
+    console.log('1. this.form.value', this.form.value);
+  }
+
   ngOnInit() {
 
   }
 
-  onDateSelection(date: NgbDate) {
-    if (!this.fromDate && !this.toDate) {
-      this.fromDate = date;
-    } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
-      this.toDate = date;
-    } else {
-      this.toDate = null;
-      this.fromDate = date;
+  isValidForm(): boolean {
+    if (this.form === null || !this.form.valid) {
+      return false;
     }
+    const validoDal = moment(this.form.get('dataDal').value);
+    const validoAl = moment(this.form.get('dataAl').value);
+    // console.log('test', validoDal, validoAl);
+    return this.form.valid && (!validoDal.isAfter(validoAl));
   }
 
-  isHovered(date: NgbDate) {
-    return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
-  }
 
-  isInside(date: NgbDate) {
-    return date.after(this.fromDate) && date.before(this.toDate);
-  }
+  onSave() {
+    console.log(this.form.value);
 
-  isRange(date: NgbDate) {
-    return date.equals(this.fromDate) || date.equals(this.toDate) || this.isInside(date) || this.isHovered(date);
-  }
-
-  report() {
-    if (this.fromDate === null || this.toDate === null) {
-      this.toastr.error('Please select a valid date range', 'Unable to run report');
-    } else {
-      this.loading = true;
-      this.adminService.getReport(new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day),
-        new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day)).subscribe(result => {
+    this.loading = true;
+    this.adminService.getReport(
+      this.form.get('dataDal').value,
+      this.form.get('dataAl').value)
+      .subscribe(result => {
         this.list = result;
         this.loading = false;
       });
-    }
   }
 }

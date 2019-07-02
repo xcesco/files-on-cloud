@@ -94,11 +94,11 @@ public class TestInitialConfiguration extends BaseTest {
 		}
 
 		// creiamo gli uploader ed i consumer
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 4; i++) {
 			uploaders.add(createUploader(i));
 		}
 
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 4; i++) {
 			consumers.add(createConsumer(i));
 		}
 		

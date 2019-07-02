@@ -15,21 +15,25 @@ import {AuthService} from '../../../services/auth.service';
 })
 export class UploaderTableComponent extends AbstractUserTableComponent<Uploader, UploaderService> implements OnInit {
 
-  constructor(public authService: AuthService, private router: Router, actr: ActivatedRoute, confirmationDialogService: ConfirmationDialogService,
+  constructor(private authService: AuthService, private router: Router, actr: ActivatedRoute, confirmationDialogService: ConfirmationDialogService,
               changePasswordDialogService: ChangePasswordDialogService,
               service: UploaderService, toastr: ToastrService) {
     super(actr, confirmationDialogService,
       changePasswordDialogService,
       service, toastr);
 
-    // se è un consumer ed un solo uploader, allora va direttamente.
-    if (authService.hasRoleConsumer() && this.list.length === 1) {
-      this.onGotoFiles(this.list[0]);
-    }
+
   }
 
   ngOnInit() {
     console.log('componentns --');
+
+    if (this.authService.hasRoleConsumer() && this.list.length === 1) {
+      // se siamo un consumer, elenchiamo gli uploader per visualizzare poi l'elenco dei file.
+      // se ne troviamo solo uno, andiamo direttamente sull'elenco dei file.
+      this.onGotoFiles(this.list[0]);
+    }
+
   }
 
   getLogoUrl(id: number): string {
@@ -40,7 +44,9 @@ export class UploaderTableComponent extends AbstractUserTableComponent<Uploader,
     this.router.navigate(['files'], {
       queryParams: {
         consumerId: this.authService.user.id,
-        uploaderId: user.id
+        uploaderId: user.id,
+        uploaderDisplayName: user.displayName,
+        allowGoBack: this.list.length > 1
       }
     });
   }

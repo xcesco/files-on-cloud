@@ -9,6 +9,16 @@ public class AdminReportItem {
 	String uploaderDisplayName;
 
 	long uploaderId;
+	
+
+	public AdminReportItem() {
+		
+	}
+
+	public AdminReportItem(Uploader item) {
+		uploaderId=item.getId();
+		uploaderDisplayName=item.getDisplayName();
+	}
 
 	public long getConsumerCount() {
 		return consumerCount;

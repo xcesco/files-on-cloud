@@ -16,11 +16,6 @@ export class AdminService extends AbstractUserService<Administrator> {
     super(httpClient, 'secured/admins');
   }
 
-  /**
-   *
-   * @param dataDal
-   * @param dataAl
-   */
   getReport(dataDal: Date = null, dataAl: Date = null): Observable<AdminReportItem[]> {
     let params = {};
 

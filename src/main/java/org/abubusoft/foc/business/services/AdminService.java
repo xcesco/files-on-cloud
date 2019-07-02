@@ -10,7 +10,7 @@ import org.abubusoft.foc.repositories.model.UploaderSummary;
 
 public interface AdminService extends AbstractUserService<Administrator> {
 
-	List<UploaderSummary> reportCloudFileForAllUploaders(LocalDate validoDal, LocalDate validoAl);
+	//List<UploaderSummary> reportCloudFileForAllUploaders(LocalDate validoDal, LocalDate validoAl);
 
 	List<AdminReportItem> report(LocalDate validoDal, LocalDate validoAl);
 		

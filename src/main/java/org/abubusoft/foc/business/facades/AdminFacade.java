@@ -8,7 +8,7 @@ import org.abubusoft.foc.repositories.model.UploaderSummary;
 import org.abubusoft.foc.web.model.AdminWto;
 
 public interface AdminFacade extends AbstractUserFacade<AdminWto> {
-	List<UploaderSummary> reportCloudFileForAllUploaders(LocalDate validoDal, LocalDate validoAl);
+	//List<UploaderSummary> reportCloudFileForAllUploaders(LocalDate validoDal, LocalDate validoAl);
 
 	List<AdminReportItem> report(LocalDate validoDal, LocalDate validoAl);
 	

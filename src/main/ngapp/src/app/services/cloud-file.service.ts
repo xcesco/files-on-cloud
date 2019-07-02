@@ -49,7 +49,17 @@ export class CloudFileService {
     return this.httpClient.get<CloudFile[]>(environment.API_URL + `secured/uploaders/${uploaderId}/consumers/${consumerId}/files`);
   }
 
+  findByUploaderAndConsumerWithTags(uploaderId: number, consumerId: number, filterTags: string[]) {
+    return this.httpClient.get<CloudFile[]>(environment.API_URL + `secured/uploaders/${uploaderId}/consumers/${consumerId}/files`, {
+      params: {
+        tags: filterTags
+      }
+    });
+  }
+
   findAllTags(uploaderId: number, consumerId: number): Observable<CloudFileTag[]> {
     return this.httpClient.get<CloudFileTag[]>(environment.API_URL + `secured/uploaders/${uploaderId}/consumers/${consumerId}/tags`);
   }
+
+
 }

@@ -2,10 +2,10 @@ package org.abubusoft.foc.repositories.model;
 
 public interface UploaderSummary {
 	
-	long getUploaderId();
+	Long getUploaderId();
 	
 	String getUploaderDisplayName();
 	
-	long getSummaryCount();
+	Long getSummaryCount();
 
 }

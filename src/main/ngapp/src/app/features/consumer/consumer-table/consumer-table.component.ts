@@ -31,7 +31,10 @@ export class ConsumerTableComponent extends AbstractUserTableComponent<Consumer,
     this.router.navigate(['files'], {
       queryParams: {
         consumerId: user.id,
-        uploaderId: this.authService.user.id
+        consumerDisplayName: user.displayName,
+        uploaderId: this.authService.user.id,
+        uploaderDisplayName: this.authService.user.displayName,
+        allowGoBack: true
       }
     });
   }

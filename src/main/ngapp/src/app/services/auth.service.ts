@@ -11,9 +11,7 @@ import {JwtUser} from '../types/auth.type';
 import {isNotBlank} from '../shared/utils/utils';
 import {Consumer} from '../types/users';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AuthService {
   userLoggedSubject: Subject<JwtUser> = new Subject<JwtUser>();
   private jwtHelper: JwtHelperService = new JwtHelperService();
@@ -41,14 +39,6 @@ export class AuthService {
 
           this.user = this.jwtHelper.decodeToken(token);
           this.userLoggedSubject.next({...this.user});
-
-          if (this.hasRoleAdministrator()) {
-            this.router.navigate(['administrators']);
-          } else if (this.hasRoleUploader()) {
-            this.router.navigate(['consumers']);
-          } else if (this.hasRoleConsumer()) {
-            this.router.navigate(['uploaders']);
-          }
         });
       } else {
         console.log('.. ma non faccio niente');
@@ -92,7 +82,38 @@ export class AuthService {
 
   async login(email: string, password: string): Promise<boolean> {
     try {
-      await this.afAuth.auth.signInWithEmailAndPassword(email, password);
+      const user = await this.afAuth.auth.signInWithEmailAndPassword(email, password);
+      this.afAuth.idToken.subscribe(value => {
+        console.log('nuovo token!!!');
+
+        if (isNotBlank(value)) {
+          this.authenticateToBackend(value).pipe(map(result => result.token)).subscribe(token => {
+            console.log('login');
+            console.log('-->', token);
+            console.log('-->', this.jwtHelper.decodeToken(token));
+
+            this.authToken = token;
+            sessionStorage.setItem('token', token);
+
+            this.user = this.jwtHelper.decodeToken(token);
+            this.userLoggedSubject.next({...this.user});
+
+            if (this.hasRoleAdministrator()) {
+              this.router.navigate(['administrators/list']);
+            } else if (this.hasRoleUploader()) {
+              this.router.navigate(['consumers']);
+            } else if (this.hasRoleConsumer()) {
+              this.router.navigate(['uploaders']);
+            }
+          });
+        } else {
+          console.log('.. ma non faccio niente');
+          sessionStorage.removeItem('token');
+          this.userLoggedSubject.next(null);
+        }
+
+      });
+
       return true;
     } catch (e) {
       this.toastr.error('Invalid credential', 'Login failed');

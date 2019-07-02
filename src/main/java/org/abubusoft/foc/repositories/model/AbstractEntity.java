@@ -31,8 +31,6 @@ public abstract class AbstractEntity {
 		this.id = id;
 	}
 	
-	//@JsonDeserialize(using = LocalDateTimeDeserializer.class)  
-	//@JsonSerialize(using = LocalDateTimeSerializer.class)
 	@CreatedDate
 	@Column(nullable = false)
 	protected LocalDateTime createdDateTime;

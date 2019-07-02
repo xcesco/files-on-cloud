@@ -17,14 +17,15 @@ public class AdminServiceImpl extends AbstractUserServiceImpl<AdministratorsRepo
 		implements AdminService {
 
 	
-
-	@Override
-	public List<UploaderSummary> reportCloudFileForAllUploaders(LocalDate validoDal, LocalDate validoAl) {
-		return repository.reportCloudFileForAllUploaders(validoDal.atStartOfDay(), validoAl.atTime(23, 59, 59));
-	}
+//	@Override
+//	public List<UploaderSummary> reportCloudFileForAllUploaders(LocalDate validoDal, LocalDate validoAl) {
+//		return repository.reportCloudFileForAllUploaders(validoDal.atStartOfDay(), validoAl.atTime(23, 59, 59));
+//	}
 
 	@Override
 	public List<AdminReportItem> report(LocalDate validoDal, LocalDate validoAl) {
+		//repository.findAll().forEach(action);
+		
 		List<UploaderDetailSummary> input = repository.reportConsumerForAllUploaders(validoDal.atStartOfDay(), validoAl.atTime(23, 59, 59));
 		
 		AdminReportItem currentItem=null;

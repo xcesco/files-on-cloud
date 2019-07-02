@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {ConfirmationDialogService} from '../../../shared/components/confirmation-dialog/confirmation-dialog.service';
 import {ToastrService} from 'ngx-toastr';
@@ -10,6 +10,7 @@ import {CloudFile, CloudFileTag} from '../../../types/files';
 import {isNotBlank} from '../../../shared/utils/utils';
 import {AuthService} from '../../../services/auth.service';
 import {Observable} from 'rxjs';
+import {ConsumerService} from '../../../services/consumer.service';
 
 @Component({
   selector: 'app-cloud-file-table',
@@ -22,19 +23,29 @@ export class CloudFileTableComponent implements OnInit {
   tags: CloudFileTag[] = null;
   filterTags: string[] = [];
 
-  uploaderId: any;
-  consumerId: any;
+  uploaderId: number;
+  consumerId: number;
+  uploaderDisplayName: string;
+  consumerDisplayName: string;
+  allowGoBack: boolean;
 
-  constructor(private actr: ActivatedRoute,
-              private confirmationDialogService: ConfirmationDialogService,
-              private location: Location,
-              private authService: AuthService,
-              private service: CloudFileService,
-              private toastr: ToastrService) {
+  constructor(
+    private consumerService: ConsumerService,
+    private router: Router,
+    private actr: ActivatedRoute,
+    private confirmationDialogService: ConfirmationDialogService,
+    private location: Location,
+    private authService: AuthService,
+    private service: CloudFileService,
+    private toastr: ToastrService) {
     this.actr.queryParams.subscribe(params => {
       console.log('sss', params);
       this.uploaderId = params.uploaderId;
+      this.uploaderDisplayName = params.uploaderDisplayName;
       this.consumerId = params.consumerId;
+      this.consumerDisplayName = params.consumerDisplayName;
+
+      this.allowGoBack = 'true' === params.allowGoBack;
     });
 
 
@@ -52,6 +63,7 @@ export class CloudFileTableComponent implements OnInit {
   }
 
   filterInvert(msg: string) {
+    console.log('seleziono tag', msg);
     const index: number = this.filterTags.indexOf(msg);
     if (index !== -1) {
       this.filterTags.splice(index, 1);
@@ -60,24 +72,17 @@ export class CloudFileTableComponent implements OnInit {
     }
   }
 
-  filterAdd(msg: string) {
-    this.filterTags.push(msg);
-  }
-
-  filterRemove(msg: string) {
-    const index: number = this.filterTags.indexOf(msg);
-    if (index !== -1) {
-      this.filterTags.splice(index, 1);
-    }
-  }
-
   filterContaings(msg: string) {
     return this.filterTags.indexOf(msg) !== -1;
   }
 
-
   ngOnInit() {
     console.log('componentns --');
+
+    // se e' admin, non ha bisogno di tornare indietro
+    if (this.authService.hasRoleAdministrator()) {
+      this.allowGoBack = false;
+    }
   }
 
   getLogoUrl(): string {
@@ -102,7 +107,7 @@ export class CloudFileTableComponent implements OnInit {
 
   private load(): Observable<CloudFile[]> {
     console.log('reload');
-    if (this.authService.hasRoleConsumer()) {
+    if (this.authService.hasRoleConsumer() || this.authService.hasRoleUploader()) {
       // se consumer, deve per forza avere uploader e consumer (
       return this.service.findByUploaderAndConsumer(this.uploaderId, this.consumerId);
     } else {
@@ -115,11 +120,7 @@ export class CloudFileTableComponent implements OnInit {
       .then((confirmed) => {
         console.log('User confirmed:', confirmed);
         this.toastr.info(`User was correctly deleted!`, 'User deletion');
-        this.service.delete(item).subscribe(() => this.service.findAll().subscribe((newList: CloudFile[]) => {
-          this.list = newList;
-          console.log('User reloaded', newList);
-        }));
-
+        this.service.delete(item).subscribe(() => this.refresh());
       })
       .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
   }
@@ -146,4 +147,24 @@ export class CloudFileTableComponent implements OnInit {
       this.refresh();
     }, 3000);
   }
+
+  filter() {
+    this.service.findByUploaderAndConsumerWithTags(this.uploaderId, this.consumerId, this.filterTags).subscribe(value => {
+      this.list = value;
+    });
+
+  }
+
+  gotoNew() {
+    this.consumerService.get(this.consumerId).subscribe(consumer => {
+      this.router.navigate(['files', 'create'], {
+        queryParams: {
+          consumerCodiceFiscale: consumer.codiceFiscale
+        }
+      });
+    });
+
+  }
+
+
 }
