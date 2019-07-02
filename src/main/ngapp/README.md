@@ -26,17 +26,3 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-## Riferimenti
-https://codeburst.io/understanding-resolvers-in-angular-736e9db71267
-
-Toaster dialog
-https://stackblitz.com/edit/angular-confirmation-dialog
-
-Toaster
-https://www.npmjs.com/package/ngx-toastr
-
-Login con firebase
-https://www.techiediaries.com/angular-course-firebase-authentication/
-
-
-https://hatchful.shopify.com/onboarding/select-logo
