@@ -23,6 +23,8 @@ Di seguito è riportato uno screenshot dell’applicativo
 
 ![logo](https://github.com/xcesco/files-on-cloud/blob/master/docs/imgs/screenshot.png)
 
+
+
 ## Piattaforma tecnologica utilizzata
 La soluzione software realizzata per essere eseguita sulla piattaforma cloud di Google. In particolare si e’ utilizzato:
 
@@ -32,6 +34,8 @@ La soluzione software realizzata per essere eseguita sulla piattaforma cloud di 
  - Google storage per memorizzare i file da condividere.
 
 Per l’invio di email ci si è basati sul sistema di mail offerto dalla piattaforma (che in locale non funziona).
+
+
 
 ## Tecnologie utilizzate
 Si sono utilizzate diverse tecnologie per realizzare il progetto. Di seguito sono riportate quelle principali suddivise per “area di competenza”:
@@ -76,24 +80,31 @@ Gli strumenti di sviluppo sono stati scelti in quanto già utilizzati in altri p
 Sono tra quelle più usate attualmente nel mercato
 In buona parte già note
 
+
+
 ## Configurazione cloud
 Per la realizzazione del progetto è stato creato un apposito account gmail con il quale si sono creati due progetti, uno su [https://console.cloud.google.com](https://console.cloud.google.com) ed uno su [https://console.firebase.google.com/](https://console.firebase.google.com/) .
 
 
+
 ## Note sulla configurazione dell’ambiente di sviluppo
+
+![struttura del progetto](https://github.com/xcesco/files-on-cloud/blob/master/docs/imgs/struttura_progetto.png)
 
 Il progetto è suddiviso in due moduli:
 - Il modulo _Maven_, che si occupa del progetto Java e della build complessiva del progetto. Al suo interno vengono utilizzate le credenziali di servizio generate mediante la console del progetto su cloud.
 
 [https://cloud.google.com/iam/docs/creating-managing-service-account-keys](https://cloud.google.com/iam/docs/creating-managing-service-account-keys)
 
+![cgloud-console.png](https://github.com/xcesco/files-on-cloud/blob/master/docs/imgs/cgloud-console.png)
 
 Il file JSON che ospita la service key è reso disponibile all’applicazione web sotto forma di variabile d’ambiente _GOOGLE_APPLICATION_CREDENTIALS_ (contiene il path del file). 
 
-
+![secret_json.png](https://github.com/xcesco/files-on-cloud/blob/master/docs/imgs/secret_json.png)
 
 Questo file verrà recupero dall’app in fase di avvio mediante il codice contenuto nella classe _WebStartup_.
 
+![java.png](https://github.com/xcesco/files-on-cloud/blob/master/docs/imgs/java.png)
 
 Il modulo _Angular_ ospita il codice del front-end realizzato in Angular. Questo modulo richiede la configurazione del progetto su firebase. 
 
@@ -101,10 +112,8 @@ Le istruzioni su come ottenere le credenziali da usare con Firebase sono present
 
 [https://firebase.google.com/docs/web/setup](https://firebase.google.com/docs/web/setup)
 
-
+![firebase-console.png](https://github.com/xcesco/files-on-cloud/blob/master/docs/imgs/firebase-console.png)
 
 Le credenziali ottenute devono presenti nei file _environment.prod.ts_ ed _environment.ts_.
 
-
-
-
+![environment.png](https://github.com/xcesco/files-on-cloud/blob/master/docs/imgs/environment.png)
