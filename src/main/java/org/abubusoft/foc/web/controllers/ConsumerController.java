@@ -68,18 +68,11 @@ public class ConsumerController {
 		return ResponseEntity.ok(service.save(value));
 	}
 
-	/*
-	@PatchMapping("/consumers/{consumerId}")
-	public ResponseEntity<ConsumerWto> modify(@PathVariable("consumerId") long consumerId, @RequestBody @Valid ConsumerWto value) {
-		value.setId(consumerId);
-		return ResponseEntity.ok(service.updateConsumerById(value));
-	}*/
-
-	@GetMapping("/{consumerId}/uploaders-summary")
-	public ResponseEntity<List<UploaderDetailSummary>> findUploaderWithFiles(
-			@PathVariable("consumerId") long consumerId) {
-		return ResponseEntity.ok(service.findUploadersWithFileByConsumerId(consumerId));
-	}
+//	@GetMapping("/{consumerId}/uploaders-summary")
+//	public ResponseEntity<List<UploaderDetailSummary>> findUploaderWithFiles(
+//			@PathVariable("consumerId") long consumerId) {
+//		return ResponseEntity.ok(service.findUploadersWithFileByConsumerId(consumerId));
+//	}
 
 	
 	

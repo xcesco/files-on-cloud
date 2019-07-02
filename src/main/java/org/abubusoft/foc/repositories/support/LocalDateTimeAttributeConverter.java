@@ -34,10 +34,11 @@ public class LocalDateTimeAttributeConverter implements AttributeConverter<Local
     		return null;
     	}
     	LocalDateTime newDateTime=sqlTimestamp.toLocalDateTime();
-//        LocalDateTime oldDateTime = sqlTimestamp.toLocalDateTime();
-//        ZoneId oldZone = ZoneId.of("UTC");
-//
-//        ZoneId newZone = ZoneId.of("Europe/Rome");
+    //    LocalDateTime oldDateTime = sqlTimestamp.toLocalDateTime();
+      //  ZoneId oldZone = ZoneId.of("UTC");
+      //  ZoneId newZone = ZoneId.of("Europe/Rome");
+      //  ZoneId newZone = ZoneId.of("UTC");
+      //  ZoneId oldZone = ZoneId.of("Europe/Rome");
 //        LocalDateTime newDateTime = oldDateTime.atZone(oldZone)
 //                                               .withZoneSameInstant(newZone)
 //                                               .toLocalDateTime();
