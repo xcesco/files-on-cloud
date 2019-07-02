@@ -23,8 +23,12 @@ export class AuthService {
     this.authToken = sessionStorage.getItem('token');
     if (isNotBlank(this.authToken)) {
       this.user = this.jwtHelper.decodeToken(this.authToken);
+      this.userLoggedSubject.next({...this.user});
+
+      this.redirectToHome();
     }
 
+/*
     this.afAuth.idToken.subscribe(value => {
       console.log('nuovo token!!!');
 
@@ -39,6 +43,8 @@ export class AuthService {
 
           this.user = this.jwtHelper.decodeToken(token);
           this.userLoggedSubject.next({...this.user});
+
+          this.redirectToHome();
         });
       } else {
         console.log('.. ma non faccio niente');
@@ -46,7 +52,7 @@ export class AuthService {
         this.userLoggedSubject.next(null);
       }
 
-    });
+    });*/
   }
 
   hasRoleAdministrator(): boolean {
@@ -98,13 +104,7 @@ export class AuthService {
             this.user = this.jwtHelper.decodeToken(token);
             this.userLoggedSubject.next({...this.user});
 
-            if (this.hasRoleAdministrator()) {
-              this.router.navigate(['administrators/list']);
-            } else if (this.hasRoleUploader()) {
-              this.router.navigate(['consumers']);
-            } else if (this.hasRoleConsumer()) {
-              this.router.navigate(['uploaders']);
-            }
+            this.redirectToHome();
           });
         } else {
           console.log('.. ma non faccio niente');
@@ -151,11 +151,21 @@ export class AuthService {
 
   /**
    * Per evitare di rifare reload della pagina o refresh del token , quando cambia il diplay emuliamo cambio utente
-   * @param displayName
    */
   notifyDisplayUpdate(displayName: string) {
     const temp = {...this.user};
     temp.displayName = displayName;
     this.userLoggedSubject.next(temp);
+  }
+
+
+  private redirectToHome(): void {
+    if (this.hasRoleAdministrator()) {
+      this.router.navigate(['administrators/list']);
+    } else if (this.hasRoleUploader()) {
+      this.router.navigate(['consumers']);
+    } else if (this.hasRoleConsumer()) {
+      this.router.navigate(['uploaders']);
+    }
   }
 }
