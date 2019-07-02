@@ -1,6 +1,4 @@
 export const environment = {
-  JWT_NAME: 'appJWT',
-
   production: true,
 
   API_URL: '/api/v1/',
@@ -10,6 +8,7 @@ export const environment = {
     databaseURL: 'https://programmazione-web-238419.firebaseio.com',
     projectId: 'programmazione-web-238419',
     storageBucket: 'programmazione-web-238419.appspot.com',
-    messagingSenderId: '249732682505'
+    messagingSenderId: '249732682505',
+    appId: '1:249732682505:web:7484c190301380ba'
   }
 };
