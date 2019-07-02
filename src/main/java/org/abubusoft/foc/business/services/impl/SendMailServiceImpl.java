@@ -53,9 +53,9 @@ public class SendMailServiceImpl implements SendMailService {
 				
 				String site="https://programmazione-web-238419.appspot.com/";
 				//@formatter:off
-				String message=
-				"Hello,\n"+
-				"Follow this link to download the file that "+uploader.getDisplayName()+" shares with you:\n"+
+				String message= 
+				"Hello "+consumer.getDisplayName()+",\n"+
+				"\tuse the following link to download the file that "+uploader.getDisplayName()+" shares with you:\n"+
 				"\n"+
 				site+"api/v1/public/files/"+file.getUuid()+"\n"+
 				"\n"+
