@@ -1,6 +1,7 @@
 package org.abubusoft.foc.business.services.impl;
 
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -63,9 +64,6 @@ public class CloudFileServiceImpl implements CloudFileService {
 
 	@Override
 	public CloudFile uploadFile(CloudFile cloudFile, InputStream content) {
-		// recuperiamo interamente il consumer o lo creiamo nel caso in cui non ci sia
-		// il codice fiscale
-
 		// String mimeType = MimeTypeUtils.getFromFileName(cloudFile.getFileName());
 
 		DateTimeFormatter dtf = DateTimeFormat.forPattern("YYYY-MM-dd-HHmmssSSS-");
@@ -83,6 +81,7 @@ public class CloudFileServiceImpl implements CloudFileService {
 
 		cloudFile.setUuid(UUID.randomUUID().toString());
 		cloudFile.setStorageName(blobName);
+		cloudFile.setCreatedDateTime(LocalDateTime.now());
 
 		return repository.save(cloudFile);
 

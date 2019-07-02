@@ -1,5 +1,6 @@
 package org.abubusoft.foc.business.services.impl;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.abubusoft.foc.business.services.AbstractUserService;
@@ -51,6 +52,7 @@ public abstract class AbstractUserServiceImpl<R extends UserRepository<U>, U ext
 		try {
 			firebaseAuth.createUser(request);			
 			
+			user.setCreatedDateTime(LocalDateTime.now());
 			return repository.save(user);
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -77,7 +79,7 @@ public abstract class AbstractUserServiceImpl<R extends UserRepository<U>, U ext
 			request.setDisplayName(user.getDisplayName());
 
 			user.setCreatedDateTime(foundUser.get().getCreatedDateTime());
-			user.setModifiedDateTime(foundUser.get().getModifiedDateTime());
+			user.setModifiedDateTime(LocalDateTime.now());
 			
 			firebaseAuth.updateUser(request);
 
@@ -98,6 +100,8 @@ public abstract class AbstractUserServiceImpl<R extends UserRepository<U>, U ext
 			request.setDisplayName(user.getDisplayName());
 
 			firebaseAuth.updateUser(request);
+			
+			user.setModifiedDateTime(LocalDateTime.now());
 
 			return repository.save(user);
 		} catch (FirebaseAuthException e) {
@@ -106,11 +110,6 @@ public abstract class AbstractUserServiceImpl<R extends UserRepository<U>, U ext
 		}
 	}
 
-//	@Override
-//	public int deleteByUsername(String username) {
-//		return repository.deleteByUsername(username);
-//	}
-	
 	@Override
 	public String getChangePasswordUrlById(long id) {
 		Optional<User> user=this.userRepository.findById(id);

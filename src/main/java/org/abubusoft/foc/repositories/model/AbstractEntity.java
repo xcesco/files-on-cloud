@@ -10,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @DynamicUpdate
@@ -31,7 +29,7 @@ public abstract class AbstractEntity {
 		this.id = id;
 	}
 	
-	@CreatedDate
+	//@CreatedDate
 	@Column(nullable = false)
 	protected LocalDateTime createdDateTime;
 	
@@ -53,9 +51,10 @@ public abstract class AbstractEntity {
 	}
 
 
-	@LastModifiedDate
+	//@LastModifiedDate
 	//@JsonDeserialize(using = LocalDateTimeDeserializer.class)  
-	//@JsonSerialize(using = LocalDateTimeSerializer.class)  
+	//@JsonSerialize(using = LocalDateTimeSerializer.class) 
+	@Column(nullable = false)
 	protected LocalDateTime modifiedDateTime;
 	
 	
