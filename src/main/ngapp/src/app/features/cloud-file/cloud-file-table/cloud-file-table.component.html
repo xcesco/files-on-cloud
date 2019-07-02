@@ -49,9 +49,9 @@
           <p>{{item.fileName}}</p>
           <span *ngFor="let tag of item.tags" class="badge badge-pill badge-primary m-1 p-2">{{tag}}</span></td>
         <td class="d-none d-xl-table-cell align-middle">{{item.contentLength | fileSize}}</td>
-        <td class="d-none d-xl-table-cell align-middle">{{item.creationTime | date: 'dd/MM/yy hh:mm' }}</td>
+        <td class="d-none d-xl-table-cell align-middle">{{item.creationTime | date: 'dd/MM/yy HH:mm' }}</td>
         <td class="d-none d-xl-table-cell align-middle"
-            ngbTooltip="{{ item.viewIp}}">{{ item.viewTime | date: 'dd/MM/yy hh:mm' }} {{ item.viewIp ? 'from ' + item.viewIp : ''}}</td>
+            ngbTooltip="{{ item.viewIp}}">{{ item.viewTime | date: 'dd/MM/yy HH:mm' }} {{ item.viewIp ? 'from ' + item.viewIp : ''}}</td>
         <td class="d-flex flex-wrap align-middle">
           <!--          [disabled]="!isViewed(item)"-->
           <button type="button"
