@@ -20,12 +20,12 @@ public class ConsumerServiceFacadeImpl extends AbstractUserFacadeImpl<ConsumerWt
 		return mapper.convertConsumerListToWto(service.findAll());
 	}
 
-//	@Override
-//	public List<UploaderDetailSummary> findUploadersWithFileByConsumerId(long consumerId) {
-//		List<UploaderDetailSummary> result = service.reportConsumerForUploader(consumerId);
-//
-//		return result;
-//	}
+	@Override
+	public List<UploaderDetailSummary> findUploadersWithFileByConsumerId(long consumerId) {
+		List<UploaderDetailSummary> result = service.reportConsumerForUploader(consumerId);
+
+		return result;
+	}
 
 	@Override
 	public ConsumerWto create() {
