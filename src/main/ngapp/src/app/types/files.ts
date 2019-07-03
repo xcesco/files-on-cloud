@@ -7,7 +7,6 @@ export interface CloudFile {
   contentLength: number;
   fileName: string;
   mimeType: string;
-  notified: boolean;
   uploader: Uploader;
   uuid: string;
 

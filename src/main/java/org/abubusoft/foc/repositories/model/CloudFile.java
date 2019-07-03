@@ -36,8 +36,6 @@ public class CloudFile extends AbstractEntity {
 	@Column(nullable = false)
 	protected String mimeType;
 
-	protected boolean notified;
-
 	@Column(nullable = false)
 	protected String storageName;
 
@@ -104,10 +102,6 @@ public class CloudFile extends AbstractEntity {
 		return viewIp;
 	}
 
-	public boolean isNotified() {
-		return notified;
-	}
-
 	public boolean isViewed() {
 		return viewed;
 	}
@@ -126,10 +120,6 @@ public class CloudFile extends AbstractEntity {
 
 	public void setMimeType(String mimeType) {
 		this.mimeType = mimeType;
-	}
-
-	public void setNotified(boolean notified) {
-		this.notified = notified;
 	}
 
 	public void setStorageName(String storageName) {

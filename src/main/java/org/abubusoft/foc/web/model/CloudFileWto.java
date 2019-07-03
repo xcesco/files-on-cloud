@@ -16,8 +16,6 @@ public class CloudFileWto extends CloudFileInfoWto {
 
 	protected String mimeType;
 
-	protected boolean notified;
-
 	protected UploaderWto uploader;
 
 	protected String uuid;
@@ -57,10 +55,6 @@ public class CloudFileWto extends CloudFileInfoWto {
 		return viewTime;
 	}
 
-	public boolean isNotified() {
-		return notified;
-	}
-
 	public void setContentLength(long contentLength) {
 		this.contentLength = contentLength;
 	}
@@ -71,10 +65,6 @@ public class CloudFileWto extends CloudFileInfoWto {
 
 	public void setMimeType(String mimeType) {
 		this.mimeType = mimeType;
-	}
-
-	public void setNotified(boolean notified) {
-		this.notified = notified;
 	}
 
 	public void setUploader(UploaderWto uploader) {

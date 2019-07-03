@@ -40,7 +40,6 @@ public interface WtoMapper {
 		
 		result.setUuid(value.getUuid());
 		result.setCreationTime(value.getCreatedDateTime());
-		result.setNotified(value.isNotified());
 		
 		result.setViewIp(value.getViewIp());
 		result.setViewTime(value.getViewTime());
@@ -73,7 +72,6 @@ public interface WtoMapper {
 		result.setUploader(uploader);
 		
 		result.setCreatedDateTime(creationTime);
-		result.setNotified(false);
 		
 		result.setViewIp(null);
 		result.setViewTime(null);
@@ -95,7 +93,6 @@ public interface WtoMapper {
 		result.setUuid(value.getUuid());
 		
 		result.setCreatedDateTime(value.getCreationTime());
-		result.setNotified(value.isNotified());
 		
 		result.setViewIp(value.getViewIp());
 		result.setViewTime(value.getViewTime());
