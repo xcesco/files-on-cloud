@@ -119,7 +119,7 @@ export class CloudFileTableComponent implements OnInit {
     this.confirmationDialogService.confirm('Please confirm..', `Do you really want to delete file ${item.fileName}?`)
       .then((confirmed) => {
         console.log('User confirmed:', confirmed);
-        this.toastr.info(`User was correctly deleted!`, 'User deletion');
+        this.toastr.info(`File was correctly deleted!`, 'File deletion');
         this.service.delete(item).subscribe(() => this.refresh());
       })
       .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));

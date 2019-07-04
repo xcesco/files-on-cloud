@@ -57,7 +57,7 @@ public class SendMailServiceImpl implements SendMailService {
 				//@formatter:off
 				String message= 
 				"Hello "+consumer.getDisplayName()+",\n"+
-				"\tuse the following link to download the file that "+uploader.getDisplayName()+" shares with you:\n"+
+				"\tuse the following link to download the file "+file.getFileName()+" that "+uploader.getDisplayName()+" shares with you:\n"+
 				"\n"+
 				site+"api/v1/public/files/"+file.getUuid()+"\n"+
 				"\n"+

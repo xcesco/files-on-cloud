@@ -86,7 +86,7 @@ public class TestInitialConfiguration extends BaseTest {
 		{
 			// creazione admin
 			AdminWto user = adminFacade.create();
-			user.setDisplayName("Mario Admin");
+			user.setDisplayName("Admin 0");
 			user.setUsername("admin0@gmail.com");
 			user.setEmail("uxcesco@gmail.com");
 			user.setPassword("password");
@@ -138,7 +138,7 @@ public class TestInitialConfiguration extends BaseTest {
 	private ConsumerWto createConsumer(int index) {
 		// creazione consumer
 		ConsumerWto user = consumerFacade.create();
-		user.setDisplayName("Mario Consumer " + index);
+		user.setDisplayName("Consumer " + index);
 		user.setUsername("consumer" + index + "@gmail.com");
 		user.setEmail("uxcesco@gmail.com");
 		user.setPassword("password");
@@ -150,7 +150,7 @@ public class TestInitialConfiguration extends BaseTest {
 	private UploaderWto createUploader(int index) throws FileNotFoundException {
 		// creazione uploader
 		UploaderWto user = uploaderFacade.create();
-		user.setDisplayName("Mario Uploader " + index);
+		user.setDisplayName("Uploader " + index);
 		user.setUsername("uploader" + index + "@gmail.com");
 		user.setEmail("uxcesco@gmail.com");
 		user.setPassword("password");
