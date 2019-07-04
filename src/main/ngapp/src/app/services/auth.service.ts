@@ -28,31 +28,31 @@ export class AuthService {
       this.redirectToHome();
     }
 
-/*
-    this.afAuth.idToken.subscribe(value => {
-      console.log('nuovo token!!!');
+    /*
+        this.afAuth.idToken.subscribe(value => {
+          console.log('nuovo token!!!');
 
-      if (isNotBlank(value)) {
-        this.authenticateToBackend(value).pipe(map(result => result.token)).subscribe(token => {
-          console.log('login');
-          console.log('-->', token);
-          console.log('-->', this.jwtHelper.decodeToken(token));
+          if (isNotBlank(value)) {
+            this.authenticateToBackend(value).pipe(map(result => result.token)).subscribe(token => {
+              console.log('login');
+              console.log('-->', token);
+              console.log('-->', this.jwtHelper.decodeToken(token));
 
-          this.authToken = token;
-          sessionStorage.setItem('token', token);
+              this.authToken = token;
+              sessionStorage.setItem('token', token);
 
-          this.user = this.jwtHelper.decodeToken(token);
-          this.userLoggedSubject.next({...this.user});
+              this.user = this.jwtHelper.decodeToken(token);
+              this.userLoggedSubject.next({...this.user});
 
-          this.redirectToHome();
-        });
-      } else {
-        console.log('.. ma non faccio niente');
-        sessionStorage.removeItem('token');
-        this.userLoggedSubject.next(null);
-      }
+              this.redirectToHome();
+            });
+          } else {
+            console.log('.. ma non faccio niente');
+            sessionStorage.removeItem('token');
+            this.userLoggedSubject.next(null);
+          }
 
-    });*/
+        });*/
   }
 
   hasRoleAdministrator(): boolean {

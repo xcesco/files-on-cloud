@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import org.abubusoft.foc.business.services.AbstractUserService;
 import org.abubusoft.foc.business.services.SendMailService;
-import org.abubusoft.foc.exception.AppNotFoundEntityException;
-import org.abubusoft.foc.exception.AppRuntimeException;
+import org.abubusoft.foc.exceptions.AppNotFoundEntityException;
+import org.abubusoft.foc.exceptions.AppRuntimeException;
 import org.abubusoft.foc.repositories.UserRepository;
 import org.abubusoft.foc.repositories.model.User;
 import org.jboss.logging.Logger;

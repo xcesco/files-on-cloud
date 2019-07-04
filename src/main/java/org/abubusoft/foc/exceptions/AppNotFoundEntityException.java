@@ -1,4 +1,4 @@
-package org.abubusoft.foc.exception;
+package org.abubusoft.foc.exceptions;
 
 public class AppNotFoundEntityException extends AppRuntimeException {
 

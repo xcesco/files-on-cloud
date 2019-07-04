@@ -8,7 +8,7 @@ import org.abubusoft.foc.business.services.AdminService;
 import org.abubusoft.foc.business.services.CloudFileService;
 import org.abubusoft.foc.business.services.ConsumerService;
 import org.abubusoft.foc.business.services.UploaderService;
-import org.abubusoft.foc.exception.AppRuntimeException;
+import org.abubusoft.foc.exceptions.AppRuntimeException;
 import org.abubusoft.foc.repositories.GenericUserRepository;
 import org.abubusoft.foc.repositories.model.User;
 import org.abubusoft.foc.web.security.JwtService;

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import org.abubusoft.foc.business.facades.UploaderFacade;
 import org.abubusoft.foc.business.services.UploaderService;
-import org.abubusoft.foc.exception.AppRuntimeException;
+import org.abubusoft.foc.exceptions.AppRuntimeException;
 import org.abubusoft.foc.repositories.model.Uploader;
 import org.abubusoft.foc.web.model.UploaderWto;
 import org.apache.commons.io.IOUtils;

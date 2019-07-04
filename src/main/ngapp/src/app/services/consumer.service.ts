@@ -2,8 +2,6 @@ import {Injectable} from '@angular/core';
 import {Consumer} from '../types/users';
 import {HttpClient} from '@angular/common/http';
 import {AbstractUserService} from './abstract-user.service';
-import {Observable} from 'rxjs';
-import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'

@@ -26,9 +26,7 @@ export class UploaderTableComponent extends AbstractUserTableComponent<Uploader,
   }
 
   ngOnInit() {
-    console.log('componentns --');
-
-    if (this.authService.hasRoleConsumer() && this.list.length === 1) {
+    if (this.authService.hasRoleConsumer() && this.list !== null && this.list.length === 1) {
       // se siamo un consumer, elenchiamo gli uploader per visualizzare poi l'elenco dei file.
       // se ne troviamo solo uno, andiamo direttamente sull'elenco dei file.
       this.onGotoFiles(this.list[0]);
