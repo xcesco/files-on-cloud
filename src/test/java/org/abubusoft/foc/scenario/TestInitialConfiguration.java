@@ -78,7 +78,7 @@ public class TestInitialConfiguration extends BaseTest {
 	public void testScenarioIniziale() throws FileNotFoundException, IOException {
 		// cancelliamo tutti i file ed utenti
 		cloudFileService.deleteAllFiles();
-		identityManagementService.deleteAllUsers();
+		authService.deleteAllUsers();
 
 		List<ConsumerWto> consumers = new ArrayList<>();
 		List<UploaderWto> uploaders = new ArrayList<>();

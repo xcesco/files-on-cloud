@@ -42,6 +42,7 @@ public abstract class AbstractUserFacadeImpl<W extends UserWto, S extends Abstra
 
 	@Override
 	public boolean deleteById(long id) {
+		
 		return service.deleteById(id);
 	}
 

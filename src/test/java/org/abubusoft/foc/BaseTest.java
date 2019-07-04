@@ -26,11 +26,11 @@ public abstract class BaseTest {
 	
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	
-	protected AuthService identityManagementService;
+	protected AuthService authService;
 	
 	@Autowired
-	public void setIdentityManagementService(AuthService identityManagementService) {
-		this.identityManagementService = identityManagementService;
+	public void setAuthService(AuthService identityManagementService) {
+		this.authService = identityManagementService;
 	}
 
 	protected AdminService adminService;

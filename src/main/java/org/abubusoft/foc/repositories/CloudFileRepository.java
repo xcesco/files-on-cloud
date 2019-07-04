@@ -32,5 +32,17 @@ public interface CloudFileRepository extends PagingAndSortingRepository<CloudFil
 
 	@Query("SELECT c FROM CloudFile c WHERE c.uuid=:uuid")
 	CloudFile findByUuid(String uuid);
+
+	@Query("SELECT f FROM CloudFile f JOIN f.consumer c WHERE c.id=:consumerId")
+	List<CloudFile> findByConsumerId(Long consumerId);
+	
+	@Query("SELECT f FROM CloudFile f JOIN f.uploader u WHERE u.id=:uploaderId")
+	List<CloudFile> findByUploaderId(Long uploaderId);
+
+//	@Query("DELETE FROM CloudFile c JOIN f.consumer c WHERE c.id=:consumerId")
+//	int deleteByConsumerId(long consumerId);
+//	
+//	@Query("DELETE FROM CloudFile c JOIN f.uploader c WHERE u.id=:uploaderId")
+//	int deleteByUploaderId(long uploaderId);
 		
 }
