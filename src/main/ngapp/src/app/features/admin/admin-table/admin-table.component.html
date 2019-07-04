@@ -22,14 +22,14 @@
         <td class="align-middle">{{ item.displayName }}</td>
         <td class="d-none d-xl-table-cell align-middle">{{ item.email }}</td>
         <td class="d-flex flex-wrap align-middle">
-          <a href="#" class="ml-auto m-2 btn btn-lg btn-outline-primary" [routerLink]="'/administrators/'+item.id"
+          <a class="ml-auto m-1 btn btn-lg btn-outline-primary" [routerLink]="'/administrators/'+item.id"
              ngbTooltip="Edit"><i class="fa fa-edit"></i></a>
 
           <button (click)="onChangePassword(item)" type="button"
-                  ngbTooltip="Change password" class="m-2 btn btn-lg btn-outline-primary"><i class="fa fa-key"></i></button>
+                  ngbTooltip="Change password" class="m-1 btn btn-lg btn-outline-primary"><i class="fa fa-key"></i></button>
 
 
-          <button (click)="onDelete(item)" type="button" ngbTooltip="Delete" class="m-2 btn btn-lg btn-outline-primary"><i
+          <button (click)="onDelete(item)" type="button" ngbTooltip="Delete" class="m-1 btn btn-lg btn-outline-primary"><i
             class="fa fa-trash"></i></button>
         </td>
       </tr>

@@ -22,8 +22,11 @@ export class AuthService {
   constructor(public  afAuth: AngularFireAuth, public  router: Router, private toastr: ToastrService, protected httpClient: HttpClient) {
     this.authToken = sessionStorage.getItem('token');
     if (isNotBlank(this.authToken)) {
+      console.log('reload');
       this.user = this.jwtHelper.decodeToken(this.authToken);
       this.userLoggedSubject.next({...this.user});
+
+      this.authToken = sessionStorage.getItem('token');
 
       this.redirectToHome();
     }

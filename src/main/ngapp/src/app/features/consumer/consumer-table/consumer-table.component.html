@@ -24,23 +24,35 @@
         <td class="d-none d-xl-table-cell align-middle">{{ item.codiceFiscale }}</td>
         <td class="d-none d-xl-table-cell align-middle">{{ item.email }}</td>
         <td class="d-flex flex-wrap align-middle">
-          <a href="#" class="ml-auto m-2 btn btn-lg btn-outline-primary" [routerLink]="item.id"
-             ngbTooltip="Edit"><i class="fa fa-edit"></i></a>
 
-          <button (click)="onChangePassword(item)" type="button"
-                  ngbTooltip="Change password"     class="m-2 btn btn-lg btn-outline-primary"><i class="fa fa-key"></i></button>
+          <a class="ml-auto m-1 btn btn-lg btn-outline-primary"
+             [routerLink]="item.id"
+             ngbTooltip="Edit">
+            <i class="fa fa-edit"></i>
+          </a>
+
+          <button (click)="onChangePassword(item)"
+                  type="button"
+                  ngbTooltip="Change password"
+                  class="m-1 btn btn-lg btn-outline-primary">
+            <i class="fa fa-key"></i>
+          </button>
 
           <button
             type="button"
-            class="m-2 btn btn-lg btn-outline-primary"
+            class="m-1 btn btn-lg btn-outline-primary"
             ngbTooltip="Goto files"
             *appSecureIsUploader
             (click)="onGotoFiles(item)">
             <i class="fa fa-file"></i>
           </button>
 
-          <button (click)="onDelete(item)" type="button" ngbTooltip="Delete" class="m-2 btn btn-lg btn-outline-primary"><i
-            class="fa fa-trash"></i></button>
+          <button (click)="onDelete(item)"
+                  type="button"
+                  ngbTooltip="Delete"
+                  class="m-1 btn btn-lg btn-outline-primary">
+            <i class="fa fa-trash"></i>
+          </button>
         </td>
       </tr>
       </tbody>

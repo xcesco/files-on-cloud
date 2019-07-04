@@ -60,12 +60,12 @@
         <td class="d-none d-xl-table-cell align-middle"
             ngbTooltip="{{ item.viewIp}}">{{ item.viewTime | date: 'dd/MM/yy HH:mm' }} {{ item.viewIp ? 'from ' + item.viewIp : ''}}
         </td>
-        <td class="d-flex flex-wrap align-middle">
+        <td class="d-flex  flex-wrap align-middle">
           <div class="ml-auto"></div>
 
           <!--          [disabled]="!isViewed(item)"-->
           <button type="button"
-                  class="m-2 btn btn-lg btn-outline-primary"
+                  class="m-1 btn btn-lg btn-outline-primary"
                   ngbTooltip="Delete"
 
                   (click)="onDelete(item)"
@@ -74,14 +74,14 @@
           </button>
 
           <button type="button"
-                  class="m-2 m-2 btn btn-lg btn-outline-primary"
+                  class="m-1 btn btn-lg btn-outline-primary"
                   ngbTooltip="Send notification, again"
                   (click)="onSendNotification(item)"
                   *appSecureIsConsumer="false">
             <i class="fa fa-paper-plane"></i>
           </button>
 
-          <a class="m-2 btn btn-lg btn-outline-primary"
+          <a class="m-1 btn btn-lg btn-outline-primary"
              *appSecureIsConsumer="false"
              ngbTooltip="Download preview"
              target="_blank"
@@ -89,7 +89,7 @@
             <i class="fa fa-cloud-download"></i>
           </a>
 
-          <a class="m-2 btn btn-lg btn-outline-primary"
+          <a class="m-1 btn btn-lg btn-outline-primary"
              ngbTooltip="Download"
              target="_blank"
              (click)="onDownload(item.uuid)"

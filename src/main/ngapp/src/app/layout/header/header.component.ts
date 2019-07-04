@@ -18,7 +18,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(private authService: AuthService, private router: Router) {
     this.logged = false;
+    this.user = authService.user;
+    this.logged = this.user !== null;
     this.subscriber = authService.userLoggedSubject.subscribe((user: JwtUser) => {
+      console.log('sssssssaaa', user);
       if (user === null) {
         this.user = null;
       } else {
