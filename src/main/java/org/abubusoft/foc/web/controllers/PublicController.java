@@ -54,6 +54,14 @@ public class PublicController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 	}
+	
+	@GetMapping(value = "/ip",produces=MediaType.TEXT_PLAIN_VALUE )
+	public ResponseEntity<String> ip(HttpServletRequest request) {
+		String ip = extractIp(request);
+        
+        return ResponseEntity.ok(ip);
+	}
+
 
 	private String extractIp(HttpServletRequest request) {
 		String ip = request.getHeader("X-Forwarded-For");

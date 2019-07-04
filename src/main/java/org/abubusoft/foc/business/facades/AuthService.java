@@ -1,4 +1,4 @@
-package org.abubusoft.foc.business.services;
+package org.abubusoft.foc.business.facades;
 
 import org.abubusoft.foc.repositories.model.User;
 

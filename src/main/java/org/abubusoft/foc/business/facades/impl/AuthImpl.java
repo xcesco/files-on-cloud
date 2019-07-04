@@ -3,8 +3,8 @@ package org.abubusoft.foc.business.facades.impl;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.abubusoft.foc.business.facades.AuthService;
 import org.abubusoft.foc.business.services.AdminService;
-import org.abubusoft.foc.business.services.AuthService;
 import org.abubusoft.foc.business.services.CloudFileService;
 import org.abubusoft.foc.business.services.ConsumerService;
 import org.abubusoft.foc.business.services.UploaderService;
@@ -24,7 +24,7 @@ import com.google.firebase.auth.ListUsersPage;
 import com.google.firebase.auth.UserRecord;
 
 @Service
-public class IdentityServiceImpl implements AuthService {
+public class AuthImpl implements AuthService {
 	
 	@Autowired
 	private JwtService jwtService;

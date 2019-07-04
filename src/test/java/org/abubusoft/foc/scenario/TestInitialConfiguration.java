@@ -12,10 +12,10 @@ import javax.transaction.Transactional;
 
 import org.abubusoft.foc.BaseTest;
 import org.abubusoft.foc.business.facades.AdminFacade;
+import org.abubusoft.foc.business.facades.AuthService;
 import org.abubusoft.foc.business.facades.CloudFileFacade;
 import org.abubusoft.foc.business.facades.ConsumerFacade;
 import org.abubusoft.foc.business.facades.UploaderFacade;
-import org.abubusoft.foc.business.services.AuthService;
 import org.abubusoft.foc.business.services.CloudFileService;
 import org.abubusoft.foc.repositories.support.MimeTypeUtils;
 import org.abubusoft.foc.web.model.AdminWto;

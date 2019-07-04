@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.transaction.Transactional;
 
 import org.abubusoft.foc.BaseTest;
-import org.abubusoft.foc.business.services.AuthService;
+import org.abubusoft.foc.business.facades.AuthService;
 import org.abubusoft.foc.repositories.model.User;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

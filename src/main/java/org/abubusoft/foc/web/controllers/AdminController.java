@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.abubusoft.foc.business.facades.AdminFacade;
@@ -18,11 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,8 +36,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 // https://stackoverflow.com/questions/4989063/what-is-the-meaning-and-difference-between-subject-user-and-principal/5025140#5025140
 
 @RestAPIV1Controller
-//@Secured(UserRoles.ROLE_ADMINISTRATOR_VALUE)
-@PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_CONSUMER')")
+@PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
 @RequestMapping(value="${api.v1.base-url}/secured/admins", produces = "application/json; charset=utf-8")
 public class AdminController {
 
@@ -113,32 +109,4 @@ public class AdminController {
 		return ResponseEntity.ok(service.save(value));
 	}
 	
-	@GetMapping(value = "/ip",produces=MediaType.TEXT_PLAIN_VALUE )
-	public ResponseEntity<String> ip(HttpServletRequest request) {
-		String ip = extractIp(request);
-        
-        return ResponseEntity.ok(ip);
-	}
-
-	private String extractIp(HttpServletRequest request) {
-		String ip = request.getHeader("X-Forwarded-For");  
-        if (StringUtils.isEmpty(ip)) {  
-            ip = request.getHeader("Proxy-Client-IP");  
-        }  
-        if (StringUtils.isEmpty(ip)) {  
-            ip = request.getHeader("WL-Proxy-Client-IP");  
-        }  
-        if (StringUtils.isEmpty(ip)) {  
-            ip = request.getHeader("HTTP_CLIENT_IP");  
-        }  
-        if (StringUtils.isEmpty(ip)) {  
-            ip = request.getHeader("HTTP_X_FORWARDED_FOR");  
-        }  
-        if (StringUtils.isEmpty(ip)) {  
-            ip = request.getRemoteAddr();  
-        }
-		return ip;
-	}
-			
-
 }

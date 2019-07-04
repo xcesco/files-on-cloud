@@ -1,6 +1,6 @@
 package org.abubusoft.foc.web.controllers;
 
-import org.abubusoft.foc.business.services.AuthService;
+import org.abubusoft.foc.business.facades.AuthService;
 import org.abubusoft.foc.repositories.model.User;
 import org.abubusoft.foc.web.RestAPIV1Controller;
 import org.abubusoft.foc.web.model.TokenWto;

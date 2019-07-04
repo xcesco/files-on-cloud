@@ -3,10 +3,10 @@ package org.abubusoft.foc;
 import java.io.IOException;
 import java.util.TimeZone;
 
+import org.abubusoft.foc.business.facades.AuthService;
 import org.abubusoft.foc.business.services.AdminService;
 import org.abubusoft.foc.business.services.CloudFileService;
 import org.abubusoft.foc.business.services.ConsumerService;
-import org.abubusoft.foc.business.services.AuthService;
 import org.abubusoft.foc.business.services.UploaderService;
 import org.junit.Before;
 import org.junit.runner.RunWith;
