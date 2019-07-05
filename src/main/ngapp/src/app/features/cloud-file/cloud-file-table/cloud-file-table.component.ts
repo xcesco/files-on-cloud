@@ -89,6 +89,10 @@ export class CloudFileTableComponent implements OnInit {
     return `/api/v1/public/uploaders/${this.uploaderId}/logo`;
   }
 
+  geUploadertLogoUrl(uploaderId): string {
+    return `/api/v1/public/uploaders/${uploaderId}/logo`;
+  }
+
   isViewed(item: CloudFile): boolean {
     return isNotBlank(item.viewIp);
   }

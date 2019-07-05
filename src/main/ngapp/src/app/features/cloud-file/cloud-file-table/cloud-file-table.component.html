@@ -45,7 +45,7 @@
       <tr *ngFor="let item of list; index as i">
         <th scope="row" class="d-none d-xl-table-cell align-middle">{{ i + 1 }}</th>
         <td class="d-none d-xl-table-cell align-middle" *appSecureIsAdministrator>
-          <a class="nav-link" routerLink="/uploaders/{{item.uploader.id}}">{{item.uploader.displayName}}</a>
+          <a class="nav-link" [ngbTooltip]="item.uploader.displayName" routerLink="/uploaders/{{item.uploader.id}}"><img alt="logo" class="img-fluid" style="width: 64px;" [src]="geUploadertLogoUrl(item.uploader.id)"></a>
         </td>
         <td class="d-none d-xl-table-cell align-middle" *appSecureIsConsumer>
           {{item.uploader.displayName}}
@@ -58,10 +58,9 @@
         <td class="d-none d-xl-table-cell align-middle">{{item.contentLength | fileSize}}</td>
         <td class="d-none d-xl-table-cell align-middle">{{item.creationTime | date: 'dd/MM/yy HH:mm' }}</td>
         <td class="d-none d-xl-table-cell align-middle"
-            ngbTooltip="{{ item.viewIp}}">{{ item.viewTime | date: 'dd/MM/yy HH:mm' }} {{ item.viewIp ? 'from ' + item.viewIp : ''}}
+            ngbTooltip="{{ item.viewIp}}">{{ item.viewTime | date: 'dd/MM/yy HH:mm' }} {{ item.viewIp ? 'IP: ' + item.viewIp : ''}}
         </td>
-        <td class="d-flex  flex-wrap align-middle">
-          <div class="ml-auto"></div>
+        <td class="d-flex justify-content-end  align-middle">
 
           <!--          [disabled]="!isViewed(item)"-->
           <button type="button"
@@ -89,7 +88,7 @@
             <i class="fa fa-cloud-download"></i>
           </a>
 
-          <a class="m-1 btn btn-lg btn-outline-primary"
+          <a class="m-1 btn btn-sm btn-outline-primary"
              ngbTooltip="Download"
              target="_blank"
              (click)="onDownload(item.uuid)"
