@@ -20,11 +20,11 @@ public interface CloudFileRepository extends PagingAndSortingRepository<CloudFil
 //	
      
 	//
-	@Query("SELECT DISTINCT f FROM CloudFile f JOIN f.consumer c JOIN f.uploader u WHERE c.id=:consumerId and u.id=:uploaderId ORDER BY f.viewed ASC, f.createdDateTime DESC ")		
+	@Query("SELECT DISTINCT f FROM CloudFile f JOIN f.consumer c JOIN f.uploader u WHERE c.id=:consumerId and u.id=:uploaderId ORDER BY f.viewed ASC, f.createdDateTime DESC, f.fileName DESC")		
 	List<CloudFile> findByUploaderAndConsumer(long uploaderId, long consumerId);
 
 	//
-	@Query("SELECT DISTINCT f FROM CloudFile f JOIN f.consumer c JOIN f.uploader u JOIN f.tags t WHERE u.id=:uploaderId AND c.id=:consumerId AND t IN :tags ORDER BY f.viewed ASC, f.createdDateTime DESC")
+	@Query("SELECT DISTINCT f FROM CloudFile f JOIN f.consumer c JOIN f.uploader u JOIN f.tags t WHERE u.id=:uploaderId AND c.id=:consumerId AND t IN :tags ORDER BY f.viewed ASC, f.createdDateTime DESC, f.fileName DESC")
 	List<CloudFile> findByUploaderAndConsumerAndTags(long uploaderId, long consumerId, Set<String> tags);
 
 	@Query("SELECT f FROM CloudFile f JOIN f.consumer c JOIN f.uploader u WHERE f.id=:fileId AND u.id=:uploaderId AND c.id=:consumerId")

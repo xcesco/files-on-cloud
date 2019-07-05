@@ -151,7 +151,7 @@ public class CloudFileServiceImpl implements CloudFileService {
 
 	@Override
 	public Iterable<CloudFile> findAll() {
-		return repository.findAll(Sort.by(Direction.ASC, "viewed").and(Sort.by(Direction.DESC, "createdDateTime")));
+		return repository.findAll(Sort.by(Direction.ASC, "viewed").and(Sort.by(Direction.DESC, "createdDateTime").and(Sort.by(Direction.DESC, "fileName"))));
 	}
 
 	@Override
