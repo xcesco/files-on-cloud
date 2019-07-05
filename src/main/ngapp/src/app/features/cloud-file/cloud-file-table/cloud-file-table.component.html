@@ -35,7 +35,7 @@
         <th scope="col" class="d-none d-xl-table-cell align-middle" *appSecureIsAdministratorOrConsumer>Uploader</th>
         <th scope="col" class="d-none d-xl-table-cell align-middle" *appSecureIsAdministrator>Consumer</th>
         <th scope="col" class="align-middle">File</th>
-        <th scope="col" class="d-none d-xl-table-cell align-middle">Size</th>
+        <th scope="col" class="d-none d-xl-table-cell align-middle" *appSecureIsConsumer="false">Size</th>
         <th scope="col" class="d-none d-xl-table-cell align-middle">Created</th>
         <th scope="col" class="d-none d-xl-table-cell align-middle">Viewed</th>
         <th scope="col"></th>
@@ -45,7 +45,8 @@
       <tr *ngFor="let item of list; index as i">
         <th scope="row" class="d-none d-xl-table-cell align-middle">{{ i + 1 }}</th>
         <td class="d-none d-xl-table-cell align-middle" *appSecureIsAdministrator>
-          <a class="nav-link" [ngbTooltip]="item.uploader.displayName" routerLink="/uploaders/{{item.uploader.id}}"><img alt="logo" class="img-fluid" style="width: 64px;" [src]="geUploadertLogoUrl(item.uploader.id)"></a>
+          <a class="nav-link" [ngbTooltip]="item.uploader.displayName" routerLink="/uploaders/{{item.uploader.id}}"><img
+            alt="logo" class="img-fluid" style="width: 64px;" [src]="geUploadertLogoUrl(item.uploader.id)"></a>
         </td>
         <td class="d-none d-xl-table-cell align-middle" *appSecureIsConsumer>
           {{item.uploader.displayName}}
@@ -53,12 +54,12 @@
         <td class="d-none d-xl-table-cell align-middle" *appSecureIsAdministrator>
           <a class="nav-link" routerLink="/consumers/{{item.consumer.id}}">{{item.consumer.displayName}}</a>
         <td class="align-middle">
-          <p>{{item.fileName}}</p>
+          <p ngbTooltip="{{item.contentLength | fileSize}}">{{item.fileName}}</p>
           <span *ngFor="let tag of item.tags" class="badge badge-pill badge-primary m-1 p-2">{{tag}}</span></td>
-        <td class="d-none d-xl-table-cell align-middle">{{item.contentLength | fileSize}}</td>
+        <td class="d-none d-xl-table-cell align-middle" *appSecureIsConsumer="false">{{item.contentLength | fileSize}}</td>
         <td class="d-none d-xl-table-cell align-middle">{{item.creationTime | date: 'dd/MM/yy HH:mm' }}</td>
-        <td class="d-none d-xl-table-cell align-middle"
-            ngbTooltip="{{ item.viewIp}}">{{ item.viewTime | date: 'dd/MM/yy HH:mm' }} {{ item.viewIp ? 'IP: ' + item.viewIp : ''}}
+        <td class="d-none d-xl-table-cell align-middle">
+          {{ item.viewTime | date: 'dd/MM/yy HH:mm' }} {{ item.viewIp ? 'from IP ' + item.viewIp : ''}}
         </td>
         <td class="d-flex justify-content-end  align-middle">
 
@@ -88,7 +89,7 @@
             <i class="fa fa-cloud-download"></i>
           </a>
 
-          <a class="m-1 btn btn-sm btn-outline-primary"
+          <a class="m-1 btn btn-lg btn-outline-primary"
              ngbTooltip="Download"
              target="_blank"
              (click)="onDownload(item.uuid)"
