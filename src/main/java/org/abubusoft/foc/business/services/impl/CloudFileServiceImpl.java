@@ -26,12 +26,10 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
-import com.google.api.gax.paging.Page;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
 
 /**
  * https://cloud.google.com/java/getting-started/using-cloud-storage
@@ -49,7 +47,7 @@ public class CloudFileServiceImpl implements CloudFileService {
 
 	@PostConstruct
 	void init() {
-		storage = StorageOptions.getDefaultInstance().getService();
+		//storage = StorageOptions.getDefaultInstance().getService();
 	}
 
 	private CloudFileRepository repository;
@@ -62,26 +60,24 @@ public class CloudFileServiceImpl implements CloudFileService {
 	private Storage storage;
 
 	@Override
-	public CloudFile insertFile(CloudFile cloudFile, InputStream content) {
+	public CloudFile insertFile(CloudFile cloudFile) {
 		// String mimeType = MimeTypeUtils.getFromFileName(cloudFile.getFileName());
 
-		DateTimeFormatter dtf = DateTimeFormat.forPattern("YYYY-MM-dd-HHmmssSSS-");
-		DateTime dt = DateTime.now(DateTimeZone.UTC);
-		String dtString = dt.toString(dtf);
-		String storageFileName = dtString + cloudFile.getFileName();
+//		DateTimeFormatter dtf = DateTimeFormat.forPattern("YYYY-MM-dd-HHmmssSSS-");
+//		DateTime dt = DateTime.now(DateTimeZone.UTC);
+//		String dtString = dt.toString(dtf);
+//		String storageFileName = dtString + cloudFile.getFileName();
+//
+//		BlobId blobId = BlobId.of(bucketName, storageFileName);
+//		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(cloudFile.getMimeType()).build();
+//		@SuppressWarnings("deprecation")
+//		BlobInfo blob = storage.create(blobInfo, content);
+//		logger.debug(String.format("File salvato su storage %s,%s", blobId.getBucket(), blobId.getName()));
 
-		BlobId blobId = BlobId.of(bucketName, storageFileName);
-		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(cloudFile.getMimeType()).build();
-		@SuppressWarnings("deprecation")
-		BlobInfo blob = storage.create(blobInfo, content);
-		logger.debug(String.format("File salvato su storage %s,%s", blobId.getBucket(), blobId.getName()));
-
-		String blobName = blob.getBlobId().getName();
+//		String blobName = blob.getBlobId().getName();
 
 		cloudFile.setUuid(UUID.randomUUID().toString());
-		cloudFile.setStorageName(blobName);
-		//cloudFile.setCreatedDateTime(LocalDateTime.now());
-		//cloudFile.setCreatedDateTime(LocalDateTime.now());
+//		cloudFile.setStorageName(blobName);
 
 		return repository.save(cloudFile);
 
@@ -90,24 +86,23 @@ public class CloudFileServiceImpl implements CloudFileService {
 	@Override
 	public void deleteAllFiles() {
 		// cancelliamo da storage
-		Page<Blob> blobs = storage.get(bucketName).list();
-		for (Blob blob : blobs.iterateAll()) {
-			blob.delete();
-		}
+//		Page<Blob> blobs = storage.get(bucketName).list();
+//		for (Blob blob : blobs.iterateAll()) {
+//			blob.delete();
+//		}
 
 		// cancelliamo da db
 		repository.deleteAll();
-
 	}
 
 	@Override
 	public Pair<CloudFile, byte[]> getFile(String fileUuid) {
 		CloudFile file = repository.findByUuid(fileUuid);
 
-		BlobId blobId = BlobId.of(bucketName, file.getStorageName());
-		Blob blob = storage.get(blobId);
+//		BlobId blobId = BlobId.of(bucketName, file.getStorageName());
+//		Blob blob = storage.get(blobId);
 
-		Pair<CloudFile, byte[]> result = Pair.of(file, blob.getContent());
+		Pair<CloudFile, byte[]> result = Pair.of(file, file.getContent());
 		return result;
 	}
 
@@ -158,8 +153,8 @@ public class CloudFileServiceImpl implements CloudFileService {
 	public boolean deleteByUUID(String fileUUID) {
 		CloudFile file = repository.findByUuid(fileUUID);
 
-		BlobId blobId = BlobId.of(bucketName, file.getStorageName());
-		storage.delete(blobId);
+//		BlobId blobId = BlobId.of(bucketName, file.getStorageName());
+//		storage.delete(blobId);
 
 		repository.deleteById(file.getId());
 

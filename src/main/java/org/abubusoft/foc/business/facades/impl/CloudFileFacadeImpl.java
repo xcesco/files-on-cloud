@@ -1,5 +1,6 @@
 package org.abubusoft.foc.business.facades.impl;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ import org.abubusoft.foc.web.model.CloudFileInfoWto;
 import org.abubusoft.foc.web.model.CloudFileWto;
 import org.abubusoft.foc.web.model.ConsumerWto;
 import org.abubusoft.foc.web.support.WtoMapper;
+import org.apache.commons.io.IOUtils;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
@@ -197,8 +199,9 @@ public class CloudFileFacadeImpl implements CloudFileFacade {
 			consumer=consumerService.insertUser(consumer, "password");
 		}
 		
-		CloudFile cloudFile = mapper.convertToFileDto(uploader, consumer, creationTime, hashTagSet,fileName, fileMediaType, fileSize);
-		cloudFile=cloudFileService.insertFile(cloudFile, fileContent);		
+		CloudFile cloudFile = mapper.convertToFileDto(uploader, consumer, creationTime, hashTagSet,fileName, fileMediaType, fileSize, fileContent);
+		cloudFile=cloudFileService.insertFile(cloudFile);
+
 		
 		logger.info("Invio email");
 		sendMailService.send(uploader, consumer, cloudFile);

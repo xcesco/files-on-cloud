@@ -299,7 +299,7 @@ public class TestCloudFile extends BaseTest {
 	
 	
 	private CloudFile createCloudFile(Consumer consumer, Uploader uploader, File file, Set<String> tags)
-			throws IOException, FileNotFoundException {
+			throws IOException {
 		byte[] content = IOUtils.toByteArray(new FileInputStream(file));
 		
 		CloudFile cloudFile = new CloudFile();
@@ -309,8 +309,10 @@ public class TestCloudFile extends BaseTest {
 		cloudFile.setFileName(file.getName());
 		cloudFile.setMimeType(MimeTypeUtils.getFromFileName(file.getName()));
 		cloudFile.setTags(tags);
+		cloudFile.setContent(content);
 
-		return cloudFileService.insertFile(cloudFile, new FileInputStream(file));
+		//return cloudFileService.insertFile(cloudFile, new FileInputStream(file));
+		return cloudFileService.insertFile(cloudFile);
 	}	
 
 }

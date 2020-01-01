@@ -7,14 +7,7 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -39,8 +32,9 @@ public class CloudFile extends AbstractEntity {
 	@Column(nullable = false)
 	protected String mimeType;
 
+	@Lob
 	@Column(nullable = false)
-	protected String storageName;
+	protected byte[] content;
 
 	@ElementCollection
 	@CollectionTable(name = "foc_file_tags", joinColumns = @JoinColumn(name = "file_id"))	
@@ -85,10 +79,6 @@ public class CloudFile extends AbstractEntity {
 		return mimeType;
 	}
 
-	public String getStorageName() {
-		return storageName;
-	}
-
 	public Set<String> getTags() {
 		return tags;
 	}
@@ -125,10 +115,6 @@ public class CloudFile extends AbstractEntity {
 		this.mimeType = mimeType;
 	}
 
-	public void setStorageName(String storageName) {
-		this.storageName = storageName;
-	}
-
 	public void setTags(Set<String> tags) {
 		this.tags = tags;
 	}
@@ -139,6 +125,14 @@ public class CloudFile extends AbstractEntity {
 
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+	}
+
+	public byte[] getContent() {
+		return content;
+	}
+
+	public void setContent(byte[] content) {
+		this.content = content;
 	}
 
 	public void setViewed(boolean viewed) {

@@ -1,12 +1,11 @@
 package org.abubusoft.foc.business.services;
 
-import java.io.InputStream;
-import java.util.List;
-import java.util.Set;
-
 import org.abubusoft.foc.repositories.model.CloudFile;
 import org.abubusoft.foc.repositories.model.CloudFileTag;
 import org.springframework.data.util.Pair;
+
+import java.util.List;
+import java.util.Set;
 
 public interface CloudFileService {
  
@@ -26,7 +25,7 @@ public interface CloudFileService {
 
 	Pair<CloudFile, byte[]> getFile(String fileUuid);
 
-	CloudFile insertFile(CloudFile cloudFile, InputStream content);
+	CloudFile insertFile(CloudFile cloudFile);
 
 	Iterable<CloudFile> findAll();
 
