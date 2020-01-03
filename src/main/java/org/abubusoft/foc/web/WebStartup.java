@@ -2,6 +2,7 @@ package org.abubusoft.foc.web;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -12,6 +13,8 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import org.abubusoft.foc.business.facades.Populator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 /**
  * Serve ad inizializzare GCLOUD (le credenziali sono prese direttamente
@@ -27,14 +30,17 @@ public class WebStartup implements ServletContextListener {
 
 	private Populator populator;
 
+	@Value("classpath:serviceAccountKey.json")
+	public void setResourceFile(Resource resourceFile) {
+		this.resourceFile = resourceFile;
+	}
 
+	private Resource resourceFile;
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		try {
-			FileInputStream serviceAccount =
-					new FileInputStream("/Users/xcesco/Dropbox/ProgrammazioneWeb/secured/programmazione-web-238419/serviceAccountKey.json");
-
+			InputStream serviceAccount = resourceFile.getInputStream();
 			FirebaseOptions options = new FirebaseOptions.Builder()
 					.setCredentials(GoogleCredentials.fromStream(serviceAccount))
 					.setDatabaseUrl("https://programmazione-web-238419.firebaseio.com")

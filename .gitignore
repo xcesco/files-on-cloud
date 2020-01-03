@@ -5,3 +5,5 @@
 /.springBeans
 /.DS_Store
 /.idea/
+/src/main/resources/serviceAccountKey.json
+/files-on-cloud.iml
