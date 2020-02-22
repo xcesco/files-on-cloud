@@ -1,8 +1,8 @@
 [
 	{
-		"_class": "org.abubusoft.foc.model.Administrator",
+		"_class": "org.abubusoft.foc.repositories.model.Administrator",
 		"email": "uxcesco@gmail.com",
-		"username": "uxcesco@gmail.com",
+		"username": "admin0@gmail.com",
 		"displayName": "admin"		
 	}
 ]

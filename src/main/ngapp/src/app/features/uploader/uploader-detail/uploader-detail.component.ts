@@ -9,6 +9,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {isBlank, isNotBlank} from '../../../shared/utils/utils';
 import {AuthService} from '../../../services/auth.service';
 import {NotificationService} from '../../../services/notification.service';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-uploader-detail',
@@ -43,7 +44,7 @@ export class UploaderDetailComponent extends AbstractUserDetailComponent<Uploade
 
   get logoUrl(): string {
     const id = isNotBlank(this.user.id) ? this.user.id : 0;
-    return `/api/v1/public/uploaders/${id}/logo?t=` + this.timeStamp;
+    return environment.API_URL + `public/uploaders/${id}/logo?t=` + this.timeStamp;
   }
 
   uploadLogo() {

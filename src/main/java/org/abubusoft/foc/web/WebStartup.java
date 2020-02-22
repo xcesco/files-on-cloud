@@ -1,5 +1,6 @@
 package org.abubusoft.foc.web;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,9 +12,9 @@ import javax.servlet.annotation.WebListener;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import org.abubusoft.foc.business.facades.Populator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 /**
@@ -23,27 +24,30 @@ import org.springframework.core.io.Resource;
 @WebListener
 public class WebStartup implements ServletContextListener {
 
-	@Autowired
-	public void setPopulator(Populator populator) {
-		this.populator = populator;
-	}
+//	@Autowired
+//	public void setPopulator(Populator populator) {
+//		this.populator = populator;
+//	}
 
-	private Populator populator;
+//	private Populator populator;
 
-	@Value("classpath:serviceAccountKey.json")
+	
 	public void setResourceFile(Resource resourceFile) {
 		this.resourceFile = resourceFile;
 	}
 
+	@Value("classpath:serviceAccountKey.json")
 	private Resource resourceFile;
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		try {
-			InputStream serviceAccount = resourceFile.getInputStream();
+			InputStream serviceAccount = new ClassPathResource(
+				      "serviceAccountKey.json").getInputStream();
+//			InputStream serviceAccount = resourceFile.getInputStream();
 			FirebaseOptions options = new FirebaseOptions.Builder()
 					.setCredentials(GoogleCredentials.fromStream(serviceAccount))
-					.setDatabaseUrl("https://programmazione-web-238419.firebaseio.com")
+					//.setDatabaseUrl("https://programmazione-web-238419.firebaseio.com")
 					.build();
 
 			FirebaseApp.initializeApp(options);
@@ -57,7 +61,7 @@ public class WebStartup implements ServletContextListener {
 //
 //			FirebaseApp.initializeApp(options);
 
-			populator.execute();
+			//populator.execute();
 
 		} catch (IOException e) {
 			e.printStackTrace();

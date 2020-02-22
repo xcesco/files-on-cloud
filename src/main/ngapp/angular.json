@@ -45,7 +45,7 @@
                 }
               ],
 
-              "baseHref":"/public/",
+              "baseHref":"/files-on-cloud/public/",
               "outputPath": "../resources/META-INF/resources/public",
 
               "optimization": true,

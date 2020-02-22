@@ -7,6 +7,7 @@ import {UploaderService} from '../../../services/uploader.service';
 import {AbstractUserTableComponent} from '../../user-table.abstract';
 import {ToastrService} from 'ngx-toastr';
 import {AuthService} from '../../../services/auth.service';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-uploader-table',
@@ -35,7 +36,7 @@ export class UploaderTableComponent extends AbstractUserTableComponent<Uploader,
   }
 
   getLogoUrl(id: number): string {
-    return `/api/v1/public/uploaders/${id}/logo`;
+    return environment.API_URL + `public/uploaders/${id}/logo`;
   }
 
   onGotoFiles(user: Uploader) {

@@ -85,7 +85,7 @@
              *appSecureIsConsumer="false"
              ngbTooltip="Download preview"
              target="_blank"
-             href="/api/v1/public/preview-files/{{item.uuid}}">
+             href="{{getPreviewFileUrl(item.uuid)}}">
             <i class="fa fa-cloud-download"></i>
           </a>
 
@@ -93,7 +93,7 @@
              ngbTooltip="Download"
              target="_blank"
              (click)="onDownload(item.uuid)"
-             href="/api/v1/public/files/{{item.uuid}}"
+             href="{{getFileUrl(item.uuid)}}"
              *appSecureIsConsumer>
             <i class="fa fa-download"></i>
           </a>

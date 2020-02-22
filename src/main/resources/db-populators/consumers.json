@@ -1,0 +1,9 @@
+[
+	{
+		"_class": "org.abubusoft.foc.repositories.model.Consumer",
+		"email": "uxcesco@gmail.com",
+		"username": "consumer0@gmail.com",
+		"codiceFiscale" : "123456789ABCDEFG",
+		"displayName": "Consumer 0"		
+	}
+]

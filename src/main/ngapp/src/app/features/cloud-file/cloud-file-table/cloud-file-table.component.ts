@@ -11,6 +11,7 @@ import {isNotBlank} from '../../../shared/utils/utils';
 import {AuthService} from '../../../services/auth.service';
 import {Observable} from 'rxjs';
 import {ConsumerService} from '../../../services/consumer.service';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-cloud-file-table',
@@ -86,11 +87,11 @@ export class CloudFileTableComponent implements OnInit {
   }
 
   getLogoUrl(): string {
-    return `/api/v1/public/uploaders/${this.uploaderId}/logo`;
+    return environment.API_URL + `public/uploaders/${this.uploaderId}/logo`;
   }
 
   geUploadertLogoUrl(uploaderId): string {
-    return `/api/v1/public/uploaders/${uploaderId}/logo`;
+    return environment.API_URL + `public/uploaders/${uploaderId}/logo`;
   }
 
   isViewed(item: CloudFile): boolean {
@@ -170,5 +171,11 @@ export class CloudFileTableComponent implements OnInit {
 
   }
 
+  getPreviewFileUrl(uuid: string): string {
+    return environment.API_URL + `public/preview-files/${uuid}`;
+  }
 
+  getFileUrl(uuid: string): string {
+    return environment.API_URL + `public/files/${uuid}`;
+  }
 }
